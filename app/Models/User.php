@@ -43,7 +43,16 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password'          => 'hashed',
         ];
+    }
+
+    /**
+     * The tags that belong to the user.
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tags::class, 'ln_users_tags', 'user_id', 'tag_id')
+            ->withTimestamps();
     }
 }
