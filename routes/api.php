@@ -3,17 +3,20 @@
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 
-// Public routes (no authentication required)
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/authenticate', [AuthController::class, 'authenticate']);
+Route::name('auth.')->group(function () {
 
-// Protected routes (require authentication)
-Route::middleware(['auth:sanctum'])->group(function () {
-    // Auth routes
-    Route::get('/', function () {
-        return ['status' => 'ok'];
+    // Public routes (no authentication required)
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('authenticate');
+
+    // Protected routes (require authentication)
+    Route::middleware(['auth:sanctum'])->group(function () {
+        // Auth routes
+        Route::get('/', function () {
+            return ['status' => 'ok'];
+        });
+
+        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+        Route::get('/who', [AuthController::class, 'who'])->name('who');
     });
-
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/who', [AuthController::class, 'who']);
 });
