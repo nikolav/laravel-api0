@@ -1,0 +1,47 @@
+###
+
+GET http://127.0.0.1:8000/api
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer -
+
+{
+
+}
+
+
+###
+
+POST http://127.0.0.1:8000/api/authenticate
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "admin@nikolav.rs",
+  "password": "admin@nikolav.rs"
+}
+
+###
+
+POST http://127.0.0.1:8000/api/logout
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer -
+
+{
+
+}
+
+###
+
+GET http://127.0.0.1:8000/api/who
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer -
+
+{
+
+}
+
+###
+
