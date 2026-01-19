@@ -14,6 +14,11 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
     use HasApiTokens;
 
+    // protected $connection = 'mysql';
+
+    protected $table = 'users';
+
+
     /**
      * The attributes that are mass assignable.
      *

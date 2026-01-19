@@ -27,6 +27,7 @@ class AuthController extends Controller
 
         return response()->json([
             'access_token' => $token,
+            'auth'         => $user,
         ], 201);
     }
 
@@ -42,7 +43,7 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'message' => ['Access denied.'],
+                'auth' => 'Access denied.',
             ]);
         }
 
@@ -50,6 +51,7 @@ class AuthController extends Controller
 
         return response()->json([
             'access_token' => $token,
+            'auth'         => $user,
         ]);
     }
 

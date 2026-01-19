@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::name('auth.')->group(function () {
+Route::name('auth.')->prefix('auth')->group(function () {
 
     // Public routes (no authentication required)
     Route::post('/register', [AuthController::class, 'register'])->name('register');
@@ -13,7 +13,7 @@ Route::name('auth.')->group(function () {
     Route::middleware(['auth:sanctum'])->group(function () {
         // Auth routes
         Route::get('/', function () {
-            return ['status' => 'ok'];
+            return response()->json(['status' => 'ok']);
         });
 
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
