@@ -3,6 +3,12 @@
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/', function () {
+        return response()->json(['status' => 'ok']);
+    })->name('api:status');
+});
+
 Route::name('auth.')->prefix('auth')->group(function () {
 
     // unauthenticated
@@ -14,11 +20,6 @@ Route::name('auth.')->prefix('auth')->group(function () {
 
     // protected, auth required
     Route::middleware(['auth:sanctum'])->group(function () {
-        // Auth routes
-        Route::get('/', function () {
-            return response()->json(['status' => 'ok']);
-        });
-
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
         Route::get('/who', [AuthController::class, 'who'])->name('who');
     });
