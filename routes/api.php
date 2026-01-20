@@ -5,11 +5,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('auth.')->prefix('auth')->group(function () {
 
-    // Public routes (no authentication required)
-    Route::post('/register', [AuthController::class, 'register'])->name('register');
-    Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('authenticate');
+    // unauthenticated
+    Route::middleware(['guest'])->group(function () {
+        // Public routes (no authentication required)
+        Route::post('/register', [AuthController::class, 'register'])->name('register');
+        Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('authenticate');
+    });
 
-    // Protected routes (require authentication)
+    // protected, auth required
     Route::middleware(['auth:sanctum'])->group(function () {
         // Auth routes
         Route::get('/', function () {
