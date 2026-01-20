@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\WebhookHandleController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -24,3 +25,5 @@ Route::name('auth.')->prefix('auth')->group(function () {
         Route::get('/who', [AuthController::class, 'who'])->name('who');
     });
 });
+
+Route::any('/webhooks/{key?}', [WebhookHandleController::class, 'webhook']);
