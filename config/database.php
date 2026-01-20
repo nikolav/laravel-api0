@@ -148,7 +148,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-database-'),
+            'prefix' => env('REDIS_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')) . '-database-'),
             'persistent' => env('REDIS_PERSISTENT', false),
         ],
 
@@ -177,6 +177,18 @@ return [
             'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
             'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
         ],
+
+        // Upstash connection for custom cache
+        'upstash-cache' => [
+            'url' => env('REDIS_URL_upstash'),
+            // 'host' => env('REDIS_CACHE_HOST', 'native-burro-8450.upstash.io'),
+            // 'username' => env('REDIS_CACHE_USERNAME', 'default'),
+            // 'password' => env('REDIS_CACHE_PASSWORD'),
+            // 'port' => env('REDIS_CACHE_PORT', '6379'),
+            // 'database' => env('REDIS_CACHE_DB', '0'),
+            // 'scheme' => env('REDIS_CACHE_SCHEME', 'rediss'),
+        ],
+
 
     ],
 
