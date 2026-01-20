@@ -12,7 +12,7 @@ _site/
 .cache-loader/
 .cache/
 .directory
-.dockerignore
+# .dockerignore
 .DS_Store
 .DS_Store?
 .env
