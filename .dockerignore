@@ -87,7 +87,7 @@ bootstrap/cache/packages.php
 bootstrap/cache/services.php
 CHANGELOG.md
 CODE_OF_CONDUCT.md
-composer.lock
+# composer.lock
 composer.phar
 CONTRIBUTING.md
 coverage/

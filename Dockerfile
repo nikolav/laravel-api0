@@ -14,16 +14,6 @@ RUN apk add --no-cache \
   && apk del .build-deps
 
 # ------------------------------------------------------------
-# Configure PHP-FPM to listen on 127.0.0.1:9001
-# (Nginx listens on 9000 and proxies to FPM)
-# ------------------------------------------------------------
-RUN set -eux; \
-  CONF="/usr/local/etc/php-fpm.d/www.conf"; \
-  test -f "$CONF"; \
-  sed -i -E 's~^[;[:space:]]*listen[[:space:]]*=.*~listen = 127.0.0.1:9001~' "$CONF"; \
-  grep -nE '^[[:space:]]*listen[[:space:]]*=' "$CONF"
-
-# ------------------------------------------------------------
 # Create user & required directories
 # ------------------------------------------------------------
 RUN addgroup -g 1000 -S www \
@@ -40,6 +30,18 @@ RUN addgroup -g 1000 -S www \
     /run/nginx \
     /var/lib/nginx
 
+# ------------------------------------------------------------
+# Configure PHP-FPM to listen on 127.0.0.1:9001
+# (Nginx listens on 9000 and proxies to FPM)
+# ------------------------------------------------------------
+RUN set -eux; \
+  CONF="/usr/local/etc/php-fpm.d/www.conf"; \
+  test -f "$CONF"; \
+  sed -i -E 's~^[;[:space:]]*user\s*=.*~user = www~' "$CONF"; \
+  sed -i -E 's~^[;[:space:]]*group\s*=.*~group = www~' "$CONF"; \
+  sed -i -E 's~^[;[:space:]]*listen[[:space:]]*=.*~listen = 127.0.0.1:9001~' "$CONF"; \
+  grep -nE '^(user|group|listen)\s*=' "$CONF"
+
 # --- Fix PHP-FPM logging when running as non-root (supervisor user=www) ---
 RUN set -eux; \
   mkdir -p /var/log/php; \
@@ -50,6 +52,17 @@ RUN set -eux; \
   test -f "$DOCKERCONF"; \
   sed -i -E 's~^error_log\s*=.*~error_log = /var/log/php/fpm-error.log~' "$DOCKERCONF"; \
   sed -i -E 's~^access\.log\s*=.*~access.log = /var/log/php/fpm-access.log~' "$DOCKERCONF"
+
+# Set PHP-FPM log level
+RUN set -eux; \
+  CONF="/usr/local/etc/php-fpm.conf"; \
+  test -f "$CONF"; \
+  if grep -qE '^[;[:space:]]*log_level' "$CONF"; then \
+    sed -i -E 's~^[;[:space:]]*log_level\s*=.*~log_level = notice~' "$CONF"; \
+  else \
+    echo 'log_level = notice' >> "$CONF"; \
+  fi; \
+  grep -n 'log_level' "$CONF"
 
 # ------------------------------------------------------------
 # Nginx & Supervisor configs
@@ -76,9 +89,15 @@ RUN composer install \
   --no-dev \
   --no-interaction \
   --prefer-dist \
-  --optimize-autoloader
+  --optimize-autoloader \
+  --no-scripts
 
 COPY . .
+
+# Run the scripts now that artisan exists (package discovery, etc.)
+RUN composer run-script post-autoload-dump --no-interaction
+# or more explicit:
+# RUN php artisan package:discover --ansi
 
 # Fix permissions for runtime dirs
 RUN mkdir -p \

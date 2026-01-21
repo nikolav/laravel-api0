@@ -26,5 +26,5 @@ Route::name('auth.')->prefix('auth')->group(function () {
     });
 });
 
-Route::any('/webhooks/{key?}', [WebhookHandleController::class, 'webhook']);
-Route::get('/health', fn() => response()->json([], 200));
+Route::any('/webhooks/{key?}', [WebhookHandleController::class, 'webhook'])->name('webhooks');
+Route::get('/health', fn() => response()->json(['status' => 'ok'], 200))->name('healthcheck');
