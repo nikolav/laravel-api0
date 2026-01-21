@@ -1,0 +1,28 @@
+services:
+  laravel:
+    build: .
+    container_name: laravel-api
+    restart: unless-stopped
+    volumes:
+      - .:/usr/app
+    env_file:
+      - ./.env
+    environment:
+      - DB_DATABASE=/usr/app/database/db/db.sqlite
+      - CACHE_DRIVER=redis
+      - SESSION_DRIVER=redis
+      - QUEUE_CONNECTION=redis
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    container_name: laravel-redis
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
