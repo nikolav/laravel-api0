@@ -34,7 +34,7 @@ services:
     container_name: laravel-redis
     env_file:
       - ./.env
-    command: ["redis-server", "--appendonly", "yes"]
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD}"]
     volumes:
       - redis_data:/data
     restart: unless-stopped
