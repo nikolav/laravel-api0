@@ -148,7 +148,7 @@ auth.json.example
 bootstrap/cache/*
 # composer.lock
 composer.phar
-config/services.php
+# config/services.php
 coverage/
 database/database.sqlite
 database/database.sqlite-journal
