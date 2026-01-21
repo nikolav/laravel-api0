@@ -1,7 +1,10 @@
-#!/bin/bash
-docker compose down
-docker compose build --no-cache
-docker compose up -d api
-docker compose logs -f api
+#!/usr/bin/env bash
+set -euo pipefail
 
-# docker stop $(docker ps -q) 2>/dev/null; docker system prune -a --volumes -f
+docker compose down
+docker compose build --no-cache api
+docker compose up -d --force-recreate
+
+# show a quick status + last logs (won't block forever)
+docker compose ps
+docker compose logs --tail=200 api
