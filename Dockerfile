@@ -1,44 +1,93 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.3-fpm-alpine
 
-# Install system dependencies
+# ------------------------------------------------------------
+# System dependencies + PHP extensions
+# ------------------------------------------------------------
 RUN apk add --no-cache \
-    autoconf \
-    gcc \
-    g++ \
-    make \
-    freetype-dev \
-    libjpeg-turbo-dev \
-    libwebp-dev \
-    libpng-dev \
-    libzip-dev \
+    nginx \
+    supervisor \
+    bash \
+    curl \
+    git \
+    unzip \
     icu-dev \
-    sqlite-dev \
     oniguruma-dev \
-    libexif-dev
+    libzip-dev \
+  && docker-php-ext-install \
+    intl \
+    mbstring \
+    zip \
+    opcache \
+    pdo \
+    pdo_sqlite \
+  && pecl install redis \
+  && docker-php-ext-enable redis
 
-# Configure and install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install \
-        pdo \
-        pdo_sqlite \
-        mbstring \
-        exif \
-        pcntl \
-        bcmath \
-        gd \
-        intl \
-        opcache
+# ------------------------------------------------------------
+# Configure PHP-FPM to listen on 127.0.0.1:9001
+# (Nginx listens on 9000 and proxies to FPM)
+# ------------------------------------------------------------
+RUN sed -i 's|^listen = .*|listen = 127.0.0.1:9001|' \
+    /usr/local/etc/php-fpm.d/www.conf
 
-# Install Redis PHP extension with build tools
-RUN pecl install redis && docker-php-ext-enable redis
+# ------------------------------------------------------------
+# Create user & required directories
+# ------------------------------------------------------------
+RUN addgroup -g 1000 -S www \
+  && adduser -u 1000 -S www -G www \
+  && mkdir -p \
+    /usr/app \
+    /run/nginx \
+    /var/lib/nginx \
+    /var/log/supervisor \
+  && chown -R www:www \
+    /usr/app \
+    /run/nginx \
+    /var/lib/nginx
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# ------------------------------------------------------------
+# Nginx & Supervisor configs
+# ------------------------------------------------------------
+COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
+COPY docker/supervisord.conf /etc/supervisord.conf
 
-# Set working directory
+# ------------------------------------------------------------
+# Entrypoint
+# ------------------------------------------------------------
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# ------------------------------------------------------------
+# App setup
+# ------------------------------------------------------------
 WORKDIR /usr/app
+
+# Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Copy application
 COPY . .
 
-RUN mkdir -p /usr/app/database/db && touch /usr/app/database/db/db.sqlite
+# Install PHP deps (production)
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --prefer-dist \
+    --optimize-autoloader
+
+# Fix permissions for runtime dirs
+RUN chown -R www:www \
+    /usr/app/storage \
+    /usr/app/bootstrap/cache \
+    /usr/app/database
+
+# ------------------------------------------------------------
+# Expose HTTP port (Nginx)
+# ------------------------------------------------------------
+EXPOSE 9000
+
+# ------------------------------------------------------------
+# Start Supervisor (nginx + php-fpm)
+# ------------------------------------------------------------
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

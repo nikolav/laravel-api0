@@ -1,28 +1,42 @@
 services:
   api:
-    build: .
+    build:
+      context: .
     container_name: laravel-api
-    restart: unless-stopped
-    volumes:
-      - .:/usr/app
+    ports:
+      - "9000:9000" # HTTP served by nginx inside container
     env_file:
       - ./.env
     environment:
-      - DB_DATABASE=/usr/app/database/db/db.sqlite
-      - CACHE_DRIVER=redis
-      - SESSION_DRIVER=redis
-      - QUEUE_CONNECTION=redis
+      LOG_CHANNEL: stderr
+
+      # SQLite
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /usr/app/database/database.sqlite
+
+      # Redis
+      CACHE_STORE: redis
+      SESSION_DRIVER: redis
+      QUEUE_CONNECTION: redis
+
+    volumes:
+      - sqlite_data:/usr/app/database
+      - storage_data:/usr/app/storage
     depends_on:
       - redis
+    restart: unless-stopped
 
   redis:
     image: redis:7-alpine
     container_name: laravel-redis
-    restart: unless-stopped
     env_file:
       - ./.env
+    command: ["redis-server", "--appendonly", "yes"]
     volumes:
       - redis_data:/data
+    restart: unless-stopped
 
 volumes:
+  sqlite_data:
+  storage_data:
   redis_data:

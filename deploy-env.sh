@@ -27,7 +27,8 @@ usermod -aG docker $USER
 ufw allow OpenSSH
 ufw allow http
 ufw allow https
-ufw --force enable  # Enable with default deny policy
+ufw allow 'Nginx Full'
+ufw --force enable
 
 echo -e "\n=== Setup complete ==="
 echo "Git: $(git --version)"
