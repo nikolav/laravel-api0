@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-docker compose up -d --build api
+docker compose down --remove-orphans
+docker compose build --no-cache --pull api
+docker compose up -d --force-recreate
+
+# show a quick status
 docker compose ps
 docker compose logs --tail=80 api
 
