@@ -2,25 +2,24 @@ FROM php:8.2-fpm-alpine
 
 # Install system dependencies
 RUN apk add --no-cache \
-    git \
-    curl \
-    libpng-dev \
-    libwebp-dev \
-    libjpeg-turbo-dev \
+    autoconf \
+    gcc \
+    g++ \
+    make \
     freetype-dev \
-    oniguruma-dev \
-    sqlite-dev \
+    libjpeg-turbo-dev \
+    libwebp-dev \
+    libpng-dev \
+    libzip-dev \
     icu-dev \
-    zip \
-    unzip \
-    redis
+    sqlite-dev \
+    oniguruma-dev \
+    libexif-dev
 
-# Install PHP extensions
+# Configure and install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install \
         pdo \
-        # pdo_mysql \
-        # pdo_pgsql \
         pdo_sqlite \
         mbstring \
         exif \
@@ -28,10 +27,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
         bcmath \
         gd \
         intl \
-        sockets \
         opcache
 
-# Install Redis PHP extension
+# Install Redis PHP extension with build tools
 RUN pecl install redis && docker-php-ext-enable redis
 
 # Install Composer
@@ -43,14 +41,4 @@ WORKDIR /usr/app
 # Copy application
 COPY . .
 
-# Set permissions
-RUN chown -R www-data:www-data /usr/app \
-    && chmod -R 755 /usr/app/storage
-
-# Create SQLite database directory if needed
-RUN mkdir -p /usr/app/database/db \
-  && chmod 755 /usr/app/database/db \
-  && touch /usr/app/database/db/db.sqlite \
-  && chmod 755 /usr/app/database/db/db.sqlite
-
-USER www-data
+RUN mkdir -p /usr/app/database/db && touch /usr/app/database/db/db.sqlite
