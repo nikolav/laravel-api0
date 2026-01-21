@@ -1,32 +1,59 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
-set -e  # Exit on any error
+trap 'echo "❌ Failed at line $LINENO. Command: $BASH_COMMAND" >&2' ERR
+
+# Must run as root
+if [[ "${EUID:-$(id -u)}" -ne 0 ]]; then
+  echo "Run as root (sudo ./setup.sh)" >&2
+  exit 1
+fi
+
+export DEBIAN_FRONTEND=noninteractive
 
 # Update packages
-apt-get update && apt-get upgrade -y
+apt-get update
+apt-get upgrade -y
 
-# Install git with minimal config
-apt-get install -y git
+# Base deps
+apt-get install -y --no-install-recommends \
+  ca-certificates curl gnupg lsb-release \
+  git ufw
+
+# Git minimal config (applies to root; do this for your real user too if needed)
 git config --global user.name "nikolav"
 git config --global user.email "admin@nikolav.rs"
 
-# Install Docker from official repository
-apt-get install -y ca-certificates curl gnupg
+# Install Docker from official repo
 install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+  | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 chmod a+r /etc/apt/keyrings/docker.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+ARCH="$(dpkg --print-architecture)"
+CODENAME="$(. /etc/os-release && echo "$VERSION_CODENAME")"
+
+echo "deb [arch=${ARCH} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu ${CODENAME} stable" \
+  > /etc/apt/sources.list.d/docker.list
 
 apt-get update
-apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+apt-get install -y --no-install-recommends \
+  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# Add current user to docker group (avoids needing sudo)
-usermod -aG docker $USER
+# Enable Docker on boot + start now
+systemctl enable --now docker
 
-# Configure firewall (minimal ports)
+# Add a real user (not root) to docker group
+TARGET_USER="${SUDO_USER:-}"
+if [[ -n "$TARGET_USER" ]]; then
+  usermod -aG docker "$TARGET_USER"
+  echo "ℹ️ Added $TARGET_USER to docker group (log out/in to apply)."
+else
+  echo "ℹ️ Not adding to docker group (no SUDO_USER detected)."
+fi
+
+# Firewall (minimal + clean)
 ufw allow OpenSSH
-ufw allow http
-ufw allow https
 ufw allow 'Nginx Full'
 ufw --force enable
 
@@ -34,3 +61,4 @@ echo -e "\n=== Setup complete ==="
 echo "Git: $(git --version)"
 echo "Docker: $(docker --version)"
 echo "Docker Compose: $(docker compose version)"
+echo "UFW: $(ufw status | head -n 1)"
