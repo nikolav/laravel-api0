@@ -8,6 +8,9 @@ services:
     env_file:
       - ./.env
     environment:
+      RUN_MIGRATIONS: "true"
+      CACHE_ARTISAN: "true"
+
       LOG_CHANNEL: stderr
 
       # SQLite

@@ -146,7 +146,7 @@ $RECYCLE.BIN/
 auth.json
 auth.json.example
 bootstrap/cache/*
-composer.lock
+# composer.lock
 composer.phar
 config/services.php
 coverage/

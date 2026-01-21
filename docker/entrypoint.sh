@@ -12,16 +12,33 @@ mkdir -p /usr/app/storage /usr/app/bootstrap/cache
 
 chown -R www:www /usr/app/storage /usr/app/bootstrap/cache /usr/app/database
 
-# If APP_KEY missing, warn (don't auto-generate in prod without you knowing)
+# Warn if APP_KEY missing
 if [ -z "${APP_KEY:-}" ]; then
-  echo "WARNING: APP_KEY is not set. Set it in .env or compose env."
+          echo "WARNING: APP_KEY is not set. Set it in .env or compose env."
 fi
 
-# Optional: run migrations automatically (uncomment if you want)
-php artisan migrate --force
+# Optional: wait for redis (only if using redis host)
+if [ -n "${REDIS_HOST:-}" ]; then
+          echo "Waiting for Redis at ${REDIS_HOST}:${REDIS_PORT:-6379}..."
+            for i in $(seq 1 30); do
+                        if nc -z "${REDIS_HOST}" "${REDIS_PORT:-6379}" >/dev/null 2>&1; then
+                                      echo "Redis is up."
+                                            break
+                                                fi
+                                                    sleep 1
+                                                      done
+fi
 
-# Optimize for prod (safe for API)
-php artisan config:cache || true
-php artisan route:cache || true
+# Run migrations only when explicitly enabled
+if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
+          echo "Running migrations..."
+            su -s /bin/sh -c "php artisan migrate --force" www
+fi
+
+# Cache config/routes (optional, but useful in production)
+if [ "${CACHE_ARTISAN:-true}" = "true" ]; then
+          su -s /bin/sh -c "php artisan config:cache || true" www
+            su -s /bin/sh -c "php artisan route:cache || true" www
+fi
 
 exec "$@"
