@@ -182,3 +182,5 @@ yarn-debug.log*
 yarn-error.log
 yarn-error.log*
 yarn.lock
+scp-config.sh
+site-config-nginx.conf
