@@ -1,5 +1,5 @@
 services:
-  laravel:
+  api:
     build: .
     container_name: laravel-api
     restart: unless-stopped
