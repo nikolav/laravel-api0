@@ -23,4 +23,14 @@ class Tags extends Model
         return $this->belongsToMany(User::class, 'ln_users_tags', 'tag_id', 'user_id')
             ->withTimestamps();
     }
+
+    public function docs()
+    {
+        return $this->belongsToMany(
+            Docs::class,
+            'ln_main_tags',
+            'tag_id',
+            'main_id'
+        );
+    }
 }
