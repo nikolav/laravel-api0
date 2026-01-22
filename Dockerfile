@@ -31,13 +31,14 @@ RUN addgroup -g 1000 -S www \
 
 # configure php-fpm to listen on 127.0.0.1:9001
 #   (nginx listens on 9000 and proxies to fpm)
+# remove user and group from the pool config
+#   (silences "user directive ignored" notices when running phpfpm as !root)
 RUN set -eux; \
   CONF="/usr/local/etc/php-fpm.d/www.conf"; \
   test -f "$CONF"; \
-  # sed -i -E 's~^[;[:space:]]*user\s*=.*~user = www~' "$CONF"; \
-  # sed -i -E 's~^[;[:space:]]*group\s*=.*~group = www~' "$CONF"; \
   sed -i -E 's~^[;[:space:]]*listen[[:space:]]*=.*~listen = 127.0.0.1:9001~' "$CONF"; \
-  grep -nE '^(user|group|listen)\s*=' "$CONF"
+  sed -i -E '/^\s*(user|group)\s*=.*/d' "$CONF"; \
+  grep -nE '^(user|group|listen)\s*=' "$CONF" || true
 
 # --- fix php-fpm logging when running as non-root (supervisor user=www) ---
 RUN set -eux; \
@@ -89,7 +90,8 @@ RUN composer install \
   --no-interaction \
   --prefer-dist \
   --optimize-autoloader \
-  --no-scripts
+  --no-scripts \
+  --no-progress
 
 COPY . .
 
