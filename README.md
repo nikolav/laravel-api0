@@ -81,7 +81,7 @@ Point your **apex domain** to the server IP:
 | A    | @    | SERVER_IP |
 
 > No CNAME needed for apex.  
-> Nameservers should already point to your DNS provider (or Vultr if used).
+> Nameservers should already point to DNS provider.
 
 ---
 
@@ -112,15 +112,8 @@ Before running certbot, make sure your HTTP vhost has the correct `server_name`:
 server {
   listen 80;
   server_name domain.com;
-
-  # (Optional) allow ACME challenge path
-  location /.well-known/acme-challenge/ {
-    root /var/www/html;
-  }
-
-  location / {
-    return 404;
-  }
+  
+  ...
 }
 ```
 
@@ -152,45 +145,7 @@ server {
   ssl_certificate     /etc/letsencrypt/live/domain.com/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/domain.com/privkey.pem;
 
-  # HSTS (safe default: 6 months)
-  add_header Strict-Transport-Security "max-age=15552000" always;
-
-  server_tokens off;
-  client_max_body_size 20m;
-  keepalive_timeout 15s;
-
-  add_header X-Content-Type-Options "nosniff" always;
-  add_header X-Frame-Options "DENY" always;
-  add_header Referrer-Policy "no-referrer" always;
-
-  # Health check
-  location = /healthz {
-    return 200 "ok\n";
-    add_header Content-Type text/plain;
-  }
-
-  # API proxy
-  location /api/ {
-    proxy_pass http://127.0.0.1:9000;
-    proxy_http_version 1.1;
-
-    proxy_set_header Host              $host;
-    proxy_set_header X-Real-IP         $remote_addr;
-    proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto https;
-    proxy_set_header Proxy "";
-
-    proxy_connect_timeout 5s;
-    proxy_send_timeout    60s;
-    proxy_read_timeout    60s;
-
-    proxy_buffering off;
-  }
-
-  # Block everything else
-  location / {
-    return 404;
-  }
+  ...
 }
 ```
 
@@ -256,8 +211,3 @@ docker exec -it laravel-api php artisan tinker --execute="use Illuminate\\Suppor
 - HTTPoxy protection enabled
 - No directory indexing
 
----
-
-## 📄 License
-
-MIT
