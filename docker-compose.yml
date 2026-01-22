@@ -4,7 +4,7 @@ services:
       context: .
     container_name: laravel-api
     ports:
-      - "9000:9000" # HTTP served by nginx inside container
+      - "127.0.0.1:9000:9000" # allow host access only
     env_file:
       - ./.env
     environment:
