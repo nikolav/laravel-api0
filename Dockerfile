@@ -91,7 +91,9 @@ RUN composer install \
   --prefer-dist \
   --optimize-autoloader \
   --no-scripts \
-  --no-progress
+  --no-progress \
+  --no-audit \
+  --no-fund
 
 COPY . .
 
@@ -110,8 +112,8 @@ RUN mkdir -p \
     /usr/app/bootstrap/cache \
     /usr/app/database
 
-# HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-#   CMD wget -qO- http://127.0.0.1:9000/healthz || exit 1
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
+  CMD curl -fsS http://127.0.0.1:9000/healthz || exit 1
 
 # expose http port (nginx)
 EXPOSE 9000
