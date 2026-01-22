@@ -80,8 +80,9 @@ Point your **apex domain** to the server IP:
 |-----:|------|-----------|
 | A    | @    | SERVER_IP |
 
-    > No CNAME needed for apex.
-    > Nameservers should already point to DNS provider.
+  > No CNAME needed for apex.
+  > Nameservers should already point to DNS provider.
+  > (subdomains:*) CNAME * domain.com
 
 ---
 
