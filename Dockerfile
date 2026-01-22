@@ -69,8 +69,8 @@ RUN set -eux; \
   grep -n '^user ' "$NGINXCONF"
 
 # nginx & supervisor configs
-COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-# COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
+COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
+# COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY docker/supervisord.conf /etc/supervisord.conf
 
 # entrypoint
