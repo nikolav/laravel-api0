@@ -91,9 +91,7 @@ RUN composer install \
   --prefer-dist \
   --optimize-autoloader \
   --no-scripts \
-  --no-progress \
-  --no-audit \
-  --no-fund
+  --no-progress
 
 COPY . .
 
