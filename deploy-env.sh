@@ -7,7 +7,7 @@ ENV_FILE=".env"
 
 export DEBIAN_FRONTEND=noninteractive
 
-# Must run as root
+# deny !root
 if [[ "${EUID:-$(id -u)}" -ne 0 ]]; then
   echo "Run as root (sudo ./setup.sh)" >&2
   exit 1
@@ -75,8 +75,7 @@ fi
 apt-get install -y --no-install-recommends nginx
 systemctl enable --now nginx
 
-# auto-load custom global config
-#   (nginx.conf -> http { include /etc/nginx/conf.d/*.conf; })
+# nginx.autoload @/etc/nginx/conf.d/*.conf
 tee /etc/nginx/conf.d/00-internal-auth-token.conf > /dev/null <<EOF
 map \$host \$internal_auth_token {
     default "${NGINX_INTERNAL_AUTH_TOKEN}";
@@ -91,6 +90,7 @@ ufw allow OpenSSH
 ufw allow 'Nginx Full'
 ufw --force enable
 
+# ---------- Debug ----------
 echo -e "\n=== Setup complete ==="
 echo "Git: $(git --version)"
 echo "Docker: $(docker --version)"
