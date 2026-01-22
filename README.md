@@ -146,6 +146,9 @@ server {
   ssl_certificate     /etc/letsencrypt/live/domain.com/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/domain.com/privkey.pem;
 
+  # HSTS (safe default: 6 months)
+  add_header Strict-Transport-Security "max-age=15552000" always;
+
   ...
 }
 ```
