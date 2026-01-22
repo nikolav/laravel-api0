@@ -55,42 +55,6 @@ fi
 apt-get install -y --no-install-recommends nginx
 systemctl enable --now nginx
 
-# # Create a reverse proxy site → localhost:9000 (Laravel container)
-# SITE_NAME="laravel-api"
-# SITE_CONF="/etc/nginx/sites-available/${SITE_NAME}.conf"
-
-# cat > "$SITE_CONF" <<'NGINX'
-# server {
-#   listen 80;
-#   server_name _;
-
-#   location / {
-#     proxy_pass http://127.0.0.1:9000;
-#     proxy_http_version 1.1;
-
-#     proxy_set_header Host $host;
-#     proxy_set_header X-Real-IP $remote_addr;
-#     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-#     proxy_set_header X-Forwarded-Proto $scheme;
-
-#     # For websockets/upgrade (harmless if unused)
-#     proxy_set_header Upgrade $http_upgrade;
-#     proxy_set_header Connection "upgrade";
-#   }
-# }
-# NGINX
-
-# # Enable site
-# ln -sf "$SITE_CONF" "/etc/nginx/sites-enabled/${SITE_NAME}.conf"
-
-# # Disable default site if present
-# if [[ -f /etc/nginx/sites-enabled/default ]]; then
-#   rm -f /etc/nginx/sites-enabled/default
-# fi
-
-# nginx -t
-# systemctl reload nginx
-
 # ---------- Firewall ----------
 ufw allow OpenSSH
 ufw allow 'Nginx Full'
