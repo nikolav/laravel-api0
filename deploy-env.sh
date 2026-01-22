@@ -3,13 +3,33 @@ set -Eeuo pipefail
 
 trap 'echo "❌ Failed at line $LINENO. Command: $BASH_COMMAND" >&2' ERR
 
+ENV_FILE=".env"
+
+export DEBIAN_FRONTEND=noninteractive
+
 # Must run as root
 if [[ "${EUID:-$(id -u)}" -ne 0 ]]; then
   echo "Run as root (sudo ./setup.sh)" >&2
   exit 1
 fi
 
-export DEBIAN_FRONTEND=noninteractive
+if [[ ! -f "$ENV_FILE" ]]; then
+  echo "ERROR: .env file not found in current directory"
+  exit 1
+fi
+
+# read NGINX_INTERNAL_AUTH_TOKEN from env
+NGINX_INTERNAL_AUTH_TOKEN="$(
+  grep -E '^NGINX_INTERNAL_AUTH_TOKEN=' "$ENV_FILE" \
+  | tail -n1 \
+  | cut -d= -f2- \
+  | sed 's/^["'\'']//; s/["'\'']$//'
+)"
+
+if [[ -z "$NGINX_INTERNAL_AUTH_TOKEN" ]]; then
+  echo "ERROR: NGINX_INTERNAL_AUTH_TOKEN is not set or empty in .env"
+  exit 1
+fi
 
 # ---------- Update packages ----------
 apt-get update
@@ -54,6 +74,17 @@ fi
 # ---------- Install Nginx ----------
 apt-get install -y --no-install-recommends nginx
 systemctl enable --now nginx
+
+# auto-load custom global config
+#   (nginx.conf -> http { include /etc/nginx/conf.d/*.conf; })
+tee /etc/nginx/conf.d/00-internal-auth-token.conf > /dev/null <<EOF
+map \$host \$internal_auth_token {
+    default "${NGINX_INTERNAL_AUTH_TOKEN}";
+}
+EOF
+
+# chown root:root /etc/nginx/conf.d/00-internal-auth-token.conf
+# chmod 600 /etc/nginx/conf.d/00-internal-auth-token.conf
 
 # ---------- Firewall ----------
 ufw allow OpenSSH
