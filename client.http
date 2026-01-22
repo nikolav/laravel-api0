@@ -6,6 +6,18 @@ Internal-Auth: -
 
 ###
 
+POST http://127.0.0.1:8000/api/testing
+Internal-Auth: -
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer -
+
+{
+
+}
+
+###
+
 GET http://127.0.0.1:8000/api
 Internal-Auth: -
 Accept: application/json
