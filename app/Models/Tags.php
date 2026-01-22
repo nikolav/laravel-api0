@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Tags extends Model
 {
@@ -24,7 +25,7 @@ class Tags extends Model
       ->withTimestamps();
   }
 
-  public function docs()
+  public function docs(): BelongsToMany
   {
     return $this->belongsToMany(
       Docs::class,
@@ -32,5 +33,15 @@ class Tags extends Model
       'tag_id',
       'main_id'
     );
+  }
+
+  public function assets(): BelongsToMany
+  {
+    return $this->belongsToMany(
+      Assets::class,
+      'ln_assets_tags',
+      'tag_id',
+      'asset_id'
+    )->withTimestamps();
   }
 }
