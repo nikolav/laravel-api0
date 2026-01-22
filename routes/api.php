@@ -2,15 +2,11 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\WebhookHandleController;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/', function () {
-        return response()->json([
-            'status'        => 'ok',
-            'internal-auth' => request()->header('Internal-Auth'),
-        ]);
+        return response()->json(['status' => 'ok']);
     })->name('api:status');
 });
 

@@ -2,10 +2,12 @@
 ###
 
 GET http://127.0.0.1:8000/api/health
+Internal-Auth: -
 
 ###
 
 GET http://127.0.0.1:8000/api
+Internal-Auth: -
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer -
@@ -18,8 +20,10 @@ Authorization: Bearer -
 ###
 
 POST http://127.0.0.1:8000/api/auth/authenticate
+Internal-Auth: -
 Accept: application/json
 Content-Type: application/json
+Internal-Auth: -
 
 {
   "email": "admin@nikolav.rs",
@@ -29,6 +33,7 @@ Content-Type: application/json
 ###
 
 POST http://127.0.0.1:8000/api/auth/logout
+Internal-Auth: -
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer -
@@ -40,6 +45,7 @@ Authorization: Bearer -
 ###
 
 GET http://127.0.0.1:8000/api/auth/who
+Internal-Auth: -
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer -
@@ -51,6 +57,7 @@ Authorization: Bearer -
 ###
 
 GET http://127.0.0.1:8000/api/webhooks
+Internal-Auth: -
 Accept: application/json
 Content-Type: application/json
 
@@ -61,6 +68,7 @@ Content-Type: application/json
 ###
 
 POST http://127.0.0.1:8000/api/auth/register
+Internal-Auth: -
 Accept: application/json
 Content-Type: application/json
 

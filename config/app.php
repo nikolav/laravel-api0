@@ -123,4 +123,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    // app-config:user
+    'internal-auth' => env('NGINX_INTERNAL_AUTH_TOKEN'),
+
 ];
