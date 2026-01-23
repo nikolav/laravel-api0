@@ -17,11 +17,10 @@ class MessagePlainEmail extends Mailable
    * Create a new message instance.
    */
   public function __construct(
+    public $view    = 'emails.message-plain',
     public $subject = 'Plain email message',
     public $data    = []
-  ) {
-    //
-  }
+  ) {}
 
   /**
    * Get the message envelope.
@@ -39,7 +38,7 @@ class MessagePlainEmail extends Mailable
   public function content(): Content
   {
     return new Content(
-      view: 'emails.message-plain',
+      view: $this->view,
       with: ['data' => $this->data],
     );
   }
