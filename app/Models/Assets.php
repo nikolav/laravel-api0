@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 // use Illuminate\Support\Str;
 use App\Enums\AssetsType;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Assets extends Model
 {
@@ -51,5 +53,28 @@ class Assets extends Model
   public function getRouteKeyName(): string
   {
     return 'key';
+  }
+
+  // Child -> Parent (inverse)
+  public function parent(): BelongsTo
+  {
+    return $this->belongsTo(self::class, 'parent_id');
+  }
+
+  // Parent -> Children
+  public function children(): HasMany
+  {
+    return $this->hasMany(self::class, 'parent_id');
+  }
+
+  // Optional: recursive eager-loading helper
+  public function childrenRecursive($depth = 1): HasMany
+  {
+    if (0 === $depth) {
+      return $this->children();
+    }
+
+    return $this->children()
+      ->with(['childrenRecursive' => fn($a) => $a->childrenRecursive($depth - 1)]);
   }
 }
