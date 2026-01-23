@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -55,9 +56,20 @@ class User extends Authenticatable
   /**
    * The tags that belong to the user.
    */
-  public function tags()
+  public function tags(): BelongsToMany
   {
     return $this->belongsToMany(Tags::class, 'ln_users_tags', 'user_id', 'tag_id')
+      ->withTimestamps();
+  }
+
+  public function assets(): BelongsToMany
+  {
+    return $this->belongsToMany(
+      Assets::class,
+      'ln_users_assets',
+      'user_id',
+      'asset_id'
+    )
       ->withTimestamps();
   }
 }

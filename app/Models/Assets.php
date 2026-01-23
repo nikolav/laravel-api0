@@ -77,4 +77,15 @@ class Assets extends Model
     return $this->children()
       ->with(['childrenRecursive' => fn($a) => $a->childrenRecursive($depth - 1)]);
   }
+
+  public function users(): BelongsToMany
+  {
+    return $this->belongsToMany(
+      User::class,
+      'ln_users_assets',
+      'asset_id',
+      'user_id'
+    )
+      ->withTimestamps();
+  }
 }
