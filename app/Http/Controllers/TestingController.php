@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-// use App\Mail\DemoMailMessage;
+// // use App\Mail\DemoMailMessage;
+// use App\Mail\MessagePlainEmail;
 // // use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Mail;
 
@@ -14,10 +15,10 @@ class TestingController extends Controller
     //
     // $res =
     //   Mail::to(['admin@nikolav.rs'])
-    //   ->send(new DemoMailMessage(
-    //     subject: 'Hello from laravel mail!',
+    //   ->send(new MessagePlainEmail(
+    //     subject: 'Hello from plain email.🍻',
     //     data: [
-    //       'message' => 'nothing wore port palace wrote hole blood information bill thy how until storm fence throw pack finest available else sweet disease journey plate industry'
+    //       'message' => 'Giant flower attempt mixture review grandmother opinion sad buy several slipped shaking consider log shelf what tune tobacco firm native shall throat as difficulty.'
     //     ]
     //   ));
 
