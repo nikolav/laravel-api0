@@ -1,27 +1,27 @@
-  <x-email-layout-default>
-      <x-slot:title>
-          Hello, this is test message.
-      </x-slot:title>
+  <x-email-layout-default title="Hello, this is test message.">
       <x-slot:header>
-          <em>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</em>
+          <strong>Simple test message.</strong>
       </x-slot:header>
+      <x-slot:sub-header>
+          <em>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</em>
+      </x-slot:sub-header>
+
 
       <main>
+          <x-email-img src="https://nikolav.rs/lotr.webp" alt="LOTR fellowship of the ring💪" max-width="320" />
+
           <div>
-              @if ($msg)
+              @isset($data['message'])
                   <p>
-                      {{ $msg }}
+                      {{ $data['message'] }}
                   </p>
-              @endif
+              @endisset
               <p>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae sunt vitae voluptates rerum maxime aut
                   assumenda neque sit, minima tenetur debitis voluptas.
               </p>
           </div>
 
-          <x-email-img src="https://nikolav.rs/lotr.webp" alt="LOTR fellowship of the ring💪" max-width="320" />
-
-          <hr style="width: 100%;">
           <div style="display: flex; justify-content: center; gap: 1em;">
               <x-email-button url="https://nikolav.rs" label="nikolav.rs" />
               <x-email-button url="https://google.rs" label="google" />

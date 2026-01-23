@@ -188,18 +188,18 @@
                                     </td>
                                 </tr>
 
-                                @if ($title)
+                                @if ($header)
                                     <tr>
                                         <td class="text" style="padding: 0 0 8px 0;">
-                                            <h1 class="h1">{{ $title }}</h1>
+                                            <h1 class="h1">{{ $header }}</h1>
                                         </td>
                                     </tr>
                                 @endif
 
-                                @isset($header)
+                                @isset($subHeader)
                                     <tr>
                                         <td class="text" style="padding: 0 0 8px 0;">
-                                            {{ $header }}
+                                            {{ $subHeader }}
                                         </td>
                                     </tr>
                                 @endisset

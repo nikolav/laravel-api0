@@ -16,10 +16,10 @@ class DemoMailMessage extends Mailable
   /**
    * Create a new message instance.
    */
-  public function __construct()
-  {
-    //
-  }
+  public function __construct(
+    public $subject = 'Mail demo from laravel.👋',
+    public $data    = ['message' => 'Hi.'],
+  ) {}
 
   /**
    * Get the message envelope.
@@ -27,7 +27,7 @@ class DemoMailMessage extends Mailable
   public function envelope(): Envelope
   {
     return new Envelope(
-      subject: 'Mail demo from laravel.👋',
+      subject: $this->subject,
     );
   }
 
@@ -38,7 +38,7 @@ class DemoMailMessage extends Mailable
   {
     return new Content(
       view: 'emails.demo-message',
-      with: ['msg' => 'nothing wore port palace wrote hole blood information bill thy how until storm fence throw pack finest available else sweet disease journey plate industry',],
+      with: ['data' => $this->data,],
     );
   }
 
