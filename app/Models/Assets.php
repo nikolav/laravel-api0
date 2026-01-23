@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 // use Illuminate\Support\Str;
+use App\Enums\AssetsType;
 
 class Assets extends Model
 {
@@ -28,6 +29,7 @@ class Assets extends Model
   ];
 
   protected $casts = [
+    'type'       => AssetsType::class,
     'data'       => 'array',
     'deleted_at' => 'datetime',
   ];
