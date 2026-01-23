@@ -12,13 +12,13 @@ return new class extends Migration {
 
       // search key|slug
       $table->string('key')->unique();
-      // identifier:unique
+      // domain identifier|sku
       $table->string('code')->unique()->nullable();
 
-      // descriptive name for the asset ("laptop", "office space")
-      $table->string('name');
       // the category of the asset ("physical", "digital", "financial")
       $table->string('type')->nullable();
+      // descriptive name for the asset ("laptop", "office space")
+      $table->string('name');
       // indicates the current status ("active", "disposed", "maintenance", "sold")
       $table->string('status')->nullable();
       // condition of the asset ("new", "good", "needs repair")
@@ -26,10 +26,10 @@ return new class extends Migration {
       // physical or digital location of the asset ("warehouse 1", "cloud server")
       $table->string('location')->nullable();
 
-      // detailed description of the asset
-      $table->text('notes')->nullable();
       // additional data
       $table->json('data')->nullable();
+      // detailed description of the asset
+      $table->text('notes')->nullable();
 
       $table->timestamps();
       $table->softDeletes(); // +deleted_at
