@@ -6,7 +6,7 @@
           <em>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</em>
       </x-slot:header>
 
-      <section>
+      <main>
           <div>
               @if ($msg)
                   <p>
@@ -28,7 +28,7 @@
           </div>
 
 
-      </section>
+      </main>
 
       <x-slot:footer>
           <p>

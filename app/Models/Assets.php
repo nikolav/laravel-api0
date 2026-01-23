@@ -68,7 +68,7 @@ class Assets extends Model
   }
 
   // Optional: recursive eager-loading helper
-  public function childrenRecursive($depth = 1): HasMany
+  public function childrenRecursive($depth = 2): HasMany
   {
     if (0 === $depth) {
       return $this->children();
