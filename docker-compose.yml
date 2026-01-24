@@ -13,33 +13,33 @@ services:
 
       LOG_CHANNEL: stderr
 
-      # SQLite
-      DB_CONNECTION: sqlite
-      DB_DATABASE: /usr/app/database/database.sqlite
+      # # SQLite
+      # DB_CONNECTION: sqlite
+      # DB_DATABASE: /usr/app/database/database.sqlite
 
-      # Redis
+      # cache stores, redis
       CACHE_STORE: redis
       SESSION_DRIVER: redis
       QUEUE_CONNECTION: redis
 
-    volumes:
-      - sqlite_data:/usr/app/database
-      - storage_data:/usr/app/storage
-    depends_on:
-      - redis
+    # volumes:
+    #   - sqlite_data:/usr/app/database
+    #   - storage_data:/usr/app/storage
+    # depends_on:
+    #   - redis
     restart: unless-stopped
 
-  redis:
-    image: redis:7-alpine
-    container_name: laravel-redis
-    env_file:
-      - ./.env
-    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD}"]
-    volumes:
-      - redis_data:/data
-    restart: unless-stopped
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: laravel-redis
+  #   env_file:
+  #     - ./.env
+  #   command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD}"]
+  #   volumes:
+  #     - redis_data:/data
+  #   restart: unless-stopped
 
-volumes:
-  sqlite_data:
-  storage_data:
-  redis_data:
+# volumes:
+#   sqlite_data:
+#   storage_data:
+#   redis_data:

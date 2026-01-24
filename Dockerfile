@@ -3,10 +3,10 @@ FROM php:8.3-fpm-alpine
 # system dependencies + php extensions
 RUN apk add --no-cache \
     iproute2 netcat-openbsd nginx supervisor bash curl git unzip \
-    icu oniguruma libzip sqlite-libs \
+    icu oniguruma libzip sqlite-libs postgresql-libs \
   && apk add --no-cache --virtual .build-deps \
-    $PHPIZE_DEPS icu-dev oniguruma-dev libzip-dev sqlite-dev pkgconf \
-  && docker-php-ext-install intl mbstring zip opcache pdo_sqlite \
+    $PHPIZE_DEPS icu-dev oniguruma-dev libzip-dev sqlite-dev postgresql-dev pkgconf \
+  && docker-php-ext-install intl mbstring zip opcache pdo_sqlite pdo_pgsql \
   && pecl install redis \
   && docker-php-ext-enable redis \
   && apk del .build-deps

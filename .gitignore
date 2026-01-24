@@ -184,3 +184,4 @@ yarn-error.log*
 yarn.lock
 scp-config.sh
 temp.txt
+ai.docs-prompt.txt
