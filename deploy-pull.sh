@@ -3,7 +3,7 @@ set -euo pipefail
 
 docker run -d \
   --name laravel-api0 \
-  -p 9000:9000 \
+  -p 127.0.0.1:9000:9000 \
   -e APP_ENV=production \
   0imbn7v6rkw/laravel-api0
 
