@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+docker pull 0imbn7v6rkw/laravel-api0 && \
+docker stop laravel-api || true && \
+docker rm laravel-api || true && \
 docker run -d \
   --name laravel-api \
   -p 127.0.0.1:9000:9000 \
