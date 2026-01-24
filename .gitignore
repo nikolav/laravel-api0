@@ -1,11 +1,4 @@
 _site/
-!.idea/codeStyles
-!.idea/runConfigurations
-!.vscode/extensions.json
-!.vscode/launch.json
-!.vscode/settings.json
-!.vscode/tasks.json
-!bootstrap/cache/.gitignore
 ._*
 .AppleDouble
 .buildpath
@@ -185,3 +178,10 @@ yarn.lock
 scp-config.sh
 temp.txt
 ai.docs-prompt.txt
+!.idea/codeStyles
+!.idea/runConfigurations
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!bootstrap/cache/.gitignore

@@ -116,6 +116,6 @@ HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
 # expose http port (nginx)
 EXPOSE 9000
 
-# start supervisor (nginx + php-fpm)
 ENTRYPOINT ["/entrypoint.sh"]
+# start supervisor (nginx + php-fpm)
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
