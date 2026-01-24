@@ -1,7 +1,9 @@
 services:
   api:
+    image: 0imbn7v6rkw/laravel-api0
     build:
       context: .
+      dockerfile: Dockerfile
     container_name: laravel-api
     ports:
       - "127.0.0.1:9000:9000" # allow host access only
