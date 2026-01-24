@@ -4,8 +4,16 @@ set -euo pipefail
 docker run -d \
   --name laravel-api \
   -p 127.0.0.1:9000:9000 \
+  --env-file ./.env \
   -e APP_ENV=production \
   -e APP_DEBUG=false \
+  -e RUN_MIGRATION=true \
+  -e CACHE_ARTISAN=true \
+  -e LOG_CHANNEL=stderr \
+  -e CACHE_STORE=redis \
+  -e SESSION_DRIVER=redis \
+  -e QUEUE_CONNECTION=redis \
+  --restart unless-stopped \
   0imbn7v6rkw/laravel-api0
 
 docker ps -a
