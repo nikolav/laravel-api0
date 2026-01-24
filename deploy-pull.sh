@@ -16,6 +16,7 @@ docker run -d \
   -e CACHE_STORE=redis \
   -e SESSION_DRIVER=redis \
   -e QUEUE_CONNECTION=redis \
+  --pull=always \
   --restart unless-stopped \
   0imbn7v6rkw/laravel-api0
 
