@@ -29,6 +29,8 @@ if [ -n "${REDIS_HOST:-}" ]; then
     done
 fi
 
+sleep 1
+
 # Run migrations only when explicitly enabled
 if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
     echo "Running migrations..."
