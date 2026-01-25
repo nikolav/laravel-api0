@@ -1,6 +1,6 @@
 services:
   api:
-    image: 0imbn7v6rkw/laravel-api0
+    image: 0imbn7v6rkw/laravel-api0:latest
 
     build:
       context: .

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-IMAGE="0imbn7v6rkw/laravel-api0"
+IMAGE="0imbn7v6rkw/laravel-api0:latest"
 NAME="laravel-api"
 
 # remove old container if exists
