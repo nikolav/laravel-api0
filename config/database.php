@@ -115,7 +115,7 @@ return [
 
     'pgsql@aiven.io' => [
       'driver' => 'pgsql',
-      'url' => env('DB_URL_aivenio'),
+      'url' => env('DB_URL_AIVEN'),
       'host' => env('DB_HOST', '127.0.0.1'),
       'port' => env('DB_PORT', '5432'),
       'database' => env('DB_DATABASE', 'defaultdb'),
@@ -195,7 +195,7 @@ return [
 
     // Upstash connection for custom cache
     'redis@upstash.com' => [
-      'url' => env('REDIS_URL_upstash'),
+      'url' => env('REDIS_URL_UPSTASH'),
       'host' => env('REDIS_CACHE_HOST'),
       'username' => env('REDIS_CACHE_USERNAME', 'default'),
       'password' => env('REDIS_CACHE_PASSWORD'),
