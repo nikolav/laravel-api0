@@ -35,3 +35,6 @@ docker logs --tail=122 "$NAME"
 
 # docker compose down -v --rmi all --remove-orphans
 # docker system prune --all --volumes --force
+
+# docker rm -f laravel-reverb
+# docker volume rm pgdata
