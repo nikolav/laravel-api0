@@ -2,7 +2,7 @@ FROM php:8.3-fpm-alpine
 
 # system dependencies + php extensions
 RUN apk add --no-cache \
-    iproute2 netcat-openbsd nginx supervisor bash curl git unzip \
+    iproute2 netcat-openbsd nginx supervisor bash curl wget git unzip \
     icu oniguruma libzip sqlite-libs postgresql-libs \
   && apk add --no-cache --virtual .build-deps \
     $PHPIZE_DEPS icu-dev oniguruma-dev libzip-dev sqlite-dev postgresql-dev pkgconf \
