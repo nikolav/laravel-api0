@@ -17,21 +17,15 @@ return [
     |
     */
 
-  'paths' => ['api/*', 'broadcasting/auth'],
+  'paths' => AppUtils::csv_list(env('CORS_ALLOWED_PATHS', 'api/*, broadcasting/auth'))->toArray(),
 
   'allowed_methods' => ['*'],
 
-  'allowed_origins' => AppUtils::csv_list(env('CORS_ALLOWED_ORIGINS', ''))->toArray(),
+  'allowed_origins' => AppUtils::csv_list(env('CORS_ALLOWED_ORIGINS', '*'))->toArray(),
 
   'allowed_origins_patterns' => [],
 
-  'allowed_headers' => [
-    'Content-Type',
-    'X-Requested-With',
-    'Authorization',
-    'Accept',
-    'Origin',
-  ],
+  'allowed_headers' => AppUtils::csv_list(env('CORS_ALLOWED_HEADERS', '*'))->toArray(),
 
   'exposed_headers' => [],
 
