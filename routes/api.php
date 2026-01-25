@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\WebhookHandleController;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -33,3 +34,10 @@ Route::name('auth.')->prefix('auth')->group(function () {
 
 Route::any('/webhooks/{key?}', [WebhookHandleController::class, 'webhook'])->name('webhooks');
 Route::get('/health', fn() => response()->json(['status' => 'ok'], 200))->name('healthcheck');
+
+// mount broadcast auth under /api/broadcasting/auth
+//  clients point to [POST /api/broadcasting/auth], (echo)
+Broadcast::routes([
+  'prefix' => 'broadcasting',
+  'middleware' => ['auth:sanctum'],
+]);
