@@ -1,5 +1,8 @@
 services:
   api:
+    #build>        docker compose build --pull api
+    #build:clean>  docker compose build --pull --no-cache api
+    #push>         docker compose push api
     image: 0imbn7v6rkw/laravel-api0:latest
 
     build:
