@@ -8,6 +8,10 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
+// or use anonymous events for quick event dispatch
+// # Broadcast::on('foo.happened')->send();
+// # Broadcast::on('orders.'.$id)->as('OrderPlaced')->with($order)->send();
+// #https://laravel.com/docs/12.x/broadcasting#anonymous-events
 class HealthPing implements ShouldBroadcast
 {
   use Dispatchable, SerializesModels;
