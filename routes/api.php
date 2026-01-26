@@ -38,6 +38,6 @@ Route::get('/health', fn() => response()->json(['status' => 'ok'], 200))->name('
 // mount broadcast auth under /api/broadcasting/auth
 //  clients point to [POST /api/broadcasting/auth], (echo)
 Broadcast::routes([
-  'prefix' => 'broadcasting',
+  // 'prefix' => 'broadcasting',
   'middleware' => ['auth:sanctum'],
 ]);
