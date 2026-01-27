@@ -1,46 +1,143 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Broadcast;
+
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\WebhookHandleController;
-use Illuminate\Support\Facades\Broadcast;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GraphqlController;
 
-Route::middleware(['auth:sanctum'])->group(function () {
-  Route::get('/', fn() => response()->json(['status' => 'ok']))
-    ->name('api:status');
+/*
+|--------------------------------------------------------------------------
+| AUTHENTICATED API CORE
+|--------------------------------------------------------------------------
+| Protected API endpoints.
+| - Require Sanctum authentication
+| - Represent the "logged-in" surface of the API
+| - Safe to expose internal metadata here
+|--------------------------------------------------------------------------
+*/
 
+Route::middleware(['auth:sanctum'])->group(function () {
+
+  /*
+    |----------------------------------------------------------------------
+    | API Status / Health (authenticated)
+    |----------------------------------------------------------------------
+    | Lightweight sanity check for:
+    | - auth wiring
+    | - API availability
+    |----------------------------------------------------------------------
+    */
+  Route::get('/', fn() => response()->json([
+    'status'  => 'ok',
+  ]))->name('api.status');
+
+
+  /*
+    |----------------------------------------------------------------------
+    | Graphql handler
+    |----------------------------------------------------------------------
+    | - graphql paths [POST @/api/graphql]
+    |----------------------------------------------------------------------
+    */
   Route::post('/graphql', GraphqlController::class);
 
+  /*
+    |----------------------------------------------------------------------
+    | Development / Testing Utilities
+    |----------------------------------------------------------------------
+    | Non-production helpers.
+    | - Explicitly disabled in production
+    |----------------------------------------------------------------------
+    */
   if (!app()->environment('production')) {
     Route::post('/testing', [TestingController::class, 'demo'])
-      ->name('testing');
+      ->name('testing.demo');
   }
 });
 
-Route::name('auth.')->prefix('auth')->group(function () {
+/*
+|--------------------------------------------------------------------------
+| AUTHENTICATION API
+|--------------------------------------------------------------------------
+| Authentication lifecycle endpoints.
+| Split clearly into:
+| - guest-only (login / register)
+| - authenticated (logout / whoami)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('auth')->name('auth.')->group(function () {
 
-  // unauthenticated
+  /*
+    |----------------------------------------------------------------------
+    | Public Auth Endpoints (Guest Only)
+    |----------------------------------------------------------------------
+    | - No authentication allowed
+    | - Used for initial access
+    |----------------------------------------------------------------------
+    */
   Route::middleware(['guest'])->group(function () {
-    // Public routes (no authentication required)
-    Route::post('/register', [AuthController::class, 'register'])->name('register');
-    Route::post('/authenticate', [AuthController::class, 'authenticate'])->name('authenticate');
+    Route::post('/register', [AuthController::class, 'register'])
+      ->name('register');
+
+    Route::post('/authenticate', [AuthController::class, 'authenticate'])
+      ->name('authenticate');
   });
 
-  // protected, auth required
+  /*
+    |----------------------------------------------------------------------
+    | Protected Auth Endpoints
+    |----------------------------------------------------------------------
+    | - Require valid Sanctum token
+    | - Session / identity management
+    |----------------------------------------------------------------------
+    */
   Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/who', [AuthController::class, 'who'])->name('who');
+    Route::post('/logout', [AuthController::class, 'logout'])
+      ->name('logout');
+
+    Route::get('/who', [AuthController::class, 'who'])
+      ->name('who');
   });
 });
 
-Route::any('/webhooks/{key?}', [WebhookHandleController::class, 'webhook'])->name('webhooks');
-Route::get('/health', fn() => response()->json(['status' => 'ok'], 200))->name('healthcheck');
+/*
+|--------------------------------------------------------------------------
+| EXTERNAL / PUBLIC INTEGRATIONS
+|--------------------------------------------------------------------------
+| Endpoints intended for external systems.
+| - Do NOT require Sanctum auth
+| - Security handled internally (keys, signatures, etc.)
+|--------------------------------------------------------------------------
+*/
+Route::any('/webhooks/{key?}', [WebhookHandleController::class, 'webhook'])
+  ->name('webhooks.handle');
 
-// mount broadcast auth under /api/broadcasting/auth
-//  clients point to [POST /api/broadcasting/auth], (echo)
+/*
+|--------------------------------------------------------------------------
+| PUBLIC HEALTH CHECK
+|--------------------------------------------------------------------------
+| Infrastructure-level health probe.
+| - Used by load balancers / uptime monitors
+| - No auth, no side effects
+|--------------------------------------------------------------------------
+*/
+Route::get('/health', fn() => response()->json(['status' => 'ok'], 200))
+  ->name('healthcheck');
+
+/*
+|--------------------------------------------------------------------------
+| LARAVEL BROADCASTING AUTH
+|--------------------------------------------------------------------------
+| Pusher / Reverb / Echo authentication endpoint.
+| - Mounted under /api/broadcasting/auth
+| - Clients MUST POST here
+| - Protected by Sanctum (token-based auth)
+|--------------------------------------------------------------------------
+*/
 Broadcast::routes([
-  // 'prefix' => 'broadcasting',
   'middleware' => ['auth:sanctum'],
+  // 'prefix' => 'broadcasting', // default, intentionally left explicit
 ]);
