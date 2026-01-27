@@ -51,17 +51,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
   /*
     |----------------------------------------------------------------------
-    | GraphQL Endpoint
-    |----------------------------------------------------------------------
-    | Main GraphQL entry point.
-    | - Authenticated
-    | - Schema-first / controller-handled
-    |----------------------------------------------------------------------
-    */
-  Route::post('/graphql', GraphqlController::class);
-
-  /*
-    |----------------------------------------------------------------------
     | Development / Testing Utilities
     |----------------------------------------------------------------------
     | Non-production helpers.
