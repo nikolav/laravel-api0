@@ -5,10 +5,16 @@ use App\Http\Controllers\TestingController;
 use App\Http\Controllers\WebhookHandleController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
+use Aws\Sdk as AwsSdk;
 
 Route::middleware(['auth:sanctum'])->group(function () {
-  Route::get('/', fn() => response()->json(['status' => 'ok']))
-    ->name('api:status');
+  Route::get(
+    '/',
+    fn() => response()->json([
+      'status'  => 'ok',
+      'aws-sdk' => AwsSdk::VERSION,
+    ])
+  )->name('api:status');
 
   if (!app()->environment('production')) {
     Route::post('/testing', [TestingController::class, 'demo'])
