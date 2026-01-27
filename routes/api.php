@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GraphqlController;
 use Aws\Sdk as AwsSdk;
 
+// protected paths, auth
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::get(
     '/',
@@ -25,6 +26,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
   }
 });
 
+// api auth
 Route::name('auth.')->prefix('auth')->group(function () {
 
   // unauthenticated
@@ -41,6 +43,7 @@ Route::name('auth.')->prefix('auth')->group(function () {
   });
 });
 
+// external paths
 Route::any('/webhooks/{key?}', [WebhookHandleController::class, 'webhook'])->name('webhooks');
 Route::get('/health', fn() => response()->json(['status' => 'ok'], 200))->name('healthcheck');
 
