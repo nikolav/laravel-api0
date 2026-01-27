@@ -37,6 +37,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     'aws-sdk' => AwsSdk::VERSION,
   ]))->name('api.status');
 
+
+  /*
+    |----------------------------------------------------------------------
+    | Graphql handler
+    |----------------------------------------------------------------------
+    | - graphql paths [POST @/api/graphql]
+    |----------------------------------------------------------------------
+    */
+  Route::post('/graphql', GraphqlController::class);
+
   /*
     |----------------------------------------------------------------------
     | GraphQL Endpoint
