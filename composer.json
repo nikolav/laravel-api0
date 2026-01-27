@@ -11,7 +11,8 @@
         "laravel/reverb": "^1.7",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
-        "predis/predis": "^3.3"
+        "predis/predis": "^3.3",
+        "webonyx/graphql-php": "^15.30"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

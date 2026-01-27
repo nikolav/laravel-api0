@@ -1,0 +1,11 @@
+# graphql/schema.graphql
+
+scalar JsonData
+
+type Query {
+  status: JsonData!
+}
+
+type Mutation {
+  demo(data: JsonData): JsonData!
+}

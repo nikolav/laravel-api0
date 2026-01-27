@@ -5,10 +5,13 @@ use App\Http\Controllers\TestingController;
 use App\Http\Controllers\WebhookHandleController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GraphqlController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('/', fn() => response()->json(['status' => 'ok']))
     ->name('api:status');
+
+  Route::post('/graphql', GraphqlController::class);
 
   if (!app()->environment('production')) {
     Route::post('/testing', [TestingController::class, 'demo'])
