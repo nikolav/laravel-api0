@@ -8,7 +8,7 @@ class AppUtils
 {
   static private $DEFAULTS_TRUTHY = [true, 1, '1', 'TRUE', 'YES', 'ON', 'Y'];
 
-  public function __construct() {}
+  function __construct() {}
 
   static function csv_list(string $value): Collection
   {
@@ -25,5 +25,35 @@ class AppUtils
     }
 
     return in_array($value, self::$DEFAULTS_TRUTHY, true);
+  }
+
+  static function res(mixed $result = null, ?\Throwable  $error = null): Result
+  {
+    return new Result($result, $error);
+  }
+}
+
+final class Result implements \JsonSerializable
+{
+  function __construct(
+    public readonly mixed        $result = null,
+    public readonly ?\Throwable  $error  = null
+  ) {}
+
+  // json
+  function jsonSerialize(): array
+  {
+    return [
+      'ok'     => null === $this->error,
+      'error'  => $this->error?->getMessage(),
+      'result' => $this->normalized($this->result),
+    ];
+  }
+
+  private function normalized(mixed $value): mixed
+  {
+    return $value instanceof \JsonSerializable
+      ? $value->jsonSerialize()
+      : $value;
   }
 }
