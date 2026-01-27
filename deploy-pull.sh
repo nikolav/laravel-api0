@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-IMAGE="0imbn7v6rkw/laravel-api0:latest"
+IMAGE="0imbn7v6rkw/laravel-api0"
 NAME="laravel-api"
 
 # remove old container if exists
-docker rm -f "$NAME" >/dev/null 2>&1 || true
-
-docker run -d \
+docker rm -f "$NAME" >/dev/null 2>&1 || true \
+&& docker run -d \
   --name "$NAME" \
   -p 127.0.0.1:9000:9000 \
   --env-file ./.env \
@@ -30,8 +29,8 @@ docker run -d \
   --health-start-period 20s \
   "$IMAGE"
 
-docker ps -a --filter "name=$NAME"
-docker logs --tail=122 "$NAME"
+# docker ps -a --filter "name=$NAME"
+# docker logs --tail=122 "$NAME"
 
 # docker compose down -v --rmi all --remove-orphans
 # docker system prune --all --volumes --force
