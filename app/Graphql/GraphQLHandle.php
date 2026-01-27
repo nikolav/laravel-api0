@@ -4,7 +4,6 @@ namespace App\Graphql;
 
 use GraphQL\GraphQL;
 use GraphQL\Type\Schema;
-use GraphQL\Type\Definition\CustomScalarType;
 use GraphQL\Utils\BuildSchema;
 use GraphQL\Error\DebugFlag;
 
@@ -24,26 +23,21 @@ class GraphQLHandle
       function (array $typeConfig) use ($queryResolvers, $mutationResolvers) {
         $name = $typeConfig['name'] ?? null;
 
-        if ($name === 'Query') {
+        if ('Query' === $name) {
           $typeConfig['fields'] =
             $this->attachResolvers($typeConfig['fields'], $queryResolvers);
         }
 
-        if ($name === 'Mutation') {
+        if ('Mutation' === $name) {
           $typeConfig['fields'] =
             $this->attachResolvers($typeConfig['fields'], $mutationResolvers);
         }
 
         // custom scalar
-        if ($name === 'JSON') {
-          return new CustomScalarType([
-            'name'         => 'JSON',
-            'serialize'    => fn($value) => $value,
-            'parseValue'   => fn($value) => $value,
-            'parseLiteral' => function ($valueNode) {
-              return property_exists($valueNode, 'value') ? $valueNode->value : null;
-            },
-          ]);
+        if ('JSON' === $name) {
+          $typeConfig['serialize']    = fn($value) => $value;
+          $typeConfig['parseValue']   = fn($value) => $value;
+          $typeConfig['parseLiteral'] = fn($valueNode) => property_exists($valueNode, 'value') ? $valueNode->value : null;
         }
 
         return $typeConfig;
@@ -53,7 +47,7 @@ class GraphQLHandle
 
   function handle(array $payload): array
   {
-    $debug = app()->isLocal()
+    $debug = config('app.debug')
       ? DebugFlag::INCLUDE_DEBUG_MESSAGE | DebugFlag::INCLUDE_TRACE
       : DebugFlag::NONE;
 
