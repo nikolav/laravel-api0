@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\Broadcast;
 use Aws\Sdk as AwsSdk;
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\GraphqlController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\WebhookHandleController;
+use App\Http\Controllers\GraphqlController;
 
 /*
 |--------------------------------------------------------------------------
