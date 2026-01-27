@@ -40,9 +40,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
   /*
     |----------------------------------------------------------------------
-    | Graphql handler
+    | GraphQL Endpoint
     |----------------------------------------------------------------------
-    | - graphql paths [POST @/api/graphql]
+    | Main GraphQL entry point.
+    | - Authenticated
+    | - Schema-first / controller-handled
     |----------------------------------------------------------------------
     */
   Route::post('/graphql', GraphqlController::class);
