@@ -47,7 +47,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     | - Schema-first / controller-handled
     |----------------------------------------------------------------------
     */
-  Route::post('/graphql', GraphqlController::class);
+  Route::post('/graphql', GraphqlController::class)
+    ->name('api.graphql');
 
   /*
     |----------------------------------------------------------------------
