@@ -80,7 +80,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
     | - Used for initial access
     |----------------------------------------------------------------------
     */
-  Route::middleware(['guest'])->group(function () {
+  Route::middleware(['guest', 'throttle:api'])->group(function () {
     Route::post('/register', [AuthController::class, 'register'])
       ->name('register');
 
