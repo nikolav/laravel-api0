@@ -178,6 +178,8 @@ yarn.lock
 scp-config.sh
 temp.txt
 ai.docs-prompt.txt
+_ide_helper.php
+
 !.idea/codeStyles
 !.idea/runConfigurations
 !.vscode/extensions.json
