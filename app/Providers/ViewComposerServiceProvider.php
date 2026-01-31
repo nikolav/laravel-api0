@@ -24,5 +24,6 @@ class ViewComposerServiceProvider extends ServiceProvider
     // View::composer('partials.sidebar', function ($view) {
     //   $view->with('data', collect(['data'])->toArray());
     // });
+    // View::share('foo.global', 'bar');
   }
 }
