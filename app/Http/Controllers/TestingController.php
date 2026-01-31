@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
+
 // // use App\Mail\DemoMailMessage;
 // use App\Mail\MessagePlainEmail;
 // // use Illuminate\Http\Request;
@@ -23,6 +25,7 @@ class TestingController extends Controller
     //     ]
     //   ));
 
+    Log::info("info@TestingController.demo", ['foo' => 'bar']);
     return response()->json('testing:ok');
   }
 }
