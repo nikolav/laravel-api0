@@ -79,8 +79,8 @@ class PopupOAuthController extends Controller
 
     return response(
       Blade::render('auth.oauth-response-popup', [
-        'origin' => e($frontendOrigin),
-        'tok'    => e($token),
+        'origin' => $frontendOrigin,
+        'tok'    => $token,
       ])
     )
       ->header('Content-Type', 'text/html; charset=UTF-8')
