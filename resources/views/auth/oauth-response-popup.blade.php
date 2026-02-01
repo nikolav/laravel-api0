@@ -8,23 +8,25 @@
 
  <body>
      <script>
-         const targetOrigin = @json($origin);
-         const payload = {
-             type: "oauth:token",
-             token: @json($tok)
-         };
+         (function() {
+             const targetOrigin = @json($origin);
+             const payload = {
+                 type: "oauth:token",
+                 token: @json($tok)
+             };
 
-         try {
-             if (
-                 window.opener &&
-                 !window.opener.closed &&
-                 targetOrigin !== '*'
-             ) {
-                 window.opener.postMessage(payload, targetOrigin);
+             try {
+                 if (
+                     window.opener &&
+                     !window.opener.closed &&
+                     targetOrigin !== '*'
+                 ) {
+                     window.opener.postMessage(payload, targetOrigin);
+                 }
+             } finally {
+                 window.close();
              }
-         } finally {
-             window.close();
-         }
+         })();
      </script>
  </body>
 
