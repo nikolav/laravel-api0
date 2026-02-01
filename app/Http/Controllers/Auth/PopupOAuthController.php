@@ -44,18 +44,19 @@ class PopupOAuthController extends Controller
     $email      = $social->getEmail();
     $avatar     = $social->getAvatar();
 
-    // Find by provider link first
+    // user by provider link
     $user = User::where([
       'provider'    => $provider,
       'provider_id' => $providerId,
     ])->first();
 
-    // Optional: link to an existing user by email if email is present
+    // user by email if present
     if (!$user && $email) {
       $user = User::where('email', $email)->first();
     }
 
     if (!$user) {
+      // no user; add
       $user = User::create([
         'email'       => $email ?? (Str::uuid() . '@no-email.local'),
         'password'    => bcrypt(Str::random(40)),
@@ -64,6 +65,7 @@ class PopupOAuthController extends Controller
         'avatar'      => $avatar,
       ]);
     } else {
+      // update social fields for existing user
       $user->forceFill([
         'provider'    => $provider,
         'provider_id' => $providerId,
