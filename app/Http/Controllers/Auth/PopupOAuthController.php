@@ -52,7 +52,7 @@ class PopupOAuthController extends Controller
 
     // user by email if present
     if (!$user && $email) {
-      $user = User::where('email', $email)->first();
+      $user = User::where(['email' => $email])->first();
     }
 
     if (!$user) {
