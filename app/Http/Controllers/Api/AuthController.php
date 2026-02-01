@@ -23,7 +23,7 @@ class AuthController extends Controller
       'password' => Hash::make($validated['password']),
     ]);
 
-    $token = $user->createToken('access_token')->plainTextToken;
+    $token = $user->createToken('access_token', ['*'])->plainTextToken;
 
     return response()->json([
       'access_token' => $token,
@@ -47,7 +47,7 @@ class AuthController extends Controller
       ]);
     }
 
-    $token = $user->createToken('access_token', ['data:access'])->plainTextToken;
+    $token = $user->createToken('access_token', ['*'])->plainTextToken;
 
     return response()->json([
       'access_token' => $token,

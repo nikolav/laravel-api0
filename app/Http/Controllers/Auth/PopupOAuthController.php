@@ -72,7 +72,7 @@ class PopupOAuthController extends Controller
     }
 
     // sanctum bearer token
-    $token = $user->createToken('oauth-' . $provider, ['*'])->plainTextToken;
+    $token = $user->createToken('access_token', ['*'])->plainTextToken;
 
     // html page that sends token to opener and closes
     $frontendOrigin = config('app.frontend_origin');
