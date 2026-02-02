@@ -19,9 +19,9 @@ class InternalAuthHttpMiddleware
     if (
       $request->is('api/*')
       && (
-        empty(config('app.internal-auth'))
+        empty(config('app.internal_auth'))
         || empty($request->header('Internal-Auth'))
-        || (config('app.internal-auth') !== $request->header('Internal-Auth'))
+        || (config('app.internal_auth') !== $request->header('Internal-Auth'))
       )
     ) {
       // @invalid:abort Internal-Auth
