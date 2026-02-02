@@ -11,7 +11,7 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   -p 127.0.0.1:9000:9000 \
   --env-file ./.env \
   -e APP_ENV=production \
-  -e APP_DEBUG="false" \
+  -e APP_DEBUG="true" \
   -e LOG_CHANNEL=stderr \
   -e LOG_LEVEL=info \
   -e CACHE_STORE=redis \
