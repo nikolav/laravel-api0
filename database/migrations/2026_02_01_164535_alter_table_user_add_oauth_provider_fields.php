@@ -23,7 +23,7 @@ return new class extends Migration
         ->nullable();
 
       // prevent the same provider account from being linked twice
-      $table->unique(['provider', 'provider_id'], 'users_provider_provider_id_unique');
+      $table->unique(['provider', 'provider_id']);
 
       // optional: helpful lookup indexes
       $table->index('provider');
