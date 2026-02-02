@@ -12,11 +12,9 @@ use Laravel\Socialite\Facades\Socialite;
 
 class PopupOAuthController extends Controller
 {
-  private array $allowedProviders = ['google',];
-
   public function redirect(Request $request, string $provider)
   {
-    abort_unless(in_array($provider, $this->allowedProviders, true), 404);
+    abort_unless(in_array($provider, config('app.oauth_providers_supported'), true), 404);
 
     /** @var \Laravel\Socialite\Two\AbstractProvider $driver */
     $driver = Socialite::driver($provider);
@@ -35,7 +33,7 @@ class PopupOAuthController extends Controller
 
   public function callback(Request $request, string $provider)
   {
-    abort_unless(in_array($provider, $this->allowedProviders, true), 404);
+    abort_unless(in_array($provider, config('app.oauth_providers_supported'), true), 404);
 
     $social = Socialite::driver($provider)->user();
 

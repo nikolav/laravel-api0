@@ -1,5 +1,7 @@
 <?php
 
+use App\Helpers\AppUtils;
+
 return [
 
   /*
@@ -131,4 +133,6 @@ return [
   // app/ui client origin
   'frontend_origin' => env('FRONTEND_ORIGIN', 'http://localhost:3000'),
 
+  // supported oauth providers
+  'oauth_providers_supported' => AppUtils::csv_list(env('OAUTH_PROVIDERS_SUPPORTED', ''))->toArray(),
 ];
