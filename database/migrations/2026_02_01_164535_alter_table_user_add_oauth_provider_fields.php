@@ -34,7 +34,6 @@ return new class extends Migration
   public function down(): void
   {
     Schema::table('users', function (Blueprint $table) {
-      $table->dropUnique('users_provider_provider_id_unique');
       $table->dropIndex(['provider']);
       $table->dropIndex(['provider_id']);
 
