@@ -74,7 +74,7 @@ class PopupOAuthController extends Controller
     // sanctum bearer token
     $token = $user->createToken('access_token', ['*'])->plainTextToken;
 
-    // html page that sends token to opener and closes
+    // oauth-relay page that sends token to opener and closes
     $frontendOrigin = config('app.frontend_relay_origin');
 
     return response(

@@ -130,7 +130,7 @@ return [
   // app-config:user
   'internal-auth' => env('NGINX_INTERNAL_AUTH_TOKEN'),
 
-  // page that sends token to opener and closes
+  // oauth-relay page that sends token to opener and closes
   'frontend_relay_origin' => env('FRONTEND_RELAY_ORIGIN', 'http://localhost:3000'),
 
   // supported oauth providers
