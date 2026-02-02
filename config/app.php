@@ -1,5 +1,7 @@
 <?php
 
+use App\Helpers\AppUtils;
+
 return [
 
   /*
@@ -128,4 +130,9 @@ return [
   // app-config:user
   'internal-auth' => env('NGINX_INTERNAL_AUTH_TOKEN'),
 
+  // oauth-relay page that sends token to opener and closes
+  'frontend_relay_origin' => env('FRONTEND_RELAY_ORIGIN', 'http://localhost:3000'),
+
+  // supported oauth providers
+  'oauth_providers_supported' => AppUtils::csv_list(env('OAUTH_PROVIDERS_SUPPORTED', ''))->toArray(),
 ];
