@@ -28,7 +28,9 @@ class PopupOAuthController extends Controller
     //   $driver->scopes(['read:user', 'user:email']);
     // }
 
-    return $driver->redirect();
+    return $driver
+      ->with(['prompt' => 'consent select_account'])
+      ->redirect();
   }
 
   public function callback(Request $request, string $provider)
