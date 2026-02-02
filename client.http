@@ -58,12 +58,7 @@ Authorization: Bearer -
 GET http://localhost:8000/api/auth/who
 Internal-Auth: -
 Accept: application/json
-Content-Type: application/json
 Authorization: Bearer -
-
-{
-
-}
 
 ###
 
