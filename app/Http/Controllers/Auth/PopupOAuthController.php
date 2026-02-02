@@ -75,7 +75,7 @@ class PopupOAuthController extends Controller
     $token = $user->createToken('access_token', ['*'])->plainTextToken;
 
     // html page that sends token to opener and closes
-    $frontendOrigin = config('app.frontend_origin');
+    $frontendOrigin = config('app.frontend_relay_origin');
 
     return response(
       Blade::render('auth.oauth-response-popup', [
