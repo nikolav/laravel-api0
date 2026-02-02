@@ -10,6 +10,7 @@
         "laravel/framework": "^12.0",
         "laravel/reverb": "^1.7",
         "laravel/sanctum": "^4.0",
+        "laravel/socialite": "^5.24",
         "laravel/tinker": "^2.10.1",
         "predis/predis": "^3.3",
         "webonyx/graphql-php": "^15.30"
