@@ -29,6 +29,7 @@ services:
       CACHE_ARTISAN: "false"
       DOCKER_BUILD_CLEAR_CACHES: "true"
       RUN_QUEUE: "true"
+      QUEUE_WORK_QUEUES: "broadcasts,default"
 
     restart: unless-stopped
     stop_grace_period: 30s

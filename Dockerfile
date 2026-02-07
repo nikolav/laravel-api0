@@ -78,6 +78,10 @@ COPY docker/supervisord.conf /etc/supervisord.conf
 COPY docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+# queue worker launcher
+COPY docker/queue-start.sh /usr/local/bin/queue-start.sh
+RUN chmod +x /usr/local/bin/queue-start.sh
+
 # app setup
 WORKDIR /usr/app
 
