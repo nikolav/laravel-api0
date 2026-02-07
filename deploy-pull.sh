@@ -36,9 +36,8 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
 # docker ps -a --filter "name=$NAME"
 # docker logs --tail=122 "$NAME"
 
-# docker rm -f laravel-reverb
+# docker rm -f laravel-api
 # docker system prune --all --volumes --force
-# docker volume rm pgdata redisdata
 
 ## Container health & processes
 # docker exec -it api sh -lc 'supervisorctl status'
