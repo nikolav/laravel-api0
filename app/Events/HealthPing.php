@@ -4,7 +4,7 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+// use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 // # Broadcast::on('foo.happened')->send();
 // # Broadcast::on('orders.'.$id)->as('OrderPlaced')->with($order)->send();
 // #https://laravel.com/docs/12.x/broadcasting#anonymous-events
-class HealthPing implements ShouldBroadcastNow
+class HealthPing implements ShouldBroadcast
 {
   use Dispatchable, SerializesModels;
 
