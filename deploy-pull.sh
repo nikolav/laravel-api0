@@ -16,8 +16,11 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   -e LOG_LEVEL=info \
   -e CACHE_STORE=redis \
   -e SESSION_DRIVER=redis \
+  -e QUEUE_CONNECTION=redis \
   -e RUN_MIGRATIONS="false" \
-  -e CACHE_ARTISAN="true" \
+  -e CACHE_ARTISAN="false" \
+  -e DOCKER_BUILD_CLEAR_CACHES="true" \
+  -e RUN_QUEUE="true" \
   --pull=always \
   --restart unless-stopped \
   --init \

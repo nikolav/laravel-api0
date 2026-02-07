@@ -23,9 +23,12 @@ services:
 
       CACHE_STORE: redis
       SESSION_DRIVER: redis
+      QUEUE_CONNECTION: redis
 
       RUN_MIGRATIONS: "false"
-      CACHE_ARTISAN: "true"
+      CACHE_ARTISAN: "false"
+      DOCKER_BUILD_CLEAR_CACHES: "true"
+      RUN_QUEUE: "true"
 
     restart: unless-stopped
     stop_grace_period: 30s
