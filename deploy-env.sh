@@ -31,9 +31,9 @@ if [[ -z "$NGINX_INTERNAL_AUTH_TOKEN" ]]; then
   exit 1
 fi
 
-# ---------- Update packages ----------
+# ---------- Updates ----------
 apt-get update
-apt-get upgrade -y
+# apt-get upgrade -y
 
 # ---------- Base deps ----------
 apt-get install -y --no-install-recommends \
