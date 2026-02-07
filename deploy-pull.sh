@@ -2,7 +2,7 @@
 set -euo pipefail
 
 IMAGE="0imbn7v6rkw/laravel-api0"
-NAME="laravel-api"
+NAME="api"
 
 # remove old container if exists
 docker rm -f "$NAME" >/dev/null 2>&1 || true \
@@ -36,7 +36,7 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
 # docker ps -a --filter "name=$NAME"
 # docker logs --tail=122 "$NAME"
 
-# docker rm -f laravel-api
+# docker rm -f api
 # docker system prune --all --volumes --force
 
 ## Container health & processes
