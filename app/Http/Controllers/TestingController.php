@@ -25,7 +25,6 @@ class TestingController extends Controller
     //     ]
     //   ));
 
-    Log::info("info@TestingController.demo", ['foo' => 'bar']);
     return response()->json('testing:ok');
   }
 }

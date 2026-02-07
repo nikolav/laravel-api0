@@ -32,8 +32,9 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
 # docker ps -a --filter "name=$NAME"
 # docker logs --tail=122 "$NAME"
 
-# docker compose down -v --rmi all --remove-orphans
-# docker system prune --all --volumes --force
-
 # docker rm -f laravel-reverb
-# docker volume rm pgdata
+# docker system prune --all --volumes --force
+# docker volume rm pgdata redisdata
+
+# docker compose down -v --rmi all --remove-orphans
+
