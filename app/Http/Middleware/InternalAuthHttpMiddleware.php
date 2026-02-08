@@ -18,7 +18,11 @@ class InternalAuthHttpMiddleware
 
     if (
       // production only internal security middleware
-      app()->environment('production')
+      (
+        config('app.internal_auth_only_production')
+        ? app()->environment('production')
+        : true
+      )
       && $request->is('api/*')
       && (
         empty(config('app.internal_auth'))

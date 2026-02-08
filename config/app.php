@@ -129,6 +129,7 @@ return [
 
   // app-config:user
   'internal_auth' => env('NGINX_INTERNAL_AUTH_TOKEN'),
+  'internal_auth_only_production' => AppUtils::parse_boolean(env('NGINX_INTERNAL_AUTH_ONLY_PRODUCTION', false)),
 
   // oauth-relay page that sends token to opener and closes
   'frontend_relay_origin' => env('FRONTEND_RELAY_ORIGIN', 'http://localhost:3000'),
