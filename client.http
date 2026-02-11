@@ -97,3 +97,39 @@ Authorization: Bearer -
 
 ###
 
+POST http://localhost:8000/api/graphql
+Internal-Auth: -
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer -
+
+{
+  "query": "{ docCacheByKey(key: \"foo:1\") }"
+}
+
+###
+
+POST http://localhost:8000/api/graphql
+Internal-Auth: -
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer -
+
+{
+  "query": "mutation { docCacheByKeyPatch(key: \"foo:1\", patch: {x: {x1: 1, x2: 22}}) }"
+}
+
+###
+
+POST http://localhost:8000/api/graphql
+Internal-Auth: -
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer -
+
+{
+  "query": "mutation { docCacheByKeyPathsDrop(key: \"foo:1\", paths: [\"x\"]) }"
+}
+
+###
+

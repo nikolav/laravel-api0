@@ -31,6 +31,23 @@ class AppUtils
   {
     return new Result($result, $error);
   }
+
+  static function deepToObject(mixed $value): mixed
+  {
+    if (!is_array($value)) {
+      return $value;
+    }
+
+    if ($value === []) {
+      return (object)[];
+    }
+
+    foreach ($value as $k => $v) {
+      $value[$k] = self::deepToObject($v);
+    }
+
+    return $value;
+  }
 }
 
 final class Result implements \JsonSerializable
