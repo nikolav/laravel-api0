@@ -72,7 +72,11 @@ class CollectionBatchUpsertResolver
           // ==inserts
           if ($withoutId->isNotEmpty()) {
             // tag:id to insert docs under
-            $tid = Tags::where(['tag' => $tag])->firstOrFail()->id;
+            $tid = Tags::where(['tag' => $tag])->first()?->id;
+            if (empty($tid)) {
+              // no tag with that name, create
+              $tid = Tags::create(['tag' => $tag])->id;
+            }
 
             $inserts = $withoutId->map(function ($p) use ($now) {
               $p = (array) $p;
