@@ -37,7 +37,7 @@ class CollectionBatchUpsertResolver
           $now = now();
           $ids = $withId->keys()->all();
 
-          // ==upserts
+          // ==updates
           $docsExisting = Docs::query()
             ->whereHas(
               'tags',
@@ -71,6 +71,9 @@ class CollectionBatchUpsertResolver
 
           // ==inserts
           if ($withoutId->isNotEmpty()) {
+            // tag:id to insert docs under
+            $tid = Tags::where(['tag' => $tag])->firstOrFail()->id;
+
             $inserts = $withoutId->map(function ($p) use ($now) {
               $p = (array) $p;
               return [
@@ -89,13 +92,13 @@ class CollectionBatchUpsertResolver
               ->get(['id']);
 
             // update pivot
-            $tid = Tags::where(['tag' => $tag])->firstOrFail()->id;
             $rowsPivot = $docsAdded->map(
               fn($doc) => [
                 'main_id' => $doc->id,
                 'tag_id'  => $tid,
               ]
             )->all();
+
             // $tbl_prefix = config('database.connections')[DB::getDefaultConnection()]['prefix'] ?? '';
             DB::table('ln_main_tags')->insert($rowsPivot);
           }
