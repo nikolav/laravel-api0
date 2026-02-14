@@ -71,7 +71,7 @@ class CollectionBatchUpsertResolver
 
           // ==inserts
           if ($withoutId->isNotEmpty()) {
-            $rows = $withoutId->map(function ($p) use ($now) {
+            $inserts = $withoutId->map(function ($p) use ($now) {
               $p = (array) $p;
               return [
                 'key'  => !empty($p['key']) ? (string) $p['key'] : (string) Str::uuid(),
@@ -82,11 +82,11 @@ class CollectionBatchUpsertResolver
             })->all();
 
             // add
-            Docs::insert($rows);
-            $keys = collect($rows)->pluck('key')->all();
+            Docs::insert($inserts);
+            $keys = collect($inserts)->pluck('key')->all();
             $docsAdded = Docs::query()
               ->whereIn('key', $keys)
-              ->get(['id', 'key']);
+              ->get(['id']);
 
             // update pivot
             $rowsPivot = $docsAdded->map(
