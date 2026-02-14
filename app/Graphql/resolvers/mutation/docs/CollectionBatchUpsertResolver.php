@@ -24,7 +24,7 @@ class CollectionBatchUpsertResolver
       $tag     = $input['tag'];
       $patches = collect($input['patches'] ?? []);
 
-      $withId    = $patches
+      $withId = $patches
         ->filter(fn($p) => !empty($p['id']))
         ->keyBy('id');
 
