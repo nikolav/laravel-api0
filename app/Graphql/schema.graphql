@@ -5,14 +5,17 @@ scalar JsonData
 type Query {
   status: JsonData!
 
-  #doc, cache-by-key
+  # doc, cache-by-key
   docCacheByKey(key: String!): JsonData!
+
+  # collections, get by tag
+  collectionByTag(tag: String!): JsonData!
 }
 
 type Mutation {
   demo(data: JsonData): JsonData!
 
-  #doc, cache-by-key
+  # doc, cache-by-key
   docCacheByKeyPatch(key: String!, patch: JsonData!): JsonData!
   docCacheByKeyPathsDrop(key: String!, paths: [String!]!): JsonData!
 }

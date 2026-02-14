@@ -133,3 +133,15 @@ Authorization: Bearer -
 
 ###
 
+POST http://localhost:8000/api/graphql
+Internal-Auth: -
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer -
+
+{
+  "query": "{ collectionByTag(tag: \"foos\") }"
+}
+
+###
+
