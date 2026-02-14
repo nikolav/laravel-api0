@@ -42,38 +42,39 @@ class CollectionBatchUpsertResolver
       DB::transaction(
         function () use ($tag, $withId, $withoutId) {
           $now = now();
-          $ids = $withId->keys()->all();
+          if ($withId->isNotEmpty()) {
+            $ids = $withId->keys()->all();
+            // ==updates
+            $docsExisting = Docs::query()
+              ->whereHas(
+                'tags',
+                fn($q) => $q->where('tags.tag', $tag)
+              )
+              ->whereIn('id', $ids)
+              ->get()
+              ->keyBy('id');
 
-          // ==updates
-          $docsExisting = Docs::query()
-            ->whereHas(
-              'tags',
-              fn($q) => $q->where('tags.tag', $tag)
-            )
-            ->whereIn('id', $ids)
-            ->get()
-            ->keyBy('id');
+            if ($docsExisting->isNotEmpty()) {
+              $updates =
+                $docsExisting->map(
+                  function ($doc, $id) use ($withId, $now) {
+                    $patch = (array) $withId->get($id);
+                    return [
+                      'id'   => $id,
+                      'key'  => (string) $doc->key,
+                      'data' => AppUtils::encodeJson(
+                        array_replace_recursive(
+                          (array) $doc->data,
+                          (array) Arr::except($patch, ['id', 'key'])
+                        )
+                      ),
+                      'updated_at' => $now,
+                    ];
+                  }
+                )->values()->all();
 
-          $updates =
-            $docsExisting->map(
-              function ($doc, $id) use ($withId, $now) {
-                $patch = (array) $withId->get($id);
-                return [
-                  'id'   => $id,
-                  'key'  => (string) $doc->key,
-                  'data' => AppUtils::encodeJson(
-                    array_replace_recursive(
-                      (array) $doc->data,
-                      (array) Arr::except($patch, ['id', 'key'])
-                    )
-                  ),
-                  'updated_at' => $now,
-                ];
-              }
-            )->values()->all();
-
-          if (!empty($updates)) {
-            Docs::upsert($updates, ['id'], ['key', 'data', 'updated_at']);
+              Docs::upsert($updates, ['id'], ['key', 'data', 'updated_at']);
+            }
           }
 
           // ==inserts
