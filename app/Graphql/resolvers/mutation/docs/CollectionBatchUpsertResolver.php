@@ -3,6 +3,7 @@
 namespace App\Graphql\resolvers\mutation\docs;
 
 use Throwable;
+use Exception;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -23,6 +24,12 @@ class CollectionBatchUpsertResolver
     try {
       $tag     = $input['tag'];
       $patches = collect($input['patches'] ?? []);
+
+      if ($patches->isEmpty())
+        return AppUtils::res(null, null);
+
+      if (empty($tag))
+        throw new Exception("No collection name.");
 
       $withId = $patches
         ->filter(fn($p) => !empty($p['id']))
