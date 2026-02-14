@@ -21,5 +21,5 @@ type Mutation {
 
   # collections, batch upsert patches
   collectionBatchUpsert(tag: String!, patches: [JsonData!]!): JsonData!
-  # collectionDropIds(tag: String!, ids: [ID!]!): JsonData!
+  collectionDropIds(tag: String!, ids: [ID!]!): JsonData!
 }
