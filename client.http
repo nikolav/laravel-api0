@@ -152,7 +152,7 @@ Content-Type: application/json
 Authorization: Bearer -
 
 {
-  "query": "mutation { collectionBatchUpsert(tag: \"foos\", patches: [{id: 10, x: 333}, {x: 1}]) }"
+  "query": "mutation { collectionBatchUpsert(tag: \"foos\", patches: [{x: \"foo\"}]) }"
 }
 
 ###
