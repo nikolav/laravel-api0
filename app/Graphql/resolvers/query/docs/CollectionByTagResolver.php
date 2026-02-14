@@ -2,7 +2,7 @@
 
 namespace App\Graphql\resolvers\query\docs;
 
-use Exception;
+use Throwable;
 
 use App\Helpers\AppUtils;
 use App\Models\Docs;
@@ -21,7 +21,7 @@ class CollectionByTagResolver
         fn($q) => $q->where('tags.tag', $args['tag'])
       )
         ->get();
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
       $error =  $e;
     }
 

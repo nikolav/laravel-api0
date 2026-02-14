@@ -18,4 +18,8 @@ type Mutation {
   # doc, cache-by-key
   docCacheByKeyPatch(key: String!, patch: JsonData!): JsonData!
   docCacheByKeyPathsDrop(key: String!, paths: [String!]!): JsonData!
+
+  # collections, batch upsert patches
+  collectionBatchUpsert(tag: String!, patches: [JsonData!]!): JsonData!
+  # collectionDropIds(tag: String!, ids: [ID!]!): JsonData!
 }

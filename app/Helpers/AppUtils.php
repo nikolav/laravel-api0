@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Collection;
+use stdClass;
 
 class AppUtils
 {
@@ -47,6 +48,16 @@ class AppUtils
     }
 
     return $value;
+  }
+
+  static function encodeJson($json)
+  {
+    return is_string($json)
+      ? $json
+      : json_encode(
+          $json ?? new stdClass(),
+          JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+      );
   }
 }
 
