@@ -89,10 +89,11 @@ class CollectionBatchUpsertResolver
               ->get(['id']);
 
             // update pivot
+            $tid = Tags::where(['tag' => $tag])->firstOrFail()->id;
             $rowsPivot = $docsAdded->map(
               fn($doc) => [
                 'main_id' => $doc->id,
-                'tag_id'  => Tags::where(['tag' => $tag])->firstOrFail()->id,
+                'tag_id'  => $tid,
               ]
             )->all();
             // $tbl_prefix = config('database.connections')[DB::getDefaultConnection()]['prefix'] ?? '';
