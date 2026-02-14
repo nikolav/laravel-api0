@@ -57,7 +57,7 @@ class CollectionBatchUpsertResolver
                   'data' => AppUtils::encodeJson(
                     array_replace_recursive(
                       (array) $doc->data,
-                      Arr::except($patch, ['id', 'key'])
+                      (array) Arr::except($patch, ['id', 'key'])
                     )
                   ),
                   'updated_at' => $now,
