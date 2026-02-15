@@ -180,7 +180,7 @@ temp.txt
 ai.docs-prompt.txt
 _ide_helper.php
 temp.*
-firebase-service-account.json
+storage/app/keys/*.json
 
 !.idea/codeStyles
 !.idea/runConfigurations
