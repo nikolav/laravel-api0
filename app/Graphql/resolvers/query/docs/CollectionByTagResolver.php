@@ -10,7 +10,7 @@ use App\Models\Docs;
 class CollectionByTagResolver
 {
   // collectionByTag(tag: String!): JsonData!
-  function resolve($root, array $args = [])
+  function resolve($root, array $input = [])
   {
     $docs  = null;
     $error = null;
@@ -18,9 +18,14 @@ class CollectionByTagResolver
     try {
       $docs = Docs::whereHas(
         'tags',
-        fn($q) => $q->where('tags.tag', $args['tag'])
+        fn($q) => $q->where('tags.tag', $input['tag'])
       )
-        ->get();
+        ->with('tags:tags.id,tag')
+        ->get()
+        ->map(fn($doc) => [
+          ...$doc->toArray(),
+          'tags' => $doc->tags->pluck('tag')->all(),
+        ]);
     } catch (Throwable $e) {
       $error =  $e;
     }
