@@ -10,6 +10,7 @@ type Query {
 
   # collections, get by tag
   collectionByTag(tag: String!): JsonData!
+  collectionByTagCount(tag: String!): JsonData!
 }
 
 type Mutation {
