@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
+use App\Helpers\AppUtils;
 
 // // use App\Mail\DemoMailMessage;
 // use App\Mail\MessagePlainEmail;
@@ -25,6 +25,12 @@ class TestingController extends Controller
     //     ]
     //   ));
 
-    return response()->json('testing:ok');
+
+    // $auth_firebase = app('firebase.auth');
+    // $user = $auth_firebase->getUser('');
+
+    return AppUtils::res([
+      'status' => 'ok',
+    ], null);
   }
 }
