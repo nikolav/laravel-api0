@@ -26,7 +26,7 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   --restart unless-stopped \
   --init \
   --stop-timeout 30 \
-  --health-cmd 'wget -qO- http://127.0.0.1:9000/api/health >/dev/null || exit 1' \
+  --health-cmd='sh -c "curl -fsS -H \"Internal-Auth: $NGINX_INTERNAL_AUTH_TOKEN\" http://127.0.0.1:9000/api/health || exit 1"' \
   --health-interval 10s \
   --health-timeout 3s \
   --health-retries 10 \
