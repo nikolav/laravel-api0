@@ -36,12 +36,12 @@ if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
     su -s /bin/sh -c "php artisan migrate --force" www
 fi
 
-if [ "${CACHE_ARTISAN:-true}" = "true" ]; then
+if [ "${CACHE_ARTISAN:-false}" = "true" ]; then
     su -s /bin/sh -c "php artisan config:cache || true" www
     su -s /bin/sh -c "php artisan route:cache || true" www
 fi
 
-if [ "${DOCKER_BUILD_CLEAR_CACHES:-true}" = "true" ]; then
+if [ "${CLEAR_CACHES_ON_BOOT:-false}" = "true" ]; then
   su -s /bin/sh -c "php artisan config:clear || true" www
   su -s /bin/sh -c "php artisan cache:clear || true" www
   su -s /bin/sh -c "php artisan route:clear || true" www
