@@ -109,13 +109,16 @@ RUN mkdir -p \
     /usr/app/storage \
     /usr/app/bootstrap/cache \
     /usr/app/database \
+    /usr/app/resources/views \
   && chown -R www:www \
     /usr/app/storage \
     /usr/app/bootstrap/cache \
-    /usr/app/database
+    /usr/app/database \
+    /usr/app/resources/views
 
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD curl -fsS http://127.0.0.1:9000/healthz || exit 1
+  CMD sh -c 'curl -fsS -H "Internal-Auth: $NGINX_INTERNAL_AUTH_TOKEN" \
+    http://127.0.0.1:9000/healthz || exit 1'
 
 # expose http port (nginx)
 EXPOSE 9000
