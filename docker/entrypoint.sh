@@ -49,7 +49,7 @@ if [ "${CLEAR_CACHES_ON_BOOT:-false}" = "true" ]; then
   su -s /bin/sh -c "php artisan config:clear || true" www
   su -s /bin/sh -c "php artisan cache:clear || true" www
   su -s /bin/sh -c "php artisan route:clear || true" www
-  su -s /bin/sh -c "php artisan optimize:clear || true" www
+  # su -s /bin/sh -c "php artisan optimize:clear || true" www
 fi
 
 exec "$@"
