@@ -3,20 +3,24 @@ set -euo pipefail
 
 cd /usr/app
 
-# Ensure sqlite db file exists
+# db file exists
 mkdir -p /usr/app/database
 touch /usr/app/database/database.sqlite
 
-# Storage dirs
+# storage dirs
 mkdir -p /usr/app/storage /usr/app/bootstrap/cache
 chown -R www:www /usr/app/storage /usr/app/bootstrap/cache /usr/app/database
+
+# views dir, guarantees it exists even if a volume mount wipes it
+mkdir -p /usr/app/resources/views
+chown -R www:www /usr/app/resources/views || true
 
 # Warn if APP_KEY missing
 if [ -z "${APP_KEY:-}" ]; then
     echo "WARNING: APP_KEY is not set. Set it in .env or compose env."
 fi
 
-# Optional: wait for redis (only if using redis host)
+# optional: wait for redis (only if using redis host)
 if [ -n "${REDIS_HOST:-}" ]; then
     echo "Waiting for Redis at ${REDIS_HOST}:${REDIS_PORT:-6379}..."
 
