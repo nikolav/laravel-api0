@@ -31,7 +31,11 @@ fi
 
 sleep 1
 
-# Cache config/routes (optional, but useful in production)
+if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
+    echo "Running migrations..."
+    su -s /bin/sh -c "php artisan migrate --force" www
+fi
+
 if [ "${CACHE_ARTISAN:-true}" = "true" ]; then
     su -s /bin/sh -c "php artisan config:cache || true" www
     su -s /bin/sh -c "php artisan route:cache || true" www
@@ -42,12 +46,6 @@ if [ "${DOCKER_BUILD_CLEAR_CACHES:-true}" = "true" ]; then
   su -s /bin/sh -c "php artisan cache:clear || true" www
   su -s /bin/sh -c "php artisan route:clear || true" www
   su -s /bin/sh -c "php artisan optimize:clear || true" www
-fi
-
-# Run migrations only when explicitly enabled
-if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
-    echo "Running migrations..."
-    su -s /bin/sh -c "php artisan migrate --force" www
 fi
 
 exec "$@"
