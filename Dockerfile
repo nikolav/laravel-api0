@@ -115,7 +115,7 @@ RUN mkdir -p \
     /usr/app/database
 
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD curl -fsS http://127.0.0.1:9000/healthz || exit 1
+  CMD curl -fsS http://127.0.0.1:9000/api/health || exit 1
 
 # expose http port (nginx)
 EXPOSE 9000
