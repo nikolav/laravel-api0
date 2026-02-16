@@ -31,20 +31,20 @@ if [[ -z "$NGINX_INTERNAL_AUTH_TOKEN" ]]; then
   exit 1
 fi
 
-# ---------- Updates ----------
+# ---------- updates ----------
 apt-get update
 # apt-get upgrade -y
 
-# ---------- Base deps ----------
+# ---------- base deps ----------
 apt-get install -y --no-install-recommends \
   ca-certificates curl gnupg lsb-release \
   git ufw
 
-# ---------- Git config (root only) ----------
-git config --global user.name "nikolav"
-git config --global user.email "admin@nikolav.rs"
+# # ---------- git config (root only) ----------
+# git config --global user.name "nikolav"
+# git config --global user.email "admin@nikolav.rs"
 
-# ---------- Install Docker from official repo ----------
+# ---------- install docker from official repo ----------
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
   | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -62,7 +62,7 @@ apt-get install -y --no-install-recommends \
 
 systemctl enable --now docker
 
-# Add a real user (not root) to docker group
+# add a real user (not root) to docker group
 TARGET_USER="${SUDO_USER:-}"
 if [[ -n "$TARGET_USER" ]]; then
   usermod -aG docker "$TARGET_USER"
@@ -71,7 +71,7 @@ else
   echo "ℹ️ Not adding to docker group (no SUDO_USER detected)."
 fi
 
-# ---------- Install Nginx ----------
+# ---------- install nginx ----------
 apt-get install -y --no-install-recommends nginx
 systemctl enable --now nginx
 
@@ -85,12 +85,12 @@ EOF
 # chown root:root /etc/nginx/conf.d/00-internal-auth-token.conf
 # chmod 600 /etc/nginx/conf.d/00-internal-auth-token.conf
 
-# ---------- Firewall ----------
+# ---------- firewall ----------
 ufw allow OpenSSH
 ufw allow 'Nginx Full'
 ufw --force enable
 
-# ---------- Debug ----------
+# ---------- debug ----------
 echo -e "\n=== Setup complete ==="
 echo "Git: $(git --version)"
 echo "Docker: $(docker --version)"
