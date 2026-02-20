@@ -16,9 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
     health: '/up',
   )
   ->withMiddleware(function (Middleware $middleware): void {
-    // add custom global middleware
+    // +custom global middleware
     //   validate Internal-Auth header @/api/*
-    $middleware->append(InternalAuthHttpMiddleware::class);
+    $middleware->prepend(InternalAuthHttpMiddleware::class);
   })
   ->withExceptions(function (Exceptions $exceptions): void {
     // default error for api*
