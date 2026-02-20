@@ -118,7 +118,7 @@ RUN mkdir -p \
 
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
   CMD sh -c 'curl -fsS -H "Internal-Auth: $NGINX_INTERNAL_AUTH_TOKEN" \
-    http://127.0.0.1:9000/healthz || exit 1'
+    http://127.0.0.1:9000/api/health || exit 1'
 
 # expose http port (nginx)
 EXPOSE 9000
