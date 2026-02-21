@@ -175,7 +175,7 @@ yarn-debug.log*
 yarn-error.log
 yarn-error.log*
 yarn.lock
-scp-config.sh
+scp-config*.sh
 temp.txt
 ai.docs-prompt.txt
 _ide_helper.php
