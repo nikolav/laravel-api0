@@ -7,8 +7,8 @@ RUN apk add --no-cache \
   && apk add --no-cache --virtual .build-deps \
     $PHPIZE_DEPS icu-dev oniguruma-dev libzip-dev sqlite-dev postgresql-dev pkgconf \
   && docker-php-ext-install intl mbstring zip opcache pdo_sqlite pdo_pgsql \
-  && pecl install redis \
-  && docker-php-ext-enable redis \
+  && pecl install redis mongodb \
+  && docker-php-ext-enable redis mongodb \
   && apk del .build-deps
 
 # create user & required directories
