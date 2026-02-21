@@ -7,8 +7,8 @@ RUN apk add --no-cache \
   && apk add --no-cache --virtual .build-deps \
     $PHPIZE_DEPS icu-dev oniguruma-dev libzip-dev sqlite-dev postgresql-dev pkgconf \
   && docker-php-ext-install intl mbstring zip opcache pdo_sqlite pdo_pgsql \
-  && pecl install redis \
-  && docker-php-ext-enable redis \
+  && pecl install redis mongodb \
+  && docker-php-ext-enable redis mongodb \
   && apk del .build-deps
 
 # create user & required directories
@@ -118,7 +118,7 @@ RUN mkdir -p \
 
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
   CMD sh -c 'curl -fsS -H "Internal-Auth: $NGINX_INTERNAL_AUTH_TOKEN" \
-    http://127.0.0.1:9000/healthz || exit 1'
+    http://127.0.0.1:9000/api/health || exit 1'
 
 # expose http port (nginx)
 EXPOSE 9000

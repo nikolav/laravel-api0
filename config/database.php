@@ -127,6 +127,12 @@ return [
       'search_path' => 'public',
       'sslmode' => env('DB_SSLMODE', 'prefer'),
     ],
+
+    'mongodb' => [
+      'driver'   => 'mongodb',
+      'dsn'      => env('MONGODB_URI_ATLAS'),
+      'database' => env('MONGODB_DATABASE_ATLAS'),
+    ]
   ],
 
   /*
