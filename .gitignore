@@ -181,6 +181,8 @@ ai.docs-prompt.txt
 _ide_helper.php
 temp.*
 storage/app/keys/*.json
+firebase-service-account.json
+scp-config-id*.sh
 
 !.idea/codeStyles
 !.idea/runConfigurations
