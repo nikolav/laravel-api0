@@ -145,5 +145,5 @@ Route::get('/health', fn() => response()->json(['status' => 'ok'], 200))
 */
 Broadcast::routes([
   'middleware' => ['auth:sanctum'],
-  // 'prefix' => 'broadcasting', // default, intentionally left explicit
+  // 'prefix' => 'broadcasting',
 ]);
