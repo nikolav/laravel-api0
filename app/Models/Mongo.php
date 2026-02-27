@@ -34,8 +34,6 @@ class Mongo extends Model
 
   public static function useCollection(string $collection): static
   {
-    $instance = new static();
-    $instance->setTable($collection);
-    return $instance;
+    return (new static())->setTable($collection);
   }
 }
