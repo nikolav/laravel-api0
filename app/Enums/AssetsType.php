@@ -19,6 +19,8 @@ enum AssetsType: string
   case Security_Policy      = 'fddd790d-f056-56c9-9437-2931bf8c7c31';
   case Security_Role        = 'e99db6ff-7f43-5860-ab0d-3a1485ed25c6';
   case Security_Permission  = '84ccba4e-a9df-55ec-b5e0-c97099129718';
+    // category
+  case Category             = 'e95cc2bd-b969-5d51-a1e7-d942e0480302';
 
   function label(): string
   {
@@ -34,6 +36,7 @@ enum AssetsType: string
       self::Security_Policy     => 'Security:Policy',
       self::Security_Role       => 'Security:Role',
       self::Security_Permission => 'Security:Permission',
+      self::Category            => 'Category',
     };
   }
 }

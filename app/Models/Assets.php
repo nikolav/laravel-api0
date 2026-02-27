@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 // use Illuminate\Support\Str;
-use App\Enums\AssetsType;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+
+use App\Enums\AssetsType;
 
 class Assets extends Model
 {
