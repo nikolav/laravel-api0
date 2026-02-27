@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Mongo extends Model
 {
@@ -22,10 +23,19 @@ class Mongo extends Model
 
   public $timestamps = true;
 
-  static function useCollection(string $collection): static
+  protected static function booted()
+  {
+    static::creating(function ($model) {
+      if (empty($model->key)) {
+        $model->key = (string) Str::uuid();
+      }
+    });
+  }
+
+  public static function useCollection(string $collection): static
   {
     $instance = new static();
-    $instance->table = $collection;
+    $instance->setTable($collection);
     return $instance;
   }
 }
