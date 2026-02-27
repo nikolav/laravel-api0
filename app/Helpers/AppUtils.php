@@ -55,9 +55,17 @@ class AppUtils
     return is_string($json)
       ? $json
       : json_encode(
-          $json ?? new stdClass(),
-          JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        $json ?? new stdClass(),
+        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
       );
+  }
+
+  static function merge_deep($base, $override)
+  {
+    return array_replace_recursive(
+      json_decode(json_encode($base), true),
+      json_decode(json_encode($override), true),
+    );
   }
 }
 
