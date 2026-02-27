@@ -14,6 +14,7 @@ enum AssetsType: string
   case Physical_Document    = '74063c22-a8ab-55f5-9b17-f8e3079fea73';
     // digital
   case Digital_Post         = '85f212e1-6cd3-55e0-9d09-bfbcf751fe88';
+  case Digital_Comment      = 'cbce4939-7d95-5f9c-a90d-9f1b2954ddfe';
     // authorization
   case Security_Policy      = 'fddd790d-f056-56c9-9437-2931bf8c7c31';
   case Security_Role        = 'e99db6ff-7f43-5860-ab0d-3a1485ed25c6';
@@ -29,6 +30,7 @@ enum AssetsType: string
       self::Physical_Store      => 'Physical:Store',
       self::Physical_Document   => 'Physical:Document',
       self::Digital_Post        => 'Digital:Post',
+      self::Digital_Comment     => 'Digital:Comment',
       self::Security_Policy     => 'Security:Policy',
       self::Security_Role       => 'Security:Role',
       self::Security_Permission => 'Security:Permission',
