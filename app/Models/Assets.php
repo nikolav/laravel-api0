@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-// use Illuminate\Support\Str;
-use App\Enums\AssetsType;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+
+use App\Enums\AssetsType;
 
 class Assets extends Model
 {
@@ -87,5 +88,14 @@ class Assets extends Model
       'user_id'
     )
       ->withTimestamps();
+  }
+
+  protected static function booted()
+  {
+    static::creating(function ($model) {
+      if (empty($model->key)) {
+        $model->key = (string) Str::uuid();
+      }
+    });
   }
 }
