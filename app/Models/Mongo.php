@@ -5,6 +5,8 @@ namespace App\Models;
 use MongoDB\Laravel\Eloquent\Model;
 use Illuminate\Support\Str;
 
+use App\Casts\AsDotAccessData;
+
 class Mongo extends Model
 {
   protected $connection = 'mongodb';
@@ -16,7 +18,7 @@ class Mongo extends Model
   ];
 
   protected $casts = [
-    'data'       => 'array',
+    'data'       => AsDotAccessData::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
   ];
