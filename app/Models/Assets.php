@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 use App\Enums\AssetsType;
+use App\Casts\AsDotAccessData;
 
 class Assets extends Model
 {
@@ -33,7 +34,7 @@ class Assets extends Model
 
   protected $casts = [
     'type'       => AssetsType::class,
-    'data'       => 'array',
+    'data'       => AsDotAccessData::class,
     'deleted_at' => 'datetime',
   ];
 
