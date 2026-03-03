@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+use App\Casts\AsDotAccessData;
+
 class Docs extends Model
 {
   /**
@@ -30,7 +32,7 @@ class Docs extends Model
    * @var array<string, string>
    */
   protected $casts = [
-    'data'       => 'array',
+    'data'       => AsDotAccessData::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
   ];

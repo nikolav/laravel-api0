@@ -2,14 +2,13 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Collection;
 use stdClass;
+
+use Illuminate\Support\Collection;
 
 class AppUtils
 {
   static private $DEFAULTS_TRUTHY = [true, 1, '1', 'TRUE', 'YES', 'ON', 'Y'];
-
-  function __construct() {}
 
   static function csv_list(string $value): Collection
   {
@@ -55,9 +54,22 @@ class AppUtils
     return is_string($json)
       ? $json
       : json_encode(
-          $json ?? new stdClass(),
-          JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        $json ?? new stdClass(),
+        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
       );
+  }
+
+  static function merge_deep($base, $override)
+  {
+    return array_replace_recursive(
+      json_decode(json_encode($base), true),
+      json_decode(json_encode($override), true),
+    );
+  }
+
+  static function nanoid(int $length = 21, ?string $alphabet = null): string
+  {
+    return app(\App\Support\Nanoid::class)($length, $alphabet);
   }
 }
 

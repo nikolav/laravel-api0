@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "aws/aws-sdk-php-laravel": "^3.10",
+        "hidehalo/nanoid-php": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/reverb": "^1.7",
         "laravel/sanctum": "^4.0",
