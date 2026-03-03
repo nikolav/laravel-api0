@@ -2,14 +2,16 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Collection;
 use stdClass;
+
+use Illuminate\Support\Collection;
+
+use App\Support\Nanoid;
+
 
 class AppUtils
 {
   static private $DEFAULTS_TRUTHY = [true, 1, '1', 'TRUE', 'YES', 'ON', 'Y'];
-
-  function __construct() {}
 
   static function csv_list(string $value): Collection
   {
@@ -66,6 +68,11 @@ class AppUtils
       json_decode(json_encode($base), true),
       json_decode(json_encode($override), true),
     );
+  }
+
+  static function nanoid(int $length = 21, ?string $alphabet = null): string
+  {
+    return app()->make(Nanoid::class)($length, $alphabet);
   }
 }
 
