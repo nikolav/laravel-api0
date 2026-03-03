@@ -12,6 +12,7 @@ enum AssetsType: string
   case Physical_Product     = '61a710e5-7fd9-58f2-aaa7-11d16a276e76';
   case Physical_Store       = '34f10445-6150-59e4-93e2-a716ac782d78';
   case Physical_Document    = '74063c22-a8ab-55f5-9b17-f8e3079fea73';
+  case Physical_Service     = '36594c9c-404a-5427-a559-b5a67b68238a';
     // digital
   case Digital_Post         = '85f212e1-6cd3-55e0-9d09-bfbcf751fe88';
   case Digital_Comment      = 'cbce4939-7d95-5f9c-a90d-9f1b2954ddfe';
@@ -31,6 +32,7 @@ enum AssetsType: string
       self::Physical_Product    => 'Physical:Product',
       self::Physical_Store      => 'Physical:Store',
       self::Physical_Document   => 'Physical:Document',
+      self::Physical_Service    => 'Physical:Service',
       self::Digital_Post        => 'Digital:Post',
       self::Digital_Comment     => 'Digital:Comment',
       self::Security_Policy     => 'Security:Policy',
