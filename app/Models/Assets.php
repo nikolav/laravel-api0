@@ -95,7 +95,7 @@ class Assets extends Model
   {
     return $this->belongsToMany(
       self::class,
-      'ln_asset_asset',
+      'ln_assets_assets',
       'asset_id',
       'related_asset_id'
     );
@@ -105,7 +105,7 @@ class Assets extends Model
   {
     return $this->belongsToMany(
       self::class,
-      'ln_asset_asset',
+      'ln_assets_assets',
       'related_asset_id',
       'asset_id'
     );
