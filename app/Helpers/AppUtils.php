@@ -6,9 +6,6 @@ use stdClass;
 
 use Illuminate\Support\Collection;
 
-use App\Support\Nanoid;
-
-
 class AppUtils
 {
   static private $DEFAULTS_TRUTHY = [true, 1, '1', 'TRUE', 'YES', 'ON', 'Y'];
@@ -72,7 +69,7 @@ class AppUtils
 
   static function nanoid(int $length = 21, ?string $alphabet = null): string
   {
-    return app()->make(Nanoid::class)($length, $alphabet);
+    return app(\App\Support\Nanoid::class)($length, $alphabet);
   }
 }
 
