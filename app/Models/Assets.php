@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
+// use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 use App\Enums\AssetsType;
 use App\Casts\AsDotAccessData;
+use App\Helpers\AppUtils;
 
 class Assets extends Model
 {
@@ -113,9 +114,9 @@ class Assets extends Model
 
   protected static function booted()
   {
-    static::creating(function ($model) {
-      if (empty($model->key)) {
-        $model->key = (string) Str::uuid();
+    static::creating(function ($a) {
+      if (empty($a->key)) {
+        $a->key = AppUtils::nanoid();
       }
     });
   }
