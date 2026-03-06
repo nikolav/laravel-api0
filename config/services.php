@@ -46,6 +46,6 @@ return [
   'chromium' => [
     'executable_path' => 'production' == env('APP_ENV')
       ? env('CHROME_BIN', '/usr/bin/chromium-browser')
-      : '/c/Program Files/Google/Chrome/Application/chrome',
+      : 'C:\Program Files\Google\Chrome\Application\chrome.exe',
   ]
 ];

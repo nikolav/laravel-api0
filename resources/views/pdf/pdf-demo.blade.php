@@ -14,7 +14,7 @@
 <body class="font-sans bg-lime-200">
     <div class="h-full flex justify-center items-center">
         <section class="text-slate-800 text-center">
-            <h1 class="text-2xl">pdf:demo</h1>
+            <h1 class="text-4xl">pdf:demo</h1>
             <p>
                 Hello World!
             </p>
