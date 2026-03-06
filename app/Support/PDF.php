@@ -23,7 +23,7 @@ class PDF
     $error = null;
 
     try {
-      $html = view('pdf.pdf-demo', ['css' => AppUtils::vite_resource()])->render();
+      $html = view('pdf.pdf-demo', ['data' => []])->render();
       Browsershot::html($html)
         ->setChromePath(config('services.chromium.executable_path'))
         ->noSandbox()
