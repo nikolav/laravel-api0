@@ -27,7 +27,9 @@ class PDF
       Browsershot::html($html)
         ->setChromePath(config('services.chromium.executable_path'))
         ->noSandbox()
+        ->addChromiumArguments(config('services.chromium.pdf_render_arguments', []))
         ->format('A4')
+        // ->paperSize(550, 400, 'px')
         ->showBackground()
         ->scale(1.0)
         ->savePdf(base_path($pdf_base_path));

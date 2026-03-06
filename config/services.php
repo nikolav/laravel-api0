@@ -44,8 +44,19 @@ return [
   ],
 
   'chromium' => [
+
     'executable_path' => 'production' == env('APP_ENV')
       ? env('CHROME_BIN', '/usr/bin/chromium-browser')
       : 'C:\Program Files\Google\Chrome\Application\chrome.exe',
+
+    'pdf_render_arguments' => [
+      '--headless=new',
+      '--disable-gpu',
+      '--disable-dev-shm-usage',
+      '--disable-extensions',
+      '--disable-infobars',
+      '--hide-scrollbars',
+      '--disable-popup-blocking',
+    ],
   ]
 ];

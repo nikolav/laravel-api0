@@ -26,7 +26,7 @@ ENV \
   PUPPETEER_SKIP_DOWNLOAD=true \
   CHROME_BIN=/usr/bin/chromium-browser \
   CHROME_PATH=/usr/lib/chromium/ \
-  CHROME_OPTS="--headless --disable-gpu --no-sandbox --disable-dev-shm-usage" \
+  CHROME_OPTS="--headless --disable-gpu --no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage" \
   BROWSERSHOT_DISABLE_SANDBOX=true \
   HEADLESS=true \
   NODE_PATH=/usr/lib/node_modules
