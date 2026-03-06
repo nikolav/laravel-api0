@@ -182,6 +182,7 @@ _ide_helper.php
 temp.*
 firebase-service-account.json
 scp-config-id*.sh
+test.pdf
 
 !.idea/codeStyles
 !.idea/runConfigurations

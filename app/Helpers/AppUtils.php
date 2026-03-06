@@ -71,6 +71,18 @@ class AppUtils
   {
     return app(\App\Support\Nanoid::class)($length, $alphabet);
   }
+
+  static function vite_inlined(string $entry = 'resources/css/app.css'): string
+  {
+    // get build mappings from manifest
+    $manifest = json_decode(
+      file_get_contents(public_path('build/manifest.json')),
+      true
+    );
+
+    // entry inlined content
+    return file_get_contents(public_path("build/" . $manifest[$entry]['file']));
+  }
 }
 
 final class Result implements \JsonSerializable
