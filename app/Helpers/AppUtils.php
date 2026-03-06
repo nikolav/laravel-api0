@@ -72,7 +72,7 @@ class AppUtils
     return app(\App\Support\Nanoid::class)($length, $alphabet);
   }
 
-  static function vite_inlined(string $entry = 'resources/css/app.css'): string
+  static function vite_resource(string $entry = 'resources/css/app.css'): string
   {
     // get build mappings from manifest
     $manifest = json_decode(

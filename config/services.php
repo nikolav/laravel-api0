@@ -42,4 +42,10 @@ return [
     // provider dashboard (Google/GitHub/Facebook) must whitelist the exact callback URL
     'redirect' => env('GOOGLE_REDIRECT_URI'),
   ],
+
+  'chromium' => [
+    'executable_path' => 'production' == env('APP_ENV')
+      ? env('CHROME_BIN', '/usr/bin/chromium-browser')
+      : '/c/Program Files/Google/Chrome/Application/chrome',
+  ]
 ];
