@@ -3,6 +3,7 @@ import path from "node:path";
 
 import juice from "juice";
 import mri from "mri";
+import { minify } from "html-minifier-terser";
 
 const args = mri(process.argv.slice(2));
 
@@ -37,20 +38,34 @@ const inlineWithJuice = (filePath) =>
           images: true,
           svgs: true,
           links: true,
+
           // ignore for pdfs
           scripts: false,
+
           // resolve relative assets from the HTML file location
           relativeTo: path.dirname(absRelativeTo || filePath),
+
           // optional: make sure all images are inlined, not only tiny ones
           maxImageFileSize: Infinity,
         },
       },
-      (error, htmlInlined) => {
-        if (error) {
+      async (error, htmlInlined) => {
+        try {
+          if (error) throw error;
+          resolve(
+            await minify(htmlInlined, {
+              minifyJS: false,
+              minifyCSS: true,
+              collapseWhitespace: true,
+              html5: true,
+              keepClosingSlash: true,
+              removeComments: true,
+              useShortDoctype: true,
+            }),
+          );
+        } catch (error) {
           reject(error);
-          return;
         }
-        resolve(htmlInlined);
       },
     );
   });

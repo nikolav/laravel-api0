@@ -75,6 +75,8 @@ class PDF
         ->addChromiumArguments(config('services.chromium.pdf_render_arguments', []))
         ->scale(1.0)
         ->showBackground()
+        // ->transparentBackground()
+        // ->landscape()
         ->paperSize($width, $height, $unit)
         ->savePdf($path);
     } catch (Throwable $e) {
