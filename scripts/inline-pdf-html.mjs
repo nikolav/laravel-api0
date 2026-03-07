@@ -2,20 +2,24 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 import juice from "juice";
-import { minify } from "html-minifier-terser";
+import mri from "mri";
 
-const inputPath = process.argv[2];
-const outputPath = process.argv[3];
+const args = mri(process.argv.slice(2));
+
+const inputPath = args["input"];
+const outputPath = args["output"];
+const relativeTo = args["relative-to"];
 
 if (!inputPath || !outputPath) {
   console.error(
-    "Usage: node scripts/inline-pdf-html.mjs <input.html> <output.html>",
+    "Usage: [$ node scripts/inline-pdf-html.mjs --input <input.html> --output <output.html> --relative-to <resolve.html>]",
   );
   process.exit(1);
 }
 
 const absInput = path.resolve(inputPath);
 const absOutput = path.resolve(outputPath);
+const absRelativeTo = relativeTo ? path.resolve(relativeTo) : null;
 
 const inlineWithJuice = (filePath) =>
   new Promise((resolve, reject) => {
@@ -36,38 +40,17 @@ const inlineWithJuice = (filePath) =>
           // ignore for pdfs
           scripts: false,
           // resolve relative assets from the HTML file location
-          relativeTo: path.dirname(filePath),
+          relativeTo: path.dirname(absRelativeTo || filePath),
           // optional: make sure all images are inlined, not only tiny ones
           maxImageFileSize: Infinity,
         },
       },
-      async (err, htmlInlined) => {
-        try {
-          if (err) throw err;
-          resolve(
-            await minify(htmlInlined, {
-              // collapseWhitespace: true,
-              html5: true,
-              keepClosingSlash: true,
-              minifyCSS: true,
-              minifyJS: false,
-              removeComments: true,
-              useShortDoctype: true,
-              // decodeEntities: true,
-              // removeEmptyAttributes: true,
-              // removeRedundantAttributes: true,
-              // removeScriptTypeAttributes: true,
-              // removeStyleLinkTypeAttributes: true,
-              // sortAttributes: true,
-              // sortClassName: true,
-              // collapseBooleanAttributes: true,
-              // removeAttributeQuotes: true,
-              // trimCustomFragments: true,
-            }),
-          );
-        } catch (error) {
+      (error, htmlInlined) => {
+        if (error) {
           reject(error);
+          return;
         }
+        resolve(htmlInlined);
       },
     );
   });
