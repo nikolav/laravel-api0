@@ -1,5 +1,5 @@
-# stage: frontend build
-FROM node:22-alpine AS assets
+# stage: frontend deps
+FROM node:22-alpine AS frontend-deps
 
 WORKDIR /build
 
@@ -7,14 +7,28 @@ COPY package.json ./
 COPY package-lock.json* ./
 RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
+
+# stage: frontend build
+FROM node:22-alpine AS assets
+
+WORKDIR /build
+
+COPY --from=frontend-deps /build/node_modules ./node_modules
+COPY package.json ./
+COPY package-lock.json* ./
 COPY . .
 
-# COPY resources ./resources
-# COPY public ./public
-# COPY vite.config.* postcss.config.* ./
-# COPY tailwind.config.* ./
-
 RUN npm run build
+
+
+# stage: node runtime deps for app scripts
+FROM node:22-alpine AS node-runtime-deps
+
+WORKDIR /app
+
+COPY package.json ./
+COPY package-lock.json* ./
+RUN if [ -f package-lock.json ]; then npm ci --omit=dev; else npm install --omit=dev; fi
 
 
 # stage: php runtime
@@ -29,7 +43,7 @@ ENV \
   CHROME_OPTS="--headless --disable-gpu --no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage" \
   BROWSERSHOT_DISABLE_SANDBOX=true \
   HEADLESS=true \
-  NODE_PATH=/usr/lib/node_modules
+  NODE_PATH=/usr/app/node_modules
 
 # system dependencies + php extensions
 RUN apk add --no-cache \
@@ -46,7 +60,6 @@ RUN apk add --no-cache \
   && docker-php-ext-install intl mbstring zip opcache pdo_sqlite pdo_pgsql \
   && pecl install redis mongodb-1.21.0 \
   && docker-php-ext-enable redis mongodb \
-  && npm install -g puppeteer@^23 \
   && apk del .build-deps \
   && rm -rf /root/.npm /tmp/* /var/cache/apk/*
 
@@ -144,6 +157,11 @@ RUN composer install \
 # app source
 COPY . .
 
+# copy local node runtime deps
+COPY --from=node-runtime-deps /app/node_modules /usr/app/node_modules
+COPY --from=node-runtime-deps /app/package.json /usr/app/package.json
+COPY --from=node-runtime-deps /app/package-lock.json /usr/app/package-lock.json
+
 # copy built frontend assets from the Node stage
 COPY --from=assets /build/public/build /usr/app/public/build
 
@@ -169,6 +187,8 @@ RUN set -eux; \
   node --version; \
   npm --version; \
   chromium-browser --version; \
+  test -d /usr/app/node_modules; \
+  test -f /usr/app/node_modules/juice/package.json; \
   test -f /usr/app/public/build/manifest.json
 
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \

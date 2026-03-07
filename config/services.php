@@ -58,5 +58,14 @@ return [
       '--hide-scrollbars',
       '--disable-popup-blocking',
     ],
+  ],
+
+  // external system tools on host laravel running on
+  //   ffmpg, sh, python, node, etc...
+  'external' => [
+    'scripts_base_path' => 'scripts',
+    'scripts' => [
+      'html_inliner' => 'inline-pdf-html.mjs',
+    ]
   ]
 ];

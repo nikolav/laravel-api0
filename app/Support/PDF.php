@@ -37,7 +37,10 @@ class PDF
     Process::timeout(122)
       ->run([
         'node',
-        base_path('scripts/inline-pdf-html.mjs'),
+        base_path(implode('/', [
+          config('services.external.scripts_base_path'),
+          config('services.external.scripts.html_inliner')
+        ])),
 
         '--input',
         $input_path,
@@ -78,6 +81,7 @@ class PDF
         // ->transparentBackground()
         // ->landscape()
         ->paperSize($width, $height, $unit)
+        ->newHeadless()
         ->savePdf($path);
     } catch (Throwable $e) {
       $error = $e;
