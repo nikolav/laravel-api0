@@ -11,8 +11,15 @@
     <title>Document, demo-a4</title>
 </head>
 
-<body class="text-center">
-    <h1>pdf:demo-a4</h1>
+<body class="p-10">
+    <section>
+        <h1 class="text-xl">pdf:demo-a4</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis dolorem, a ipsa atque totam minus
+            commodi
+            inventore sequi iste repudiandae exercitationem eius modi tenetur quam perferendis, sint non consectetur
+            natus?
+        </p>
+    </section>
 </body>
 
 </html>
