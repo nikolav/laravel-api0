@@ -13,7 +13,13 @@ const relativeTo = args["relative-to"];
 
 if (!inputPath || !outputPath) {
   console.error(
-    "Usage: [$ node scripts/inline-pdf-html.mjs --input <input.html> --output <output.html> --relative-to <resolve.html>]",
+    `
+    # Usage:
+    $ node scripts/inline-pdf-html.mjs \
+      --input <input.html> \
+      --output <output.html> \
+      --relative-to <resolve.html>
+    `,
   );
   process.exit(1);
 }
