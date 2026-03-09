@@ -25,7 +25,6 @@ services:
       SESSION_DRIVER: redis
       QUEUE_CONNECTION: redis
 
-      RUN_MIGRATIONS: "false"
       CACHE_ARTISAN: "false"
       CLEAR_CACHES_ON_BOOT: "true"
       RUN_QUEUE: "true"

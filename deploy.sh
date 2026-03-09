@@ -17,7 +17,6 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   -e CACHE_STORE=redis \
   -e SESSION_DRIVER=redis \
   -e QUEUE_CONNECTION=redis \
-  -e RUN_MIGRATIONS="false" \
   -e CACHE_ARTISAN="false" \
   -e CLEAR_CACHES_ON_BOOT="true" \
   -e RUN_QUEUE="true" \
