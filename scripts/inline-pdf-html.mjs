@@ -78,8 +78,7 @@ const inlineWithJuice = (filePath) =>
 
 (async () => {
   try {
-    const html = await inlineWithJuice(absInput);
-    await fs.writeFile(absOutput, html, "utf8");
+    await fs.writeFile(absOutput, await inlineWithJuice(absInput), "utf8");
     console.log(absOutput);
   } catch (error) {
     console.error(error);
