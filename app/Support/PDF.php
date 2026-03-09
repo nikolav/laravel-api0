@@ -76,12 +76,12 @@ class PDF
         ->setChromePath(config('services.chromium.executable_path'))
         ->noSandbox()
         ->addChromiumArguments(config('services.chromium.pdf_render_arguments', []))
+        ->newHeadless()
         ->scale(1.0)
         ->showBackground()
         // ->transparentBackground()
-        // ->landscape()
         ->paperSize($width, $height, $unit)
-        ->newHeadless()
+        // ->landscape()
         ->savePdf($path);
     } catch (Throwable $e) {
       $error = $e;
