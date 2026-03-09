@@ -90,8 +90,8 @@ class PDF
     return AppUtils::res(null, $error);
   }
 
-  function save_demo(string $pdf_base_path = 'out/demo.pdf', array $data = [])
+  function save_demo(string $pdf_storage_path = 'app/out/demo.pdf', array $data = [])
   {
-    return $this->save(base_path($pdf_base_path), 'demo-a4', $data);
+    return $this->save(storage_path($pdf_storage_path), 'demo-a4', $data);
   }
 }
