@@ -43,11 +43,6 @@ fi
 
 sleep 1
 
-if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
-    echo "Running migrations..."
-    su -s /bin/sh -c "php artisan migrate --force" www
-fi
-
 if [ "${CACHE_ARTISAN:-false}" = "true" ]; then
     su -s /bin/sh -c "php artisan config:cache || true" www
     su -s /bin/sh -c "php artisan route:cache || true" www

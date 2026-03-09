@@ -17,12 +17,10 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   -e CACHE_STORE=redis \
   -e SESSION_DRIVER=redis \
   -e QUEUE_CONNECTION=redis \
-  -e RUN_MIGRATIONS="false" \
   -e CACHE_ARTISAN="false" \
   -e CLEAR_CACHES_ON_BOOT="true" \
   -e RUN_QUEUE="true" \
   -e QUEUE_WORK_QUEUES="broadcasts,default" \
-  --pull=always \
   --restart unless-stopped \
   --init \
   --stop-timeout 30 \
@@ -32,6 +30,9 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   --health-retries 10 \
   --health-start-period 20s \
   "$IMAGE"
+
+# --pull=always \
+
 
 # docker ps -a --filter "name=$NAME"
 # docker logs --tail=122 "$NAME"

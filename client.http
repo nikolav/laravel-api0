@@ -6,6 +6,11 @@ Internal-Auth: -
 
 ###
 
+GET http://localhost:8000/api/v2/health
+Internal-Auth: -
+
+###
+
 POST http://localhost:8000/api/testing
 Internal-Auth: -
 Accept: application/json

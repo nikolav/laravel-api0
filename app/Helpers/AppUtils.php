@@ -2,14 +2,13 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Collection;
 use stdClass;
+
+use Illuminate\Support\Collection;
 
 class AppUtils
 {
   static private $DEFAULTS_TRUTHY = [true, 1, '1', 'TRUE', 'YES', 'ON', 'Y'];
-
-  function __construct() {}
 
   static function csv_list(string $value): Collection
   {
@@ -66,6 +65,23 @@ class AppUtils
       json_decode(json_encode($base), true),
       json_decode(json_encode($override), true),
     );
+  }
+
+  static function nanoid(int $length = 21, ?string $alphabet = null): string
+  {
+    return app(\App\Support\Nanoid::class)($length, $alphabet);
+  }
+
+  static function vite(string $entry = 'resources/css/app.css'): string
+  {
+    // get build mappings from manifest
+    $manifest = json_decode(
+      file_get_contents(public_path('build/manifest.json')),
+      true
+    );
+
+    // entry inlined content
+    return file_get_contents(public_path("build/" . $manifest[$entry]['file']));
   }
 }
 

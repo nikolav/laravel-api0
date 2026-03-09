@@ -1,15 +1,67 @@
+# stage: frontend deps
+FROM node:22-alpine AS frontend-deps
+
+WORKDIR /build
+
+COPY package.json ./
+COPY package-lock.json* ./
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+
+# stage: frontend build
+FROM node:22-alpine AS assets
+
+WORKDIR /build
+
+COPY --from=frontend-deps /build/node_modules ./node_modules
+COPY package.json ./
+COPY package-lock.json* ./
+COPY . .
+
+RUN npm run build
+
+
+# stage: node runtime deps for app scripts
+FROM node:22-alpine AS node-runtime-deps
+
+WORKDIR /app
+
+COPY package.json ./
+COPY package-lock.json* ./
+RUN if [ -f package-lock.json ]; then npm ci --omit=dev; else npm install --omit=dev; fi
+
+
+# stage: php runtime
 FROM php:8.3-fpm-alpine
+
+# browsershot / chromium env
+ENV \
+  APP_DIR=/usr/app \
+  PUPPETEER_SKIP_DOWNLOAD=true \
+  CHROME_BIN=/usr/bin/chromium-browser \
+  CHROME_PATH=/usr/lib/chromium/ \
+  CHROME_OPTS="--headless --disable-gpu --no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage" \
+  BROWSERSHOT_DISABLE_SANDBOX=true \
+  HEADLESS=true \
+  NODE_PATH=/usr/app/node_modules
 
 # system dependencies + php extensions
 RUN apk add --no-cache \
     iproute2 netcat-openbsd nginx supervisor bash curl wget git unzip \
     icu oniguruma libzip sqlite-libs postgresql-libs \
+    \
+    # node, chromium, browsershot deps
+    nodejs npm chromium \
+    nss freetype harfbuzz ca-certificates \
+    ttf-freefont ttf-dejavu font-noto font-noto-cjk \
+    \
   && apk add --no-cache --virtual .build-deps \
     $PHPIZE_DEPS icu-dev oniguruma-dev libzip-dev sqlite-dev postgresql-dev pkgconf \
   && docker-php-ext-install intl mbstring zip opcache pdo_sqlite pdo_pgsql \
   && pecl install redis mongodb-1.21.0 \
   && docker-php-ext-enable redis mongodb \
-  && apk del .build-deps
+  && apk del .build-deps \
+  && rm -rf /root/.npm /tmp/* /var/cache/apk/*
 
 # create user & required directories
 RUN addgroup -g 1000 -S www \
@@ -21,13 +73,18 @@ RUN addgroup -g 1000 -S www \
     /var/lib/nginx \
     /var/tmp/nginx \
     /var/log/supervisor \
-  && chown -R www:www \
+    /var/log/php \
+    /home/www/.cache \
+    /home/www/Downloads \
+&& chown -R www:www \
     /usr/app \
     /var/log/nginx \
     /run/nginx \
     /var/lib/nginx \
     /var/tmp/nginx \
-    /var/log/supervisor
+    /var/log/supervisor \
+    /var/log/php \
+    /home/www
 
 # configure php-fpm to listen on 127.0.0.1:9001
 #   (nginx listens on 9000 and proxies to fpm)
@@ -97,7 +154,16 @@ RUN composer install \
   --no-scripts \
   --no-progress
 
+# app source
 COPY . .
+
+# copy local node runtime deps
+COPY --from=node-runtime-deps /app/node_modules /usr/app/node_modules
+COPY --from=node-runtime-deps /app/package.json /usr/app/package.json
+COPY --from=node-runtime-deps /app/package-lock.json /usr/app/package-lock.json
+
+# copy built frontend assets from the Node stage
+COPY --from=assets /build/public/build /usr/app/public/build
 
 # run the scripts now that artisan exists (package discovery, etc.)
 RUN composer run-script post-autoload-dump --no-interaction
@@ -115,6 +181,15 @@ RUN mkdir -p \
     /usr/app/bootstrap/cache \
     /usr/app/database \
     /usr/app/resources/views
+
+# verify chromium-browser tooling
+RUN set -eux; \
+  node --version; \
+  npm --version; \
+  chromium-browser --version; \
+  test -d /usr/app/node_modules; \
+  test -f /usr/app/node_modules/juice/package.json; \
+  test -f /usr/app/public/build/manifest.json
 
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
   CMD sh -c 'curl -fsS -H "Internal-Auth: $NGINX_INTERNAL_AUTH_TOKEN" \

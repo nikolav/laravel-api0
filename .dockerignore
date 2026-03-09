@@ -10,14 +10,6 @@ _ide_helper.php
 .dockerignore
 .DS_Store
 .DS_Store?
-# .env
-# .env.*.local
-# .env.development
-# .env.example
-# .env.local
-# .env.production
-# .env.staging
-# .env.testing
 .git/
 .gitattributes
 .github/
@@ -70,12 +62,20 @@ _ide_helper.php
 /storage/framework/views/*
 /storage/logs/*
 /vendor/
+# .env
+# .env.*.local
+# .env.development
+# .env.example
+# .env.local
+# .env.production
+# .env.staging
+# .env.testing
+# composer.lock
 bootstrap/cache/*.php
 bootstrap/cache/packages.php
 bootstrap/cache/services.php
 CHANGELOG.md
 CODE_OF_CONDUCT.md
-# composer.lock
 composer.phar
 CONTRIBUTING.md
 coverage/
@@ -116,6 +116,8 @@ xdebug.trace*
 yarn-debug.log*
 yarn-error.log*
 yarn.lock
+
+
 !/bootstrap/cache/.gitkeep
 !/database/database.sqlite.example
 !/database/databases/.gitkeep
@@ -128,3 +130,14 @@ yarn.lock
 !bootstrap/cache/.gitignore
 !bootstrap/cache/packages.php
 !bootstrap/cache/services.php
+!package-lock.json
+!package.json
+!postcss.config.cjs
+!postcss.config.js
+!public/
+!resources/
+!resources/css/
+!resources/js/
+!tailwind.config.cjs
+!tailwind.config.js
+!vite.config.js

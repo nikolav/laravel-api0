@@ -183,6 +183,7 @@ temp.*
 storage/app/keys/*.json
 firebase-service-account.json
 scp-config-id*.sh
+test.pdf
 
 !.idea/codeStyles
 !.idea/runConfigurations
