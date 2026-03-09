@@ -11,7 +11,7 @@
     <title>Document, demo-a4</title>
 </head>
 
-<body class="p-10 font-serif">
+<body class="p-10 font-mono">
     <section>
         <h1 class="text-xl font-semibold">pdf:demo-a4</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis dolorem, a ipsa atque totam minus
