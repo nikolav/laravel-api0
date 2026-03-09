@@ -9,7 +9,7 @@ const args = mri(process.argv.slice(2));
 
 const inputPath = args["input"];
 const outputPath = args["output"];
-const relativeTo = args["relative-to"];
+const relativeTo = args["assets-relative-to"];
 
 if (!inputPath || !outputPath) {
   console.error(
@@ -18,7 +18,7 @@ if (!inputPath || !outputPath) {
     $ node scripts/inline-pdf-html.mjs \
       --input <input.html> \
       --output <output.html> \
-      --relative-to <resolve.html>
+      --assets-relative-to <resolve.html>
     `,
   );
   process.exit(1);

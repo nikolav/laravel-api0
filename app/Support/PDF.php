@@ -48,7 +48,7 @@ class PDF
         '--output',
         $output_path,
 
-        '--relative-to',
+        '--assets-relative-to',
         resource_path(implode('/', ['views/pdf', $template_name, 'index.blade.php'])),
       ])->throw();
 
