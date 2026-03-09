@@ -22,6 +22,7 @@ class PdfSupportProvider extends ServiceProvider
    */
   public function boot(): void
   {
-    //
+    // build schema @boot
+    $this->app->make(PdfSupport::class);
   }
 }
