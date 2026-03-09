@@ -59,6 +59,28 @@ class PDF
     return $html_inlined;
   }
 
+  function build(
+    string $template_name,
+    array $data = [],
+    float $width = 794,
+    float $height = 1123,
+    string $unit = 'px'
+
+  ) {
+    return Browsershot::html(
+      $this->template_inlined($template_name, $data)
+    )
+      ->setChromePath(config('services.chromium.executable_path'))
+      ->noSandbox()
+      ->addChromiumArguments(config('services.chromium.pdf_render_arguments', []))
+      ->newHeadless()
+      ->scale(1.0)
+      ->showBackground()
+      // ->transparentBackground()
+      // ->landscape()
+      ->paperSize($width, $height, $unit);
+  }
+
   function save(
     string $path,
     string $template_name,
@@ -70,18 +92,7 @@ class PDF
     $error = null;
 
     try {
-      Browsershot::html(
-        $this->template_inlined($template_name, $data)
-      )
-        ->setChromePath(config('services.chromium.executable_path'))
-        ->noSandbox()
-        ->addChromiumArguments(config('services.chromium.pdf_render_arguments', []))
-        ->newHeadless()
-        ->scale(1.0)
-        ->showBackground()
-        // ->transparentBackground()
-        ->paperSize($width, $height, $unit)
-        // ->landscape()
+      $this->build($template_name, $data, $width, $height, $unit)
         ->savePdf($path);
     } catch (Throwable $e) {
       $error = $e;
