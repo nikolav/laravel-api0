@@ -20,7 +20,7 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   -e CACHE_ARTISAN="false" \
   -e CLEAR_CACHES_ON_BOOT="true" \
   -e RUN_QUEUE="true" \
-  -e QUEUE_WORK_QUEUES="broadcasts,default" \
+  -e QUEUE_WORK_QUEUES="broadcasts,default,low" \
   --restart unless-stopped \
   --init \
   --stop-timeout 30 \
