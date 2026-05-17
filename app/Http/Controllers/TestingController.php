@@ -4,17 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Helpers\AppUtils;
 
-// // use App\Mail\DemoMailMessage;
-// use App\Mail\MessagePlainEmail;
-// // use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Mail;
-
 class TestingController extends Controller
 {
   //
   function demo()
   {
-    //
     // $res =
     //   Mail::to(['admin@nikolav.rs'])
     //   ->send(new MessagePlainEmail(
@@ -25,9 +19,6 @@ class TestingController extends Controller
     //     ]
     //   ));
 
-
-    // $auth_firebase = app('firebase.auth');
-    // $user = $auth_firebase->getUser('');
 
     return AppUtils::res([
       'status' => 'ok',
