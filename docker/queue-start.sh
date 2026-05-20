@@ -20,7 +20,7 @@ exec php /usr/app/artisan queue:work redis \
   --queue="$QUEUES" \
   --sleep=1 \
   --tries=3 \
-  --timeout=90 \
+  --timeout=122 \
   --memory=256 \
   --no-interaction \
   -vv
