@@ -6,8 +6,10 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Console\Scheduling\Schedule;
 
 use App\Http\Middleware\InternalAuthHttpMiddleware;
+use App\Console\Commands\DemoCommand;
 
 return Application::configure(basePath: dirname(__DIR__))
   ->withRouting(
@@ -36,5 +38,14 @@ return Application::configure(basePath: dirname(__DIR__))
         ], 404);
       }
     });
+  })
+  ->withSchedule(function (Schedule $schedule) {
+    // $schedule->call(new ClearEmailSpam)->daily();
+    $schedule->command(
+      new DemoCommand,
+      [
+        "name" => "Nikola Vukovic",
+      ]
+    )->everyMinute();
   })
   ->create();
