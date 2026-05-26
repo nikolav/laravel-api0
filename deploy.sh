@@ -22,6 +22,7 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   -e RUN_QUEUE="true" \
   -e QUEUE_WORK_QUEUES="broadcasts,default,low" \
   --restart unless-stopped \
+  --pull=always \
   --init \
   --stop-timeout 30 \
   --health-cmd='sh -c "curl -fsS -H \"Internal-Auth: $NGINX_INTERNAL_AUTH_TOKEN\" http://127.0.0.1:9000/api/health || exit 1"' \
