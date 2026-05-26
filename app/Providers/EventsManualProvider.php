@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Event;
+use App\Events\EventDemo;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class EventsManualProvider extends ServiceProvider
 {
@@ -21,6 +22,8 @@ class EventsManualProvider extends ServiceProvider
   public function boot(): void
   {
     //
-    // Event::listen(..)
+    Event::listen(function (EventDemo $event) {
+      print("@event --demo\n");
+    });
   }
 }
