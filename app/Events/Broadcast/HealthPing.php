@@ -1,16 +1,19 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Broadcast;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
+use Illuminate\Broadcasting\Channel;
+// use Illuminate\Broadcasting\PrivateChannel;
+
 // or use anonymous events for quick event dispatch
 // # Broadcast::on('foo.happened')->send();
 // # Broadcast::on('orders.'.$id)->as('OrderPlaced')->with($order)->send();
+
 // #https://laravel.com/docs/12.x/broadcasting#anonymous-events
 class HealthPing implements ShouldBroadcast
 {
@@ -24,7 +27,9 @@ class HealthPing implements ShouldBroadcast
   // PresenceChannel:  like private, +whos subscribed
   public function broadcastOn(): array
   {
-    return [new Channel('health')];
+    return [
+      new Channel('health'),
+    ];
   }
 
   // event name
