@@ -57,7 +57,7 @@ RUN apk add --no-cache \
     \
   && apk add --no-cache --virtual .build-deps \
     $PHPIZE_DEPS icu-dev oniguruma-dev libzip-dev sqlite-dev postgresql-dev pkgconf \
-  && docker-php-ext-install intl mbstring zip opcache pdo_sqlite pdo_pgsql \
+  && docker-php-ext-install ftp intl mbstring zip opcache pdo_sqlite pdo_pgsql \
   && pecl install redis mongodb-1.21.0 \
   && docker-php-ext-enable redis mongodb \
   && apk del .build-deps \
