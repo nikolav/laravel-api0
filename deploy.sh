@@ -4,9 +4,13 @@ set -euo pipefail
 IMAGE="0imbn7v6rkw/laravel-api0"
 NAME="api"
 
+# get image
+docker pull "$IMAGE"
+
 # remove old container if exists
-docker rm -f "$NAME" >/dev/null 2>&1 || true \
-&& docker run -d \
+docker rm -f "$NAME" >/dev/null 2>&1 || true
+
+docker run -d \
   --name "$NAME" \
   -p 127.0.0.1:9000:9000 \
   --env-file ./.env \
@@ -20,7 +24,8 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   -e CACHE_ARTISAN="false" \
   -e CLEAR_CACHES_ON_BOOT="true" \
   -e RUN_QUEUE="true" \
-  -e QUEUE_WORK_QUEUES="broadcasts,default,low" \
+  -e QUEUE_WORK_QUEUES="high,broadcasts,default,low" \
+  -e RUN_SCHEDULER="true" \
   --restart unless-stopped \
   --pull=always \
   --init \
@@ -31,9 +36,6 @@ docker rm -f "$NAME" >/dev/null 2>&1 || true \
   --health-retries 10 \
   --health-start-period 20s \
   "$IMAGE"
-
-# --pull=always \
-
 
 # docker ps -a --filter "name=$NAME"
 # docker logs --tail=122 "$NAME"

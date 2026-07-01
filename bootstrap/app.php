@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Middleware\InternalAuthHttpMiddleware;
 // use App\Console\Commands\DemoCommand;
+use App\Http\Middleware\OnRequestSetupContext;
 
 return Application::configure(basePath: dirname(__DIR__))
   ->withRouting(
@@ -26,8 +27,12 @@ return Application::configure(basePath: dirname(__DIR__))
   )
   ->withMiddleware(function (Middleware $middleware): void {
     // +custom global middleware
-    //   validate Internal-Auth header @/api/*
-    $middleware->prepend(InternalAuthHttpMiddleware::class);
+    $middleware->prepend([
+      // validate Internal-Auth header @/api/*
+      InternalAuthHttpMiddleware::class,
+      // add custom context data
+      OnRequestSetupContext::class,
+    ]);
   })
   ->withExceptions(function (Exceptions $exceptions): void {
     // default error for api*

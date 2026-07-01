@@ -28,7 +28,8 @@ services:
       CACHE_ARTISAN: "false"
       CLEAR_CACHES_ON_BOOT: "true"
       RUN_QUEUE: "true"
-      QUEUE_WORK_QUEUES: "broadcasts,default,low"
+      QUEUE_WORK_QUEUES: "high,broadcasts,default,low"
+      RUN_SCHEDULER: "true"
 
     restart: unless-stopped
     stop_grace_period: 30s
