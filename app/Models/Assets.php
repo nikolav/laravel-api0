@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 // use Illuminate\Support\Str;
-use App\Enums\AssetsType;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+
+use App\Enums\AssetsType;
+use App\Casts\AsDotAccessData;
+use App\Helpers\AppUtils;
 
 class Assets extends Model
 {
@@ -32,14 +35,14 @@ class Assets extends Model
 
   protected $casts = [
     'type'       => AssetsType::class,
-    'data'       => 'array',
+    'data'       => AsDotAccessData::class,
     'deleted_at' => 'datetime',
   ];
 
   /**
    * Tags assigned to the asset (many-to-many)
    */
-  public function tags(): BelongsToMany
+  function tags(): BelongsToMany
   {
     return $this->belongsToMany(
       Tags::class,
@@ -50,25 +53,25 @@ class Assets extends Model
   }
 
   // Optional: use key for route model binding (API-safe)
-  public function getRouteKeyName(): string
+  function getRouteKeyName(): string
   {
     return 'key';
   }
 
   // Child -> Parent (inverse)
-  public function parent(): BelongsTo
+  function parent(): BelongsTo
   {
     return $this->belongsTo(self::class, 'parent_id');
   }
 
   // Parent -> Children
-  public function children(): HasMany
+  function children(): HasMany
   {
     return $this->hasMany(self::class, 'parent_id');
   }
 
   // Optional: recursive eager-loading helper
-  public function childrenRecursive($depth = 2): HasMany
+  function childrenRecursive($depth = 2): HasMany
   {
     if (0 === $depth) {
       return $this->children();
@@ -78,7 +81,7 @@ class Assets extends Model
       ->with(['childrenRecursive' => fn($a) => $a->childrenRecursive($depth - 1)]);
   }
 
-  public function users(): BelongsToMany
+  function users(): BelongsToMany
   {
     return $this->belongsToMany(
       User::class,
@@ -87,5 +90,34 @@ class Assets extends Model
       'user_id'
     )
       ->withTimestamps();
+  }
+
+  function assets_children(): BelongsToMany
+  {
+    return $this->belongsToMany(
+      self::class,
+      'ln_assets_assets',
+      'asset_id',
+      'related_asset_id'
+    );
+  }
+
+  function assets_parents(): BelongsToMany
+  {
+    return $this->belongsToMany(
+      self::class,
+      'ln_assets_assets',
+      'related_asset_id',
+      'asset_id'
+    );
+  }
+
+  protected static function booted()
+  {
+    static::creating(function ($a) {
+      if (empty($a->key)) {
+        $a->key = AppUtils::nanoid();
+      }
+    });
   }
 }

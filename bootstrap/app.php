@@ -5,7 +5,10 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Support\Facades\Route;
+
 use App\Http\Middleware\InternalAuthHttpMiddleware;
+use App\Http\Middleware\OnRequestSetupContext;
 
 return Application::configure(basePath: dirname(__DIR__))
   ->withRouting(
@@ -14,11 +17,20 @@ return Application::configure(basePath: dirname(__DIR__))
     commands: __DIR__ . '/../routes/console.php',
     channels: __DIR__ . '/../routes/channels.php',
     health: '/up',
+    then: function () {
+      Route::prefix('api/v2')
+        ->name('api.v2.')
+        ->group(base_path('routes/v2.api.php'));
+    },
   )
   ->withMiddleware(function (Middleware $middleware): void {
     // +custom global middleware
-    //   validate Internal-Auth header @/api/*
-    $middleware->prepend(InternalAuthHttpMiddleware::class);
+    $middleware->prepend([
+      // validate Internal-Auth header @/api/*
+      InternalAuthHttpMiddleware::class,
+      // add custom context data
+      OnRequestSetupContext::class,
+    ]);
   })
   ->withExceptions(function (Exceptions $exceptions): void {
     // default error for api*
@@ -29,4 +41,5 @@ return Application::configure(basePath: dirname(__DIR__))
         ], 404);
       }
     });
-  })->create();
+  })
+  ->create();

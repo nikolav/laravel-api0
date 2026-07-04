@@ -3,17 +3,25 @@ set -euo pipefail
 
 cd /usr/app
 
-# db file exists
-mkdir -p /usr/app/database
+# ensure runtime dirs
+mkdir -p \
+  /usr/app/storage/framework/{cache,sessions,views} \
+  /usr/app/storage/logs \
+  /usr/app/bootstrap/cache \
+  /usr/app/database
+
+if [ "$(id -u)" = "0" ]; then
+  chown -R www:www /usr/app/storage /usr/app/bootstrap/cache /usr/app/database
+fi
+
+find /usr/app/storage -type d -exec chmod 775 {} \;
+find /usr/app/storage -type f -exec chmod 664 {} \;
+chmod -R 775 /usr/app/bootstrap/cache
+chmod -R 775 /usr/app/database
+
+# db:sqlite file writrable
 touch /usr/app/database/database.sqlite
-
-# storage dirs
-mkdir -p /usr/app/storage /usr/app/bootstrap/cache
-chown -R www:www /usr/app/storage /usr/app/bootstrap/cache /usr/app/database
-
-# views dir, guarantees it exists even if a volume mount wipes it
-mkdir -p /usr/app/resources/views
-chown -R www:www /usr/app/resources/views || true
+chmod 664 /usr/app/database/database.sqlite
 
 # Warn if APP_KEY missing
 if [ -z "${APP_KEY:-}" ]; then
@@ -35,11 +43,6 @@ fi
 
 sleep 1
 
-if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
-    echo "Running migrations..."
-    su -s /bin/sh -c "php artisan migrate --force" www
-fi
-
 if [ "${CACHE_ARTISAN:-false}" = "true" ]; then
     su -s /bin/sh -c "php artisan config:cache || true" www
     su -s /bin/sh -c "php artisan route:cache || true" www
@@ -50,6 +53,15 @@ if [ "${CLEAR_CACHES_ON_BOOT:-false}" = "true" ]; then
   su -s /bin/sh -c "php artisan cache:clear || true" www
   su -s /bin/sh -c "php artisan route:clear || true" www
   # su -s /bin/sh -c "php artisan optimize:clear || true" www
+fi
+
+# start laravel scheduler in the background
+if [ "${RUN_SCHEDULER:-false}" = "true" ]; then
+    echo "starting scheduler..."
+    while true; do
+        su -s /bin/sh -c "php artisan schedule:run --no-ansi --quiet || true" www
+        sleep 60
+    done &
 fi
 
 exec "$@"

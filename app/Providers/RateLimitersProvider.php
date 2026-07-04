@@ -24,13 +24,13 @@ class RateLimitersProvider extends ServiceProvider
   {
     // Common default: 60/min per user (if authed) else per IP
     RateLimiter::for('api', function (Request $request) {
-      return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+      return Limit::perMinute(60)->by('api-access:', $request->user()?->id ?: $request->ip());
     });
     // 10/guest, 100/user
     RateLimiter::for('uploads', function (Request $request) {
       return $request->user()
-        ? Limit::perMinute(100)->by($request->user()->id)
-        : Limit::perMinute(10)->by($request->ip());
+        ? Limit::perMinute(100)->by('uploads:' . $request->user()->id)
+        : Limit::perMinute(10)->by('uploads:' . $request->ip());
     });
   }
 }

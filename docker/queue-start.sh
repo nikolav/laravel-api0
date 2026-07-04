@@ -10,7 +10,7 @@ if [ "${RUN_QUEUE:-true}" != "true" ]; then
 fi
 
 # Default queue list (override via env if desired)
-QUEUES="${QUEUE_WORK_QUEUES:-broadcasts,default}"
+QUEUES="${QUEUE_WORK_QUEUES:-high,broadcasts,default,low}"
 
 echo "Starting Laravel queue worker..."
 echo "  Connection: redis"
@@ -20,6 +20,7 @@ exec php /usr/app/artisan queue:work redis \
   --queue="$QUEUES" \
   --sleep=1 \
   --tries=3 \
+  --max-time=3600 \
   --timeout=90 \
   --memory=256 \
   --no-interaction \

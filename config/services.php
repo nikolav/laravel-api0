@@ -42,4 +42,30 @@ return [
     // provider dashboard (Google/GitHub/Facebook) must whitelist the exact callback URL
     'redirect' => env('GOOGLE_REDIRECT_URI'),
   ],
+
+  'chromium' => [
+
+    'executable_path' => 'production' == env('APP_ENV')
+      ? env('CHROME_BIN', '/usr/bin/chromium-browser')
+      : 'C:\Program Files\Google\Chrome\Application\chrome.exe',
+
+    'pdf_render_arguments' => [
+      '--headless=new',
+      '--disable-gpu',
+      '--disable-dev-shm-usage',
+      '--disable-extensions',
+      '--disable-infobars',
+      '--hide-scrollbars',
+      '--disable-popup-blocking',
+    ],
+  ],
+
+  // external system tools on host laravel running on
+  //   ffmpg, sh, python, node, etc...
+  'external' => [
+    'scripts_base_path' => 'scripts',
+    'scripts' => [
+      'html_inliner' => 'inline-pdf-html.mjs',
+    ]
+  ]
 ];
