@@ -189,3 +189,4 @@ storage/app/keys/*.json
 !.vscode/settings.json
 !.vscode/tasks.json
 !bootstrap/cache/.gitignore
+scp-config-id.sh
