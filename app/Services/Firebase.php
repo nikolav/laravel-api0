@@ -2,20 +2,48 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Log;
+
+use Kreait\Firebase\Factory;
+// use Kreait\Laravel\Firebase\Facades\Firebase as F;
+
 class Firebase
 {
-  public function auth()
+
+  protected Factory $factory;
+
+  function __construct()
   {
-    return app('firebase.auth');
+    try {
+      $this->factory = (new Factory)
+        ->withServiceAccount(base_path(config('services.firebase.credentials')))
+        ->withFirestoreClientConfig([
+          // 'transport' => 'rest',
+          'credentials' => base_path(config('services.firebase.credentials')),
+        ]);
+    } catch (\Throwable $e) {
+      Log::error('Firebase initialization failed: ' . $e->getMessage());
+      throw $e;
+    }
   }
 
-  public function firestore()
+  function auth()
   {
-    return app('firebase.firestore')->database();
+    return $this->factory->createAuth();
   }
 
-  public function messaging()
+  function firestore()
   {
-    return app('firebase.messaging');
+    return $this->factory->createFirestore();
+  }
+
+  function db()
+  {
+    return $this->firestore()->database();
+  }
+
+  function messaging()
+  {
+    return $this->factory->createMessaging();
   }
 }
