@@ -47,21 +47,85 @@ ENV \
 
 # system dependencies + php extensions
 RUN apk add --no-cache \
-    iproute2 netcat-openbsd nginx supervisor bash curl wget git unzip \
-    icu oniguruma libzip sqlite-libs postgresql-libs \
-    \
-    # node, chromium, browsershot deps
-    nodejs npm chromium \
-    nss freetype harfbuzz ca-certificates \
-    ttf-freefont ttf-dejavu font-noto font-noto-cjk \
-    \
-  && apk add --no-cache --virtual .build-deps \
-    $PHPIZE_DEPS icu-dev oniguruma-dev libzip-dev sqlite-dev postgresql-dev pkgconf \
-  && docker-php-ext-install intl mbstring zip opcache pdo_sqlite pdo_pgsql \
-  && pecl install redis mongodb-1.21.0 \
-  && docker-php-ext-enable redis mongodb \
-  && apk del .build-deps \
-  && rm -rf /root/.npm /tmp/* /var/cache/apk/*
+    bash \
+    ca-certificates \
+    curl \
+    git \
+    iproute2 \
+    netcat-openbsd \
+    nginx \
+    supervisor \
+    unzip \
+    wget \
+    icu \
+    libzip \
+    oniguruma \
+    postgresql-libs \
+    sqlite-libs \
+    freetype \
+    harfbuzz \
+    nodejs \
+    npm \
+    nss \
+    ttf-dejavu \
+    ttf-freefont \
+    font-noto \
+    font-noto-cjk \
+    chromium
+
+# PHP build dependencies
+RUN apk add --no-cache --virtual .build-deps \
+    $PHPIZE_DEPS \
+    icu-dev \
+    libzip-dev \
+    oniguruma-dev \
+    pkgconf \
+    postgresql-dev \
+    sqlite-dev \
+    openssl-dev \
+    zlib-dev \
+    libffi-dev
+
+# Compile PHP extensions
+RUN docker-php-ext-install -j"$(nproc)" \
+    bcmath \
+    ctype \
+    ftp \
+    intl \
+    mbstring \
+    opcache \
+    pcntl \
+    pdo_pgsql \
+    pdo_sqlite \
+    posix \
+    zip
+
+# PECL extensions
+RUN pecl install redis > /dev/null 2>&1 \
+    && pecl install mongodb-1.21.0 > /dev/null 2>&1 \
+    && pecl install grpc > /dev/null 2>&1 \
+    && pecl install protobuf > /dev/null 2>&1 \
+    && docker-php-ext-enable redis mongodb grpc protobuf
+
+# cleanup
+RUN apk del .build-deps \
+    && apk add --no-cache \
+        libstdc++ \
+        libgcc \
+        gcompat \
+        openssl \
+        zlib \
+        libffi \
+    && rm -rf \
+        /tmp/* \
+        /var/cache/apk/* \
+        /root/.npm \
+        /usr/local/lib/php/.registry/.channel.pecl.php.net/*
+
+# compare the required/recommended PHP extensions for Laravel
+# against currently loaded extensions
+COPY docker/check-php-extensions.sh /usr/local/bin/check-php-extensions.sh
+RUN chmod +x /usr/local/bin/check-php-extensions.sh
 
 # create user & required directories
 RUN addgroup -g 1000 -S www \

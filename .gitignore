@@ -186,6 +186,7 @@ scp-config-id*.sh
 test.pdf
 demo.pdf
 scp-config-id.sh
+build-log.docker.txt
 
 !.idea/codeStyles
 !.idea/runConfigurations
