@@ -183,6 +183,8 @@ temp.*
 firebase-service-account.json
 scp-config-id*.sh
 test.pdf
+demo.pdf
+build-log.docker.txt
 
 !.idea/codeStyles
 !.idea/runConfigurations

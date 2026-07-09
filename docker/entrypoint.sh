@@ -55,4 +55,13 @@ if [ "${CLEAR_CACHES_ON_BOOT:-false}" = "true" ]; then
   # su -s /bin/sh -c "php artisan optimize:clear || true" www
 fi
 
+# start laravel scheduler in the background
+if [ "${RUN_SCHEDULER:-false}" = "true" ]; then
+    echo "starting scheduler..."
+    while true; do
+        su -s /bin/sh -c "php artisan schedule:run --no-ansi --quiet || true" www
+        sleep 60
+    done &
+fi
+
 exec "$@"

@@ -1,9 +1,12 @@
 services:
   api:
-    #build>        docker compose build api
-    #build:fresh>  docker compose build --pull api
-    #build:clean>  docker compose build --pull --no-cache api
-    #push>         docker compose push api
+    #build>           docker compose build api
+    #build:log>       docker compose build api > build-log.docker.txt 2>&1
+    #build:quiet>     docker compose build -q api
+    #build:quiet:log> docker compose build -q api > build-log.docker.txt 2>&1
+    #build:fresh>     docker compose build --pull api
+    #build:clean>     docker compose build --pull --no-cache api
+    #push>            docker compose push api
     image: 0imbn7v6rkw/laravel-api0
 
     build:
@@ -28,7 +31,8 @@ services:
       CACHE_ARTISAN: "false"
       CLEAR_CACHES_ON_BOOT: "true"
       RUN_QUEUE: "true"
-      QUEUE_WORK_QUEUES: "broadcasts,default,low"
+      QUEUE_WORK_QUEUES: "high,broadcasts,default,low"
+      RUN_SCHEDULER: "true"
 
     restart: unless-stopped
     stop_grace_period: 30s

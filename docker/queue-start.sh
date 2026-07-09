@@ -10,7 +10,7 @@ if [ "${RUN_QUEUE:-true}" != "true" ]; then
 fi
 
 # Default queue list (override via env if desired)
-QUEUES="${QUEUE_WORK_QUEUES:-broadcasts,default,low}"
+QUEUES="${QUEUE_WORK_QUEUES:-high,broadcasts,default,low}"
 
 echo "Starting Laravel queue worker..."
 echo "  Connection: redis"
