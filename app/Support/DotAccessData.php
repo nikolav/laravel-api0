@@ -21,20 +21,35 @@ class DotAccessData implements Arrayable, JsonSerializable
     return $this;
   }
 
+  function push(array $patches): static
+  {
+    foreach ($patches as $path => $value) {
+      $this->set($path, $value);
+    }
+    return $this;
+  }
+
   function has(string $path): bool
   {
     return null != data_get($this->items, $path);
   }
 
-  function rm(string $path): static
+  function rm(string ...$paths): static
   {
-    Arr::forget($this->items, $path);
+    foreach ($paths as $path) {
+      Arr::forget($this->items, $path);
+    }
     return $this;
   }
 
   function all(): array
   {
     return [...$this->items];
+  }
+
+  function ls(): array
+  {
+    return $this->all();
   }
 
   function toArray(): array
