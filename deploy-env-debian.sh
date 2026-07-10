@@ -40,9 +40,9 @@ apt-get install -y --no-install-recommends \
   ca-certificates curl gnupg lsb-release \
   git ufw
 
-# # ---------- git config (root only) ----------
-# git config --global user.name "nikolav"
-# git config --global user.email "admin@nikolav.rs"
+# ---------- git config (root only) ----------
+git config --global user.name "nikolav"
+git config --global user.email "admin@nikolav.rs"
 
 # ---------- install docker from official repo (Debian) ----------
 install -m 0755 -d /etc/apt/keyrings
