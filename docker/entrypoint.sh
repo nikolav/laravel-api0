@@ -59,8 +59,8 @@ fi
 if [ "${RUN_SCHEDULER:-false}" = "true" ]; then
     echo "starting scheduler..."
     while true; do
-        su -s /bin/sh -c "php artisan schedule:run --no-ansi --quiet || true" www
         sleep 60
+        su -s /bin/sh -c "php artisan schedule:run --no-ansi --quiet || true" www
     done &
 fi
 
