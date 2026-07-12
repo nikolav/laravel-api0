@@ -76,6 +76,11 @@ RUN apk add --no-cache \
 # PHP build dependencies
 RUN apk add --no-cache --virtual .build-deps \
     $PHPIZE_DEPS \
+    git \
+    autoconf \
+    g++ \
+    make \
+    linux-headers \
     icu-dev \
     libzip-dev \
     oniguruma-dev \

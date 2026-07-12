@@ -10,35 +10,40 @@ class DotAccessData implements Arrayable, JsonSerializable
 {
   function __construct(protected array $items = []) {}
 
-  function get(string $path, mixed $default = null): mixed
+  function use(array $ls): static
   {
-    return data_get($this->items, $path, $default);
-  }
-
-  function set(string $path, mixed $value): static
-  {
-    data_set($this->items, $path, $value);
+    $this->items = [...$ls];
     return $this;
   }
 
-  function push(array $patches): static
+  function get(string $path, mixed $default = null): mixed
+  {
+    return data_get($this->items, $path, default: $default);
+  }
+
+  function set(string $path, mixed $value, $overwrite = true): static
+  {
+    data_set($this->items, $path, $value, overwrite: $overwrite);
+    return $this;
+  }
+
+  function commit(array $patches, $overwrite = true): static
   {
     foreach ($patches as $path => $value) {
-      $this->set($path, $value);
+      $this->set($path, $value, overwrite: $overwrite);
     }
     return $this;
   }
 
-  function has(string $path): bool
+  // path:exists
+  function isset(string $path)
   {
-    return null != data_get($this->items, $path);
+    return data_has($this->items, $path);
   }
 
   function rm(string ...$paths): static
   {
-    foreach ($paths as $path) {
-      Arr::forget($this->items, $path);
-    }
+    Arr::forget($this->items, $paths);
     return $this;
   }
 
