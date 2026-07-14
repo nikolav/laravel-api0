@@ -4,4 +4,4 @@ namespace App\Data;
 
 use Spatie\LaravelData\Data;
 
-abstract class DTO extends Data {}
+abstract class DD extends Data {}
