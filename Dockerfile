@@ -165,7 +165,7 @@ RUN set -eux; \
   sed -i -E '/^\s*(user|group)\s*=.*/d' "$CONF"; \
   grep -nE '^(user|group|listen)\s*=' "$CONF" || true
 
-# --- fix php-fpm logging when running as non-root (supervisor user=www) ---
+# fix php-fpm logging when running as non-root (supervisor user=www)
 RUN set -eux; \
   mkdir -p /var/log/php; \
   touch /var/log/php/fpm-error.log /var/log/php/fpm-access.log; \
@@ -187,16 +187,8 @@ RUN set -eux; \
   fi; \
   grep -n 'log_level' "$CONF"
 
-# set nginx worker user to www
-RUN set -eux; \
-  NGINXCONF="/etc/nginx/nginx.conf"; \
-  test -f "$NGINXCONF"; \
-  sed -i -E 's/^\s*user\s+nginx\s*;/user www;/' "$NGINXCONF"; \
-  grep -n '^user ' "$NGINXCONF"
-
 # nginx & supervisor configs
-COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
-# COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY docker/supervisord.conf /etc/supervisord.conf
 
 # entrypoint
@@ -241,11 +233,42 @@ RUN composer run-script post-autoload-dump --no-interaction
 
 # fix permissions for runtime dirs
 RUN mkdir -p \
+    # Laravel core directories
+    /usr/app/storage \
+    /usr/app/storage/app \
+    /usr/app/storage/app/public \
+    /usr/app/storage/app/out \
+    /usr/app/storage/framework \
+    /usr/app/storage/framework/cache \
+    /usr/app/storage/framework/cache/data \
+    /usr/app/storage/framework/sessions \
+    /usr/app/storage/framework/testing \
+    /usr/app/storage/framework/views \
+    /usr/app/storage/logs \
+    /usr/app/bootstrap/cache \
+    /usr/app/database \
+    /usr/app/database/factories \
+    /usr/app/database/migrations \
+    /usr/app/database/seeders \
+    /usr/app/resources/views \
+    # Additional Laravel directories that may need write permissions
+    /usr/app/storage/debugbar \
+    /usr/app/storage/export \
+    /usr/app/storage/import \
+    /usr/app/storage/temp \
+    /usr/app/storage/uploads \
+    # Cache directories (if using file cache)
+    /usr/app/bootstrap/cache/packages \
+    /usr/app/bootstrap/cache/services \
+    /usr/app/bootstrap/cache/config \
+    /usr/app/bootstrap/cache/routes \
+    /usr/app/bootstrap/cache/views \
+  && chown -R www:www \
     /usr/app/storage \
     /usr/app/bootstrap/cache \
     /usr/app/database \
     /usr/app/resources/views \
-  && chown -R www:www \
+  && chmod -R 775 \
     /usr/app/storage \
     /usr/app/bootstrap/cache \
     /usr/app/database \
