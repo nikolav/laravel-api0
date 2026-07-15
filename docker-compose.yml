@@ -7,6 +7,8 @@ services:
     #build:fresh>     docker compose build --pull api
     #build:clean>     docker compose build --pull --no-cache api
     #push>            docker compose push api
+    #up>              docker compose up -d --remove-orphans api
+    #up:pull>         docker compose up -d --remove-orphans --pull always api
     image: 0imbn7v6rkw/laravel-api0
 
     build:

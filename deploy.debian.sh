@@ -10,14 +10,9 @@ docker pull "$IMAGE"
 # remove old container if exists
 docker rm -f "$NAME" >/dev/null 2>&1 || true
 
-# Create network if it doesn't exist (for Redis/MySQL integration)
-docker network inspect laravel-network >/dev/null 2>&1 || \
-  docker network create laravel-network
-
 docker run -d \
   --name "$NAME" \
   -p 127.0.0.1:9000:9000 \
-  --network laravel-network \
   --env-file ./.env \
   -e APP_ENV=production \
   -e APP_DEBUG="true" \
