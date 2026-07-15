@@ -35,9 +35,9 @@ docker run -d \
   --init \
   --stop-timeout 30 \
   --health-cmd='sh -c "curl -fsS -H \"Internal-Auth: $NGINX_INTERNAL_AUTH_TOKEN\" http://127.0.0.1:9000/api/health || exit 1"' \
-  --health-interval 10s \
+  --health-interval 30s \
   --health-timeout 3s \
-  --health-retries 10 \
+  --health-retries 3 \
   --health-start-period 20s \
   --log-driver json-file \
   --log-opt max-size="10m" \

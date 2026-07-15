@@ -7,7 +7,6 @@ COPY package.json ./
 COPY package-lock.json* ./
 RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
-
 # stage: frontend build
 FROM node:22-alpine AS assets
 
@@ -20,7 +19,6 @@ COPY . .
 
 RUN npm run build
 
-
 # stage: node runtime deps for app scripts
 FROM node:22-alpine AS node-runtime-deps
 
@@ -30,24 +28,23 @@ COPY package.json ./
 COPY package-lock.json* ./
 RUN if [ -f package-lock.json ]; then npm ci --omit=dev; else npm install --omit=dev; fi
 
-
 # stage: php runtime
-FROM php:8.3-fpm-alpine
+FROM php:8.4-fpm-bookworm
 
 # browsershot / chromium env
 ENV \
   APP_DIR=/usr/app \
   PUPPETEER_SKIP_DOWNLOAD=true \
-  CHROME_BIN=/usr/bin/chromium-browser \
+  CHROME_BIN=/usr/bin/chromium \
   CHROME_PATH=/usr/lib/chromium/ \
   CHROME_OPTS="--headless --disable-gpu --no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage" \
   BROWSERSHOT_DISABLE_SANDBOX=true \
   HEADLESS=true \
-  NODE_PATH=/usr/app/node_modules
+  NODE_PATH=/usr/app/node_modules \
+  DEBIAN_FRONTEND=noninteractive
 
-# system dependencies + php extensions
-RUN apk add --no-cache \
-    bash \
+# System dependencies, Debian
+RUN apt-get update && apt-get install -y \
     ca-certificates \
     curl \
     git \
@@ -57,42 +54,36 @@ RUN apk add --no-cache \
     supervisor \
     unzip \
     wget \
-    icu \
-    libzip \
-    oniguruma \
-    postgresql-libs \
-    sqlite-libs \
-    freetype \
-    harfbuzz \
+    libicu-dev \
+    libzip-dev \
+    libonig-dev \
+    libpq-dev \
+    libsqlite3-dev \
+    libfreetype6-dev \
+    libharfbuzz-dev \
     nodejs \
     npm \
-    nss \
-    ttf-dejavu \
-    ttf-freefont \
-    font-noto \
-    font-noto-cjk \
-    chromium
-
-# PHP build dependencies
-RUN apk add --no-cache --virtual .build-deps \
-    $PHPIZE_DEPS \
-    git \
+    libnss3 \
+    fonts-dejavu \
+    fonts-freefont-ttf \
+    fonts-noto \
+    fonts-noto-cjk \
+    chromium \
+    libstdc++6 \
+    gcc \
+    openssl \
+    zlib1g \
+    libffi-dev \
     autoconf \
     g++ \
     make \
-    linux-headers \
-    icu-dev \
-    libzip-dev \
-    oniguruma-dev \
-    pkgconf \
-    postgresql-dev \
-    sqlite-dev \
-    openssl-dev \
-    zlib-dev \
-    libffi-dev
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
 
-# Compile PHP extensions
-RUN docker-php-ext-install -j"$(nproc)" \
+# PHP extensions, using docker-php-ext-install
+RUN docker-php-ext-configure intl \
+    && docker-php-ext-configure zip \
+    && docker-php-ext-install -j"$(nproc)" \
     bcmath \
     ctype \
     ftp \
@@ -106,35 +97,41 @@ RUN docker-php-ext-install -j"$(nproc)" \
     zip
 
 # PECL extensions
-RUN pecl install redis > /dev/null 2>&1 \
-    && pecl install mongodb-1.21.0 > /dev/null 2>&1 \
-    && pecl install grpc > /dev/null 2>&1 \
-    && pecl install protobuf > /dev/null 2>&1 \
-    && docker-php-ext-enable redis mongodb grpc protobuf
+RUN pecl install redis-6.3.0 > /dev/null 2>&1
+RUN pecl install mongodb-2.3.3 > /dev/null 2>&1
+RUN pecl install grpc-1.82.0 > /dev/null 2>&1
+RUN pecl install protobuf-5.35.1 > /dev/null 2>&1
+RUN docker-php-ext-enable redis mongodb grpc protobuf
 
-# cleanup
-RUN apk del .build-deps \
-    && apk add --no-cache \
-        libstdc++ \
-        libgcc \
-        gcompat \
-        openssl \
-        zlib \
-        libffi \
+# Cleanup
+RUN apt-get clean \
     && rm -rf \
         /tmp/* \
-        /var/cache/apk/* \
+        /var/cache/apt/* \
         /root/.npm \
-        /usr/local/lib/php/.registry/.channel.pecl.php.net/*
+        /usr/local/lib/php/.registry/.channel.pecl.php.net/* \
+        /var/lib/apt/lists/*
+
+# opcache configuration for production
+RUN { \
+    echo 'opcache.memory_consumption=128'; \
+    echo 'opcache.interned_strings_buffer=8'; \
+    echo 'opcache.max_accelerated_files=10000'; \
+    echo 'opcache.revalidate_freq=2'; \
+    echo 'opcache.fast_shutdown=1'; \
+    echo 'opcache.enable_cli=1'; \
+    echo 'realpath_cache_size=4096K'; \
+    echo 'realpath_cache_ttl=600'; \
+    } > /usr/local/etc/php/conf.d/app.ini
 
 # compare the required/recommended PHP extensions for Laravel
 # against currently loaded extensions
 COPY docker/check-php-extensions.sh /usr/local/bin/check-php-extensions.sh
 RUN chmod +x /usr/local/bin/check-php-extensions.sh
 
-# create user & required directories
-RUN addgroup -g 1000 -S www \
-  && adduser -u 1000 -S www -G www \
+# setup permissions, required directories
+RUN addgroup --system --gid 1000 www \
+  && adduser --system --uid 1000 --gid 1000 --no-create-home www \
   && mkdir -p \
     /usr/app \
     /var/log/nginx \
@@ -145,6 +142,7 @@ RUN addgroup -g 1000 -S www \
     /var/log/php \
     /home/www/.cache \
     /home/www/Downloads \
+    /var/run \
 && chown -R www:www \
     /usr/app \
     /var/log/nginx \
@@ -153,7 +151,8 @@ RUN addgroup -g 1000 -S www \
     /var/tmp/nginx \
     /var/log/supervisor \
     /var/log/php \
-    /home/www
+    /home/www \
+    /var/run
 
 # configure php-fpm to listen on 127.0.0.1:9001
 #   (nginx listens on 9000 and proxies to fpm)
@@ -221,7 +220,8 @@ RUN composer install \
   --prefer-dist \
   --optimize-autoloader \
   --no-scripts \
-  --no-progress
+  --no-progress \
+  && composer clear-cache
 
 # app source
 COPY . .
@@ -251,16 +251,16 @@ RUN mkdir -p \
     /usr/app/database \
     /usr/app/resources/views
 
-# verify chromium-browser tooling
+# verify chromium tooling
 RUN set -eux; \
   node --version; \
   npm --version; \
-  chromium-browser --version; \
+  chromium --version; \
   test -d /usr/app/node_modules; \
   test -f /usr/app/node_modules/juice/package.json; \
   test -f /usr/app/public/build/manifest.json
 
-HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=3s --start-period=20s --retries=3 \
   CMD sh -c 'curl -fsS -H "Internal-Auth: $NGINX_INTERNAL_AUTH_TOKEN" \
     http://127.0.0.1:9000/api/health || exit 1'
 
