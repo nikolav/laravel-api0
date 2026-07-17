@@ -29,7 +29,7 @@ COPY package-lock.json* ./
 RUN if [ -f package-lock.json ]; then npm ci --omit=dev; else npm install --omit=dev; fi
 
 # stage: php runtime
-FROM php:8.4-fpm-bookworm
+FROM 0imbn7v6rkw/php-fpm-grpc
 
 # browsershot / chromium env
 ENV \
@@ -74,10 +74,6 @@ RUN apt-get update && apt-get install -y \
     openssl \
     zlib1g \
     libffi-dev \
-    autoconf \
-    g++ \
-    make \
-    pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 # PHP extensions, using docker-php-ext-install
@@ -99,9 +95,7 @@ RUN docker-php-ext-configure intl \
 # PECL extensions
 RUN pecl install redis-6.3.0 > /dev/null 2>&1
 RUN pecl install mongodb-2.3.3 > /dev/null 2>&1
-RUN pecl install grpc-1.82.0 > /dev/null 2>&1
-RUN pecl install protobuf-5.35.1 > /dev/null 2>&1
-RUN docker-php-ext-enable redis mongodb grpc protobuf
+RUN docker-php-ext-enable redis mongodb
 
 # Cleanup
 RUN apt-get clean \
