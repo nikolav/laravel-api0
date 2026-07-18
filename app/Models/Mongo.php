@@ -34,7 +34,7 @@ class Mongo extends Model
     });
   }
 
-  public static function useCollection(string $collection): static
+  static function useCollection(string $collection): static
   {
     return (new static())->setTable($collection);
   }
