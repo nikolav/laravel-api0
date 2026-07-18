@@ -185,6 +185,7 @@ scp-config-id*.sh
 test.pdf
 demo.pdf
 build-log.docker.txt
+scp-env-setup.debian.sh
 
 !.idea/codeStyles
 !.idea/runConfigurations

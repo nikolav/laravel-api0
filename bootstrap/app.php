@@ -36,7 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
   ->withExceptions(function (Exceptions $exceptions): void {
     // default error for api*
     $exceptions->render(function (NotFoundHttpException $error, Request $request) {
-      if ($request->is('api/*')) {
+      if ($request->expectsJson() || $request->is('api/*')) {
         return response()->json([
           'error' => $error->getMessage(),
         ], 404);
