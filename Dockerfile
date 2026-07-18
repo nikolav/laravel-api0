@@ -47,6 +47,7 @@ ENV \
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     curl \
+    gnupg \
     git \
     iproute2 \
     netcat-openbsd \
@@ -61,8 +62,6 @@ RUN apt-get update && apt-get install -y \
     libsqlite3-dev \
     libfreetype6-dev \
     libharfbuzz-dev \
-    nodejs \
-    npm \
     libnss3 \
     fonts-dejavu \
     fonts-freefont-ttf \
@@ -75,6 +74,13 @@ RUN apt-get update && apt-get install -y \
     zlib1g \
     libffi-dev \
     && rm -rf /var/lib/apt/lists/*
+
+# setup node 22 lts
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get update && \
+    apt-get install -y nodejs && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # PHP extensions, using docker-php-ext-install
 RUN docker-php-ext-configure intl \
