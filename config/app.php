@@ -125,7 +125,6 @@ return [
     'store' => env('APP_MAINTENANCE_STORE', 'database'),
   ],
 
-  'app_id' => env('APP_ID'),
   'admin_email' => AppUtils::csv_list(env('APP_ADMIN_EMAIL', 'admin@nikolav.rs'))->toArray(),
 
   // app-config:user
