@@ -11,6 +11,7 @@ _site/
 .env
 .env.*.local
 .env.backup
+.env.*.backup
 .env.development
 .env.docker
 .env.example.local
