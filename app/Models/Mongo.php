@@ -17,13 +17,16 @@ class Mongo extends Model
     'data',
   ];
 
-  protected $casts = [
-    'data'       => AsDotAccessData::class,
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-  ];
-
   public $timestamps = true;
+
+  protected function casts()
+  {
+    return [
+      'data'       => AsDotAccessData::class,
+      'created_at' => 'datetime',
+      'updated_at' => 'datetime',
+    ];
+  }
 
   protected static function booted()
   {
@@ -34,7 +37,7 @@ class Mongo extends Model
     });
   }
 
-  public static function useCollection(string $collection): static
+  static function useCollection(string $collection): static
   {
     return (new static())->setTable($collection);
   }
