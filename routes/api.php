@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Broadcast;
-use Aws\Sdk as AwsSdk;
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\WebhookHandleController;
 use App\Http\Controllers\GraphqlController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,10 +32,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     | - AWS SDK presence/version
     |----------------------------------------------------------------------
     */
-  Route::get('/', fn() => response()->json([
-    'status'  => 'ok',
-    'aws-sdk' => AwsSdk::VERSION,
-  ]))->name('api.status');
+  Route::get('/', HomeController::class)
+    ->name('api.status');
 
 
   /*

@@ -9,13 +9,13 @@ services:
     #push>            docker compose push api
     #up>              docker compose up -d --remove-orphans api
     #up:pull>         docker compose up -d --remove-orphans --pull always api
-    image: 0imbn7v6rkw/laravel-api0
+    image: 0imbn7v6rkw/p4t5imsnyhwl9jmly7rz7z
 
     build:
       context: .
       dockerfile: Dockerfile
 
-    container_name: laravel-api
+    container_name: api
     ports:
       - "127.0.0.1:9000:9000"
 
