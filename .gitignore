@@ -193,3 +193,5 @@ demo.pdf
 !.vscode/settings.json
 !.vscode/tasks.json
 !bootstrap/cache/.gitignore
+build-log.docker.txt
+scp-env-setup.debian.sh
