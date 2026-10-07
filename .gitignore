@@ -194,3 +194,4 @@ scp-env-setup.debian.sh
 !.vscode/settings.json
 !.vscode/tasks.json
 !bootstrap/cache/.gitignore
+log.txt
