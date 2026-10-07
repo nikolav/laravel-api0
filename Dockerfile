@@ -99,8 +99,8 @@ RUN docker-php-ext-configure intl \
     zip
 
 # PECL extensions
-RUN pecl install redis-6.3.0 > /dev/null 2>&1
-RUN pecl install mongodb > /dev/null 2>&1
+RUN pecl install redis-6.3.0 &> /dev/null
+RUN pecl install mongodb &> /dev/null
 RUN docker-php-ext-enable redis mongodb
 
 # Cleanup
