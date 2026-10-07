@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 // use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
 
 use App\Enums\AssetsType;
 use App\Casts\AsDotAccessData;
@@ -18,6 +19,7 @@ class Assets extends Model
 {
   use HasFactory;
   use SoftDeletes;
+  use Notifiable;
 
   protected $table = 'assets';
 
@@ -33,11 +35,25 @@ class Assets extends Model
     'data',
   ];
 
-  protected $casts = [
-    'type'       => AssetsType::class,
-    'data'       => AsDotAccessData::class,
-    'deleted_at' => 'datetime',
-  ];
+  protected function casts()
+  {
+    return [
+      'type'       => AssetsType::class,
+      'data'       => AsDotAccessData::class,
+      'deleted_at' => 'datetime',
+    ];
+  }
+
+  // key for route model binding
+  function getRouteKeyName(): string
+  {
+    return 'key';
+  }
+
+  function getRouteKey()
+  {
+    return $this->key;
+  }
 
   /**
    * Tags assigned to the asset (many-to-many)
@@ -50,12 +66,6 @@ class Assets extends Model
       'asset_id',
       'tag_id'
     )->withTimestamps();
-  }
-
-  // Optional: use key for route model binding (API-safe)
-  function getRouteKeyName(): string
-  {
-    return 'key';
   }
 
   // Child -> Parent (inverse)

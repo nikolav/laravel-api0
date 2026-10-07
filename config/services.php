@@ -46,7 +46,7 @@ return [
   'chromium' => [
 
     'executable_path' => 'production' == env('APP_ENV')
-      ? env('CHROME_BIN', '/usr/bin/chromium-browser')
+      ? env('CHROME_BIN', '/usr/bin/chromium')
       : 'C:\Program Files\Google\Chrome\Application\chrome.exe',
 
     'pdf_render_arguments' => [

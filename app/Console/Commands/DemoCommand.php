@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+// use App\Facades\StoreMain;
+
 class DemoCommand extends Command
 {
   /**
@@ -11,14 +13,14 @@ class DemoCommand extends Command
    *
    * @var string
    */
-  protected $signature = 'app:cmd-demo {name=user}';
+  protected $signature = 'app:demo {foo=bar} {--baz}';
 
   /**
    * The console command description.
    *
    * @var string
    */
-  protected $description = 'Demo command; prints demo message.';
+  protected $description = 'Demo command.';
 
   /**
    * Execute the console command.
@@ -26,6 +28,5 @@ class DemoCommand extends Command
   public function handle()
   {
     //
-    echo 'command demo; Hello, ' . $this->argument('name') . '.';
   }
 }

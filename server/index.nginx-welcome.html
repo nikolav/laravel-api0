@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nginx · welcome</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #0d0f12;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          "Fira Sans",
+          "Helvetica Neue",
+          sans-serif;
+        padding: 1.5rem;
+        margin: 0;
+      }
+
+      .card {
+        max-width: 720px;
+        width: 100%;
+        background: #171b20;
+        border-radius: 2.5rem;
+        padding: 2.8rem 2.5rem;
+        box-shadow:
+          0 20px 40px rgba(0, 0, 0, 0.7),
+          0 0 0 1px rgba(255, 255, 255, 0.04);
+        transition: all 0.1s ease;
+        color: #e8edf2;
+        border: 1px solid #2a3038;
+      }
+
+      .nginx-symbol {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 1.8rem;
+      }
+
+      .nginx-symbol svg {
+        width: 2.8rem;
+        height: 2.8rem;
+        filter: drop-shadow(0 0 6px rgba(0, 160, 80, 0.3));
+      }
+
+      .nginx-symbol span {
+        font-weight: 500;
+        font-size: 1.8rem;
+        letter-spacing: -0.02em;
+        color: #d4e2ed;
+        background: #1e262e;
+        padding: 0.1rem 1rem 0.1rem 0.8rem;
+        border-radius: 40px;
+        border-left: 4px solid #009f5f;
+      }
+
+      h1 {
+        font-size: 2.6rem;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.8rem;
+        background: linear-gradient(135deg, #d6e6f5 0%, #b0c9dd 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.1;
+      }
+
+      .subhead {
+        font-size: 1rem;
+        color: #9bb1c5;
+        border-left: 3px solid #009f5f;
+        padding-left: 1rem;
+        margin-bottom: 2rem;
+        font-weight: 350;
+        letter-spacing: 0.01em;
+      }
+
+      .grid-info {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 0.8rem 1.8rem;
+        background: #10151a;
+        padding: 1.8rem 1.8rem;
+        border-radius: 2rem;
+        border: 1px solid #262e36;
+        margin-top: 0.2rem;
+      }
+
+      .grid-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .grid-item .label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #7b93ab;
+        margin-bottom: 0.15rem;
+        font-weight: 500;
+      }
+
+      .grid-item .value {
+        font-size: 1rem;
+        font-weight: 450;
+        color: #d6e3ee;
+        word-break: break-word;
+      }
+
+      .grid-item .value code {
+        background: #1e272f;
+        padding: 0.1rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: #bcd3e8;
+        border: 1px solid #2f3a44;
+        font-family: "Fira Code", "Menlo", monospace;
+      }
+
+      .footnote {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: flex-start;
+        gap: 0.8rem 2rem;
+        flex-wrap: wrap;
+        font-size: 0.75rem;
+        color: #6f889f;
+        border-top: 1px solid #242c35;
+        padding-top: 1.2rem;
+        letter-spacing: 0.02em;
+      }
+
+      .footnote span {
+        background: #1b232b;
+        padding: 0.2rem 0.8rem;
+        border-radius: 30px;
+        border: 1px solid #29333d;
+      }
+
+      .badge-nginx {
+        background: #0f8b4c;
+        color: #f0f9f0;
+        padding: 0.15rem 0.75rem;
+        border-radius: 30px;
+        font-weight: 500;
+        font-size: 0.7rem;
+        letter-spacing: 0.02em;
+        display: inline-block;
+        border: 1px solid #1aa86a;
+      }
+
+      /* no scroll, everything fits */
+      @media (max-width: 550px) {
+        .card {
+          padding: 2rem 1.2rem;
+        }
+        h1 {
+          font-size: 2rem;
+        }
+        .grid-info {
+          grid-template-columns: 1fr;
+          gap: 0.6rem;
+        }
+        .nginx-symbol span {
+          font-size: 1.4rem;
+        }
+        .footnote {
+          flex-direction: column;
+          gap: 0.3rem;
+        }
+      }
+
+      /* minimal height lock – no scroll */
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+      body {
+        overflow-y: auto; /* fallback: safe, but content fits */
+      }
+      /* force no scroll on any screen (content fits) */
+      @media (max-height: 650px) {
+        .card {
+          padding: 1.6rem 1.8rem;
+        }
+        .grid-info {
+          padding: 1.2rem 1.2rem;
+        }
+        h1 {
+          font-size: 2.2rem;
+          margin-bottom: 0.3rem;
+        }
+        .subhead {
+          margin-bottom: 1rem;
+          font-size: 0.9rem;
+        }
+        .nginx-symbol {
+          margin-bottom: 1rem;
+        }
+        .footnote {
+          margin-top: 1rem;
+          padding-top: 0.8rem;
+        }
+      }
+      @media (max-height: 550px) {
+        .card {
+          padding: 1rem 1.2rem;
+          border-radius: 1.8rem;
+        }
+        .grid-info {
+          padding: 0.8rem 1rem;
+          gap: 0.2rem;
+        }
+        .nginx-symbol svg {
+          width: 2rem;
+          height: 2rem;
+        }
+        .nginx-symbol span {
+          font-size: 1.2rem;
+          padding: 0 0.8rem;
+        }
+        h1 {
+          font-size: 1.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <!-- nginx logo / wordmark (minimal) -->
+      <div class="nginx-symbol">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M12 2L2 7L12 12L22 7L12 2Z"
+            stroke="#009f5f"
+            stroke-width="1.8"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M2 17L12 22L22 17"
+            stroke="#009f5f"
+            stroke-width="1.8"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M2 12L12 17L22 12"
+            stroke="#009f5f"
+            stroke-width="1.8"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M12 7V17"
+            stroke="#009f5f"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+          <path
+            d="M7 9.5L12 12L17 9.5"
+            stroke="#009f5f"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span>nginx</span>
+      </div>
+
+      <h1>welcome to nginx</h1>
+      <div class="subhead">
+        lightweight · high-performance · HTTP &amp; reverse proxy
+      </div>
+
+      <!-- minimal base info grid (no scroll) -->
+      <div class="grid-info">
+        <div class="grid-item">
+          <span class="label">version</span>
+          <span class="value"><code>1.27.4</code></span>
+        </div>
+        <div class="grid-item">
+          <span class="label">role</span>
+          <span class="value">web server · proxy · load balancer</span>
+        </div>
+        <div class="grid-item">
+          <span class="label">event model</span>
+          <span class="value">asynchronous, non‑blocking</span>
+        </div>
+        <div class="grid-item">
+          <span class="label">config</span>
+          <span class="value"><code>/etc/nginx/nginx.conf</code></span>
+        </div>
+        <div class="grid-item" style="grid-column: 1 / -1">
+          <span class="label">quick usage</span>
+          <span
+            class="value"
+            style="display: flex; flex-wrap: wrap; gap: 0.3rem 0.8rem"
+          >
+            <span><code>nginx -t</code> test config</span>
+            <span><code>nginx -s reload</code> graceful reload</span>
+            <span><code>nginx -s stop</code> fast shutdown</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- footer: minimal extra info -->
+      <div class="footnote">
+        <span>⚡ static files · reverse proxy · SSL/TLS</span>
+        <span><span class="badge-nginx">default welcome page</span></span>
+        <span>#nginx</span>
+      </div>
+    </div>
+  </body>
+</html>

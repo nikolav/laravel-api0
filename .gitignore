@@ -185,6 +185,8 @@ firebase-service-account.json
 scp-config-id*.sh
 test.pdf
 demo.pdf
+build-log.docker.txt
+scp-env-setup.debian.sh
 
 !.idea/codeStyles
 !.idea/runConfigurations
@@ -195,3 +197,4 @@ demo.pdf
 !bootstrap/cache/.gitignore
 build-log.docker.txt
 scp-env-setup.debian.sh
+log.txt
