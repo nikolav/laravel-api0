@@ -186,6 +186,9 @@ test.pdf
 demo.pdf
 build-log.docker.txt
 scp-env-setup.debian.sh
+storage/framework/lsp-*.php
+log.txt
+out.txt
 
 !.idea/codeStyles
 !.idea/runConfigurations
@@ -194,5 +197,3 @@ scp-env-setup.debian.sh
 !.vscode/settings.json
 !.vscode/tasks.json
 !bootstrap/cache/.gitignore
-log.txt
-storage/framework/lsp-*.php
