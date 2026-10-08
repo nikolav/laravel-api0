@@ -180,10 +180,12 @@ temp.txt
 ai.docs-prompt.txt
 _ide_helper.php
 temp.*
+storage/app/keys/*.json
 firebase-service-account.json
 scp-config-id*.sh
 test.pdf
 demo.pdf
+scp-config-id.sh
 build-log.docker.txt
 scp-env-setup.debian.sh
 storage/framework/lsp-*.php

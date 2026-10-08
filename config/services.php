@@ -43,6 +43,10 @@ return [
     'redirect' => env('GOOGLE_REDIRECT_URI'),
   ],
 
+  'firebase' => [
+    'credentials' => env('FIREBASE_CREDENTIALS'),
+  ],
+
   'chromium' => [
 
     'executable_path' => 'production' == env('APP_ENV')
