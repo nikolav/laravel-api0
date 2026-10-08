@@ -35,11 +35,14 @@ class Assets extends Model
     'data',
   ];
 
-  protected $casts = [
-    'type'       => AssetsType::class,
-    'data'       => AsDotAccessData::class,
-    'deleted_at' => 'datetime',
-  ];
+  protected function casts()
+  {
+    return [
+      'type'       => AssetsType::class,
+      'data'       => AsDotAccessData::class,
+      'deleted_at' => 'datetime',
+    ];
+  }
 
   // key for route model binding
   function getRouteKeyName(): string
