@@ -126,6 +126,7 @@ return [
   ],
 
   'app_id' => env('APP_ID'),
+  'admin_email' => AppUtils::csv_list(env('APP_ADMIN_EMAIL', 'admin@nikolav.rs'))->toArray(),
 
   // app-config:user
   'internal_auth' => env('NGINX_INTERNAL_AUTH_TOKEN'),

@@ -26,16 +26,14 @@ class Docs extends Model
     'data',
   ];
 
-  /**
-   * The attributes that should be cast.
-   *
-   * @var array<string, string>
-   */
-  protected $casts = [
-    'data'       => AsDotAccessData::class,
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-  ];
+  protected function casts()
+  {
+    return [
+      'data'       => AsDotAccessData::class,
+      'created_at' => 'datetime',
+      'updated_at' => 'datetime',
+    ];
+  }
 
     // # automatically load tags
     // protected $with = ['tags'];
