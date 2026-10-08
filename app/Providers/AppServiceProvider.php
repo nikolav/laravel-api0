@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 
 // use App\Models\User;
 use App\Support\Nanoid;
+use App\Services\Firebase;
 use App\Support\DotAccessData;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
   {
     $this->app->singleton('store:main', fn() => new DotAccessData());
     $this->app->singleton(Nanoid::class, fn() => new Nanoid());
+    $this->app->singleton(Firebase::class, fn() => new Firebase());
   }
 
   /**
