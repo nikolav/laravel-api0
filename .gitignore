@@ -195,3 +195,4 @@ scp-env-setup.debian.sh
 !.vscode/tasks.json
 !bootstrap/cache/.gitignore
 log.txt
+storage/framework/lsp-*.php
