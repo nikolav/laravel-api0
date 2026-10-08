@@ -189,6 +189,7 @@ build-log.docker.txt
 scp-env-setup.debian.sh
 storage/framework/lsp-*.php
 log.txt
+out.txt
 
 !.idea/codeStyles
 !.idea/runConfigurations
