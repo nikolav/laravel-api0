@@ -18,7 +18,7 @@ class Firebase
       $this->factory = (new Factory)
         ->withServiceAccount(base_path(config('services.firebase.credentials')))
         ->withFirestoreClientConfig([
-          // 'transport' => 'rest',
+          'transport' => 'rest',
           'credentials' => base_path(config('services.firebase.credentials')),
         ]);
     } catch (\Throwable $e) {
