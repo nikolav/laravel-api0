@@ -8,7 +8,7 @@ NAME="api"
 docker pull "$IMAGE"
 
 # remove old container if exists
-docker rm -f "$NAME" >/dev/null 2>&1 || true
+docker rm -f "$NAME" &> /dev/null || true
 
 docker run -d \
   --name "$NAME" \
