@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.399.2",
+            "version": "3.400.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "a69c0b97b8464b059c8d2e147eab6daed5d5cd25"
+                "reference": "c0cf2c322bc1a344aaf39250da8856563532f82b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a69c0b97b8464b059c8d2e147eab6daed5d5cd25",
-                "reference": "a69c0b97b8464b059c8d2e147eab6daed5d5cd25",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c0cf2c322bc1a344aaf39250da8856563532f82b",
+                "reference": "c0cf2c322bc1a344aaf39250da8856563532f82b",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.399.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.400.1"
             },
-            "time": "2026-10-06T22:19:35+00:00"
+            "time": "2026-10-09T18:11:15+00:00"
         },
         {
             "name": "aws/aws-sdk-php-laravel",
@@ -2522,16 +2522,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "8.5.0",
+            "version": "8.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/beste/firebase-php.git",
-                "reference": "6186639d263fcac7ece5014b864a16761a5e02b5"
+                "reference": "e6900e5b0b80c4ee7a39a848c688790e1400e0c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/beste/firebase-php/zipball/6186639d263fcac7ece5014b864a16761a5e02b5",
-                "reference": "6186639d263fcac7ece5014b864a16761a5e02b5",
+                "url": "https://api.github.com/repos/beste/firebase-php/zipball/e6900e5b0b80c4ee7a39a848c688790e1400e0c3",
+                "reference": "e6900e5b0b80c4ee7a39a848c688790e1400e0c3",
                 "shasum": ""
             },
             "require": {
@@ -2550,7 +2550,7 @@
                 "guzzlehttp/guzzle": "^7.9.2 || ^8.0",
                 "guzzlehttp/promises": "^2.0.4 || ^3.0",
                 "guzzlehttp/psr7": "^2.7 || ^3.0",
-                "kreait/firebase-tokens": "^5.2",
+                "kreait/firebase-tokens": "^5.6.1",
                 "lcobucci/jwt": "^5.3",
                 "mtdowling/jmespath.php": "^2.9.2",
                 "php": "~8.3.0 || ~8.4.0 || ~8.5.0 || ~8.6.0",
@@ -2612,20 +2612,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-12T22:02:01+00:00"
+            "time": "2026-10-08T22:39:31+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
-            "version": "5.6.1",
+            "version": "5.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/beste/firebase-tokens-php.git",
-                "reference": "250b92a8e3649f6845926c26138d0393b91a9ef7"
+                "reference": "0f42b2b3ae964a02e0979d59586fc0269a8193b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/beste/firebase-tokens-php/zipball/250b92a8e3649f6845926c26138d0393b91a9ef7",
-                "reference": "250b92a8e3649f6845926c26138d0393b91a9ef7",
+                "url": "https://api.github.com/repos/beste/firebase-tokens-php/zipball/0f42b2b3ae964a02e0979d59586fc0269a8193b6",
+                "reference": "0f42b2b3ae964a02e0979d59586fc0269a8193b6",
                 "shasum": ""
             },
             "require": {
@@ -2639,14 +2639,8 @@
                 "psr/cache": "^1.0|^2.0|^3.0"
             },
             "require-dev": {
-                "beste/in-memory-cache": "^1.5",
-                "friendsofphp/php-cs-fixer": "^3.95.12",
-                "phpstan/extension-installer": "^1.4.3",
-                "phpstan/phpstan": "^2.2.5",
-                "phpstan/phpstan-phpunit": "^2.0.18",
-                "phpunit/phpunit": "^10.5.64",
-                "rector/rector": "^2.5.4",
-                "symfony/var-dumper": "^6.4.3 || ^7.3.4 || ^8.1.1"
+                "beste/in-memory-cache": "^1.6",
+                "symfony/var-dumper": "^6.4.3 || ^7.3.4 || ^8.1.7"
             },
             "suggest": {
                 "psr/cache-implementation": "to cache fetched remote public keys"
@@ -2678,7 +2672,7 @@
             ],
             "support": {
                 "issues": "https://github.com/beste/firebase-tokens-php/issues",
-                "source": "https://github.com/beste/firebase-tokens-php/tree/5.6.1"
+                "source": "https://github.com/beste/firebase-tokens-php/tree/5.6.2"
             },
             "funding": [
                 {
@@ -2686,7 +2680,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-02T15:14:43+00:00"
+            "time": "2026-10-09T23:27:56+00:00"
         },
         {
             "name": "kreait/laravel-firebase",
@@ -3386,16 +3380,16 @@
         },
         {
             "name": "lcobucci/jwt",
-            "version": "5.6.0",
+            "version": "5.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/jwt.git",
-                "reference": "bb3e9f21e4196e8afc41def81ef649c164bca25e"
+                "reference": "482760068e5a55a9045feddb3e2fc3f878cbd577"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/bb3e9f21e4196e8afc41def81ef649c164bca25e",
-                "reference": "bb3e9f21e4196e8afc41def81ef649c164bca25e",
+                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/482760068e5a55a9045feddb3e2fc3f878cbd577",
+                "reference": "482760068e5a55a9045feddb3e2fc3f878cbd577",
                 "shasum": ""
             },
             "require": {
@@ -3443,7 +3437,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lcobucci/jwt/issues",
-                "source": "https://github.com/lcobucci/jwt/tree/5.6.0"
+                "source": "https://github.com/lcobucci/jwt/tree/5.6.1"
             },
             "funding": [
                 {
@@ -3455,7 +3449,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2025-10-17T11:30:53+00:00"
+            "time": "2026-10-10T09:42:14+00:00"
         },
         {
             "name": "league/commonmark",
@@ -5397,16 +5391,16 @@
         },
         {
             "name": "predis/predis",
-            "version": "v3.6.1",
+            "version": "v3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/predis/predis.git",
-                "reference": "e2db96312ecf57a01a3477bf192d1ebc0ad7e9fb"
+                "reference": "4d91f3b08a60c3bacc2afbd8dc41724559b7626a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/e2db96312ecf57a01a3477bf192d1ebc0ad7e9fb",
-                "reference": "e2db96312ecf57a01a3477bf192d1ebc0ad7e9fb",
+                "url": "https://api.github.com/repos/predis/predis/zipball/4d91f3b08a60c3bacc2afbd8dc41724559b7626a",
+                "reference": "4d91f3b08a60c3bacc2afbd8dc41724559b7626a",
                 "shasum": ""
             },
             "require": {
@@ -5448,7 +5442,7 @@
             ],
             "support": {
                 "issues": "https://github.com/predis/predis/issues",
-                "source": "https://github.com/predis/predis/tree/v3.6.1"
+                "source": "https://github.com/predis/predis/tree/v3.7.0"
             },
             "funding": [
                 {
@@ -5456,7 +5450,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-09-17T20:41:00+00:00"
+            "time": "2026-10-08T16:46:04+00:00"
         },
         {
             "name": "psr/cache",
@@ -10406,12 +10400,12 @@
             "version": "v5.7.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/vlucas/phpdotenv.git",
+                "url": "https://github.com/phpdotenv/phpdotenv.git",
                 "reference": "301c07936b16d88628b126b01d082ba153cf4c40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/301c07936b16d88628b126b01d082ba153cf4c40",
+                "url": "https://api.github.com/repos/phpdotenv/phpdotenv/zipball/301c07936b16d88628b126b01d082ba153cf4c40",
                 "reference": "301c07936b16d88628b126b01d082ba153cf4c40",
                 "shasum": ""
             },
