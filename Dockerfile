@@ -45,6 +45,12 @@ ENV \
 
 # System dependencies, Debian
 RUN apt-get update && apt-get install -y \
+    autoconf \
+    g++ \
+    make \
+    pkg-config \
+    libssl-dev \
+    zlib1g-dev \
     ca-certificates \
     curl \
     gnupg \
@@ -99,8 +105,8 @@ RUN docker-php-ext-configure intl \
     zip
 
 # PECL extensions
-RUN pecl install redis-6.3.0 &> /dev/null
-RUN pecl install mongodb &> /dev/null
+RUN pecl install redis-6.3.0
+RUN pecl install mongodb
 RUN docker-php-ext-enable redis mongodb
 
 # Cleanup
