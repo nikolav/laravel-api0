@@ -1,0 +1,11 @@
+<?php
+
+namespace App\Models\Base;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+
+abstract class ModelHasUuids extends Model
+{
+  use HasUuids;
+}
