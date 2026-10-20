@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Mail;
+// use Illuminate\Support\Facades\Log;
 
+use App\Helpers\AppUtils;
 // // use App\Mail\DemoMailMessage;
 // use App\Mail\MessagePlainEmail;
 // // use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Mail;
 
 class TestingController extends Controller
 {
@@ -25,6 +26,6 @@ class TestingController extends Controller
     //     ]
     //   ));
 
-    return response()->json('testing:ok');
+    return response()->json(AppUtils::res('ok'));
   }
 }
