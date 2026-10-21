@@ -49,7 +49,7 @@ class AppUtils
     return $value;
   }
 
-  static function encodeJson($json)
+  static function encodeJson(mixed $json)
   {
     return is_string($json)
       ? $json
