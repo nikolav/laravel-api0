@@ -15,7 +15,7 @@ class DemoJob implements ShouldQueue
   /**
    * Create a new job instance.
    */
-  public function __construct()
+  function __construct()
   {
     //
   }
@@ -23,7 +23,7 @@ class DemoJob implements ShouldQueue
   /**
    * Execute the job.
    */
-  public function handle(): void
+  function handle(): void
   {
     //
     Docs::create([
