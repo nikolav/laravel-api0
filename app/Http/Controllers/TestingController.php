@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 // use Illuminate\Support\Facades\Log;
 
 use App\Helpers\AppUtils;
+use App\Jobs\DemoJob;
+
 // // use App\Mail\DemoMailMessage;
 // use App\Mail\MessagePlainEmail;
 // // use Illuminate\Http\Request;
@@ -25,6 +27,8 @@ class TestingController extends Controller
     //       'message' => 'Giant flower attempt mixture review grandmother opinion sad buy several slipped shaking consider log shelf what tune tobacco firm native shall throat as difficulty.'
     //     ]
     //   ));
+
+    DemoJob::dispatch();
 
     return response()->json(AppUtils::res('ok'));
   }

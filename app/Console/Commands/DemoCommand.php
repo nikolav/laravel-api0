@@ -25,7 +25,7 @@ class DemoCommand extends Command
   /**
    * Execute the console command.
    */
-  public function handle()
+  function handle()
   {
     //
   }
