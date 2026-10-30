@@ -16,7 +16,7 @@ class MessagePlainEmail extends Mailable implements ShouldQueue
   /**
    * Create a new message instance.
    */
-  public function __construct(
+  function __construct(
     public $view    = 'emails.message-plain',
     public $subject = 'Plain email message',
     public $data    = []
@@ -25,7 +25,7 @@ class MessagePlainEmail extends Mailable implements ShouldQueue
   /**
    * Get the message envelope.
    */
-  public function envelope(): Envelope
+  function envelope(): Envelope
   {
     return new Envelope(
       subject: $this->subject,
@@ -35,7 +35,7 @@ class MessagePlainEmail extends Mailable implements ShouldQueue
   /**
    * Get the message content definition.
    */
-  public function content(): Content
+  function content(): Content
   {
     return new Content(
       view: $this->view,
@@ -48,7 +48,7 @@ class MessagePlainEmail extends Mailable implements ShouldQueue
    *
    * @return array<int, \Illuminate\Mail\Mailables\Attachment>
    */
-  public function attachments(): array
+  function attachments(): array
   {
     return [];
   }
