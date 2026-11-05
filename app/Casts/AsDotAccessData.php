@@ -19,10 +19,6 @@ class AsDotAccessData implements CastsAttributes
 
   function set($model, string $path, $value, array $attributes): array
   {
-    if ($value instanceof DotAccessData) {
-      return [$path => $value->toArray()];
-    }
-
-    return [$path => $value];
+    return [$path => ($value instanceof DotAccessData) ? $value->toArray() : $value];
   }
 }
